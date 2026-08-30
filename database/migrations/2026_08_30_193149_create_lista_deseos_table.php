@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('lista_deseos', function (Blueprint $table) {
             $table->id('id_deseo');
             $table->foreignId('id_usuario')->constrained('usuarios');
-            $table->foreignId('id_alimento')->constrained('alimentos');
+            $table->foreignId('id_alimento')->constrained('alimentos', 'id_alimento');
             $table->timestamp('fecha_agregado')->useCurrent();
         });
     }

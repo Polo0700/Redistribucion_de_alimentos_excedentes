@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('detalle_orden', function (Blueprint $table) {
             $table->id('id_detalle');
-            $table->foreignId('id_orden')->constrained('ordenes');
-            $table->foreignId('id_alimento')->constrained('alimentos');
+            $table->foreignId('id_orden')->constrained('ordenes', 'id_orden');
+            $table->foreignId('id_alimento')->constrained('alimentos', 'id_alimento');
             $table->integer('cantidad')->default(1);
             $table->decimal('subtotal',10,2);
         });
