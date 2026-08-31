@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('entregas', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('id_entrega');
+            $table->foreignId('id_solicitud')->constrained('solicitudes', 'id_solicitud');
+            $table->dateTime('fecha_entrega');
+            $table->string('responsable', 100);
+            $table->string('estado', 30);
+            $table->string('observaciones', 250)->nullable();
         });
     }
 
