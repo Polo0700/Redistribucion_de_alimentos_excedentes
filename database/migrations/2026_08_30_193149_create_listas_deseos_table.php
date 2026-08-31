@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ordenes', function (Blueprint $table) {
-            $table->id('id_orden');
+        Schema::create('listas_deseos', function (Blueprint $table) {
+            $table->id('id_lista');
             $table->foreignId('id_usuario')->constrained('usuarios');
-            $table->timestamp('hora_compra')->useCurrent();
-            $table->decimal('total', 10,  2);
-            $table->enum('estado',['pendiente','completada','cancelada'])->default('pendiente');
+            $table->timestamp('fecha_creacion')->useCurrent();
+            $table->string('nombre', 100);
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ordenes');
+        Schema::dropIfExists('listas_deseos');
     }
 };

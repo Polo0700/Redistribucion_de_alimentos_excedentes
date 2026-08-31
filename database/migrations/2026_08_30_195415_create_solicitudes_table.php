@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lista_deseos', function (Blueprint $table) {
-            $table->id('id_deseo');
+        Schema::create('solicitudes', function (Blueprint $table) {
+            $table->id('id_solicitud');
             $table->foreignId('id_usuario')->constrained('usuarios');
-            $table->foreignId('id_alimento')->constrained('alimentos', 'id_alimento');
-            $table->timestamp('fecha_agregado')->useCurrent();
+            $table->string('direccion_entrega', 200);
+            $table->string('observaciones', 250)->nullable();
+            $table->timestamp('fecha_solicitud')->useCurrent();
+            $table->string('estado', 30)->default('pendiente');
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lista_deseos');
+        Schema::dropIfExists('solicitudes');
     }
 };

@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::create('logs', function (Blueprint $table){
-            $table->id('id_log');
+        Schema::create('acciones_importantes', function (Blueprint $table){
+            $table->id('id_accion');
             $table->foreignId('id_usuario')->nullable()->constrained('usuarios');
-            $table->enum('tipo', ['login','crud','error','alerta'])->default('crud');
             $table->string('accion', 100);
-            $table->text('detalle')->nullable();
-            $table->timestamp('fecha')->useCurrent();
+            $table->string('descripcion', 250)->nullable();
+            $table->timestamp('fecha_hora')->useCurrent();
+            $table->string('tabla_afectada', 80);
+            $table->string('ip_origen', 45);
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
     public function down(): void
     {
         //
-        Schema::dropIfExists('logs');
+        Schema::dropIfExists('acciones_importantes');
     }
 };
