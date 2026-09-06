@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<alimentos>
+  <alimento>
+    <id_alimento>1</id_alimento>
+    <id_categoria>1</id_categoria>
+    <categoria>
+      <id_categoria>1</id_categoria>
+      <nombre>Frutas</nombre>
+    </categoria>
+    <nombre>Manzanas</nombre>
+    <descripcion>Manzanas rojas frescas.</descripcion>
+    <estado>true</estado>
+  </alimento>
+  <alimento>
+    <id_alimento>2</id_alimento>
+    <id_categoria>1</id_categoria>
+    <categoria>
+      <id_categoria>1</id_categoria>
+      <nombre>Frutas</nombre>
+    </categoria>
+    <nombre>Bananos</nombre>
+    <descripcion>Bananos maduros en buen estado.</descripcion>
+    <estado>true</estado>
+  </alimento>
+  <alimento>
+    <id_alimento>3</id_alimento>
+    <id_categoria>2</id_categoria>
+    <categoria>
+      <id_categoria>2</id_categoria>
+      <nombre>Lacteos</nombre>
+    </categoria>
+    <nombre>Leche entera</nombre>
+    <descripcion>Leche entera pasteurizada de 1 litro.</descripcion>
+    <estado>true</estado>
+  </alimento>
+  <alimento>
+    <id_alimento>4</id_alimento>
+    <id_categoria>2</id_categoria>
+    <categoria>
+      <id_categoria>2</id_categoria>
+      <nombre>Lacteos</nombre>
+    </categoria>
+    <nombre>Yogurt natural</nombre>
+    <descripcion>Yogurt natural sin azucar.</descripcion>
+    <estado>true</estado>
+  </alimento>
+  <alimento>
+    <id_alimento>5</id_alimento>
+    <id_categoria>3</id_categoria>
+    <categoria>
+      <id_categoria>3</id_categoria>
+      <nombre>Panaderia</nombre>
+    </categoria>
+    <nombre>Pan integral</nombre>
+    <descripcion>Pan integral en bolsa sellada.</descripcion>
+    <estado>true</estado>
+  </alimento>
+  <alimento>
+    <id_alimento>6</id_alimento>
+    <id_categoria>4</id_categoria>
+    <categoria>
+      <id_categoria>4</id_categoria>
+      <nombre>Granos</nombre>
+    </categoria>
+    <nombre>Arroz blanco</nombre>
+    <descripcion>Arroz blanco de grano largo.</descripcion>
+    <estado>true</estado>
+  </alimento>
+</alimentos>

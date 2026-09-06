@@ -1,0 +1,40 @@
+{
+  "entregas": [
+    {
+      "id_entrega": 1,
+      "id_solicitud": 3,
+      "solicitud": {
+        "id_solicitud": 3,
+        "estado": "entregada"
+      },
+      "fecha_entrega": "2026-09-06T09:40:00",
+      "responsable": "Maria Lopez (Voluntaria)",
+      "estado": "entregada",
+      "observaciones": "Entregada en la direccion indicada."
+    },
+    {
+      "id_entrega": 2,
+      "id_solicitud": 2,
+      "solicitud": {
+        "id_solicitud": 2,
+        "estado": "en_proceso"
+      },
+      "fecha_entrega": "2026-09-05T15:00:00",
+      "responsable": "Carlos Mendoza",
+      "estado": "en_transito",
+      "observaciones": "En ruta hacia el domicilio."
+    },
+    {
+      "id_entrega": 3,
+      "id_solicitud": 1,
+      "solicitud": {
+        "id_solicitud": 1,
+        "estado": "pendiente"
+      },
+      "fecha_entrega": "2026-09-06T08:30:00",
+      "responsable": "Carlos Mendoza",
+      "estado": "programada",
+      "observaciones": "Entrega programada."
+    }
+  ]
+}

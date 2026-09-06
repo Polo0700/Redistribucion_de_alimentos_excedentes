@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<usuarios>
+  <usuario>
+    <id>1</id>
+    <id_rol>1</id_rol>
+    <rol>
+      <id>1</id>
+      <nombre>Administrador</nombre>
+    </rol>
+    <nombre>Carlos</nombre>
+    <apellido>Mendoza</apellido>
+    <correo>carlos.mendoza@alimentos.org</correo>
+    <telefono>3001234567</telefono>
+    <direccion>Calle 5 #12-30, Ciudad</direccion>
+    <fecha_registro>2026-06-15T08:00:00</fecha_registro>
+    <estado>true</estado>
+  </usuario>
+  <usuario>
+    <id>2</id>
+    <id_rol>2</id_rol>
+    <rol>
+      <id>2</id>
+      <nombre>Donante</nombre>
+    </rol>
+    <nombre>Ana</nombre>
+    <apellido>Torres</apellido>
+    <correo>ana.torres@mail.com</correo>
+    <telefono>3009876543</telefono>
+    <direccion>Carrera 7 #20-15, Ciudad</direccion>
+    <fecha_registro>2026-07-10T10:30:00</fecha_registro>
+    <estado>true</estado>
+  </usuario>
+  <usuario>
+    <id>3</id>
+    <id_rol>2</id_rol>
+    <rol>
+      <id>2</id>
+      <nombre>Donante</nombre>
+    </rol>
+    <nombre>Luis</nombre>
+    <apellido>Herrera</apellido>
+    <correo>luis.herrera@mail.com</correo>
+    <telefono>3105558899</telefono>
+    <direccion>Av. Central #45-21, Ciudad</direccion>
+    <fecha_registro>2026-07-18T14:45:00</fecha_registro>
+    <estado>true</estado>
+  </usuario>
+  <usuario>
+    <id>4</id>
+    <id_rol>3</id_rol>
+    <rol>
+      <id>3</id>
+      <nombre>Beneficiario</nombre>
+    </rol>
+    <nombre>Marta</nombre>
+    <apellido>Castillo</apellido>
+    <correo>marta.castillo@mail.com</correo>
+    <telefono>3117772233</telefono>
+    <direccion>Calle 10 #5-30, Ciudad</direccion>
+    <fecha_registro>2026-08-01T09:00:00</fecha_registro>
+    <estado>true</estado>
+  </usuario>
+  <usuario>
+    <id>5</id>
+    <id_rol>3</id_rol>
+    <rol>
+      <id>3</id>
+      <nombre>Beneficiario</nombre>
+    </rol>
+    <nombre>Jorge</nombre>
+    <apellido>Nunez</apellido>
+    <correo>jorge.nunez@mail.com</correo>
+    <telefono>3124445566</telefono>
+    <direccion>Av. Central #12-45, Ciudad</direccion>
+    <fecha_registro>2026-08-05T11:20:00</fecha_registro>
+    <estado>true</estado>
+  </usuario>
+  <usuario>
+    <id>6</id>
+    <id_rol>3</id_rol>
+    <rol>
+      <id>3</id>
+      <nombre>Beneficiario</nombre>
+    </rol>
+    <nombre>Patricia</nombre>
+    <apellido>Guzman</apellido>
+    <correo>patricia.guzman@mail.com</correo>
+    <telefono>3136667788</telefono>
+    <direccion>Carrera 8 #22-14, Ciudad</direccion>
+    <fecha_registro>2026-08-10T16:10:00</fecha_registro>
+    <estado>true</estado>
+  </usuario>
+</usuarios>

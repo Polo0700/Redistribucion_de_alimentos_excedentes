@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<detalle_donaciones>
+  <detalle_donacion>
+    <id_detalle_donacion>1</id_detalle_donacion>
+    <id_donacion>1</id_donacion>
+    <donacion>
+      <id_donacion>1</id_donacion>
+      <estado>disponible</estado>
+    </donacion>
+    <id_alimento>1</id_alimento>
+    <alimento>
+      <id_alimento>1</id_alimento>
+      <nombre>Manzanas</nombre>
+      <categoria>Frutas</categoria>
+    </alimento>
+    <cantidad>50</cantidad>
+    <observaciones>Manzanas clasificadas</observaciones>
+  </detalle_donacion>
+  <detalle_donacion>
+    <id_detalle_donacion>2</id_detalle_donacion>
+    <id_donacion>1</id_donacion>
+    <donacion>
+      <id_donacion>1</id_donacion>
+      <estado>disponible</estado>
+    </donacion>
+    <id_alimento>2</id_alimento>
+    <alimento>
+      <id_alimento>2</id_alimento>
+      <nombre>Bananos</nombre>
+      <categoria>Frutas</categoria>
+    </alimento>
+    <cantidad>30</cantidad>
+    <observaciones />
+  </detalle_donacion>
+  <detalle_donacion>
+    <id_detalle_donacion>3</id_detalle_donacion>
+    <id_donacion>2</id_donacion>
+    <donacion>
+      <id_donacion>2</id_donacion>
+      <estado>disponible</estado>
+    </donacion>
+    <id_alimento>5</id_alimento>
+    <alimento>
+      <id_alimento>5</id_alimento>
+      <nombre>Pan integral</nombre>
+      <categoria>Panaderia</categoria>
+    </alimento>
+    <cantidad>20</cantidad>
+    <observaciones>Pan en bolsa sellada</observaciones>
+  </detalle_donacion>
+  <detalle_donacion>
+    <id_detalle_donacion>4</id_detalle_donacion>
+    <id_donacion>2</id_donacion>
+    <donacion>
+      <id_donacion>2</id_donacion>
+      <estado>disponible</estado>
+    </donacion>
+    <id_alimento>6</id_alimento>
+    <alimento>
+      <id_alimento>6</id_alimento>
+      <nombre>Arroz blanco</nombre>
+      <categoria>Granos</categoria>
+    </alimento>
+    <cantidad>40</cantidad>
+    <observaciones>Arroz empaquetado</observaciones>
+  </detalle_donacion>
+  <detalle_donacion>
+    <id_detalle_donacion>5</id_detalle_donacion>
+    <id_donacion>3</id_donacion>
+    <donacion>
+      <id_donacion>3</id_donacion>
+      <estado>asignada</estado>
+    </donacion>
+    <id_alimento>3</id_alimento>
+    <alimento>
+      <id_alimento>3</id_alimento>
+      <nombre>Leche entera</nombre>
+      <categoria>Lacteos</categoria>
+    </alimento>
+    <cantidad>25</cantidad>
+    <observaciones>Mantener refrigerado</observaciones>
+  </detalle_donacion>
+  <detalle_donacion>
+    <id_detalle_donacion>6</id_detalle_donacion>
+    <id_donacion>3</id_donacion>
+    <donacion>
+      <id_donacion>3</id_donacion>
+      <estado>asignada</estado>
+    </donacion>
+    <id_alimento>4</id_alimento>
+    <alimento>
+      <id_alimento>4</id_alimento>
+      <nombre>Yogurt natural</nombre>
+      <categoria>Lacteos</categoria>
+    </alimento>
+    <cantidad>18</cantidad>
+    <observaciones>Cadena de frio</observaciones>
+  </detalle_donacion>
+</detalle_donaciones>

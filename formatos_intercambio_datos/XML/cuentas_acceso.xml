@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cuentas_acceso>
+  <cuenta_acceso>
+    <id_cuenta>1</id_cuenta>
+    <id_usuario>1</id_usuario>
+    <usuario>
+      <id>1</id>
+      <nombre>Carlos</nombre>
+      <apellido>Mendoza</apellido>
+    </usuario>
+    <proveedor>local</proveedor>
+    <identificador_externo>carlos_admin</identificador_externo>
+    <contrasena_hash>$2y$10$abcdefghijklmnopqrstuvwxyz0123456789</contrasena_hash>
+    <fecha_ultimo_acceso>2026-09-05T18:22:00</fecha_ultimo_acceso>
+  </cuenta_acceso>
+  <cuenta_acceso>
+    <id_cuenta>2</id_cuenta>
+    <id_usuario>2</id_usuario>
+    <usuario>
+      <id>2</id>
+      <nombre>Ana</nombre>
+      <apellido>Torres</apellido>
+    </usuario>
+    <proveedor>google</proveedor>
+    <identificador_externo>ana.torres@gmail.com</identificador_externo>
+    <contrasena_hash>$2y$10$zyxwvutsrqponmlkjihgfedcba9876543210</contrasena_hash>
+    <fecha_ultimo_acceso>2026-09-04T09:10:00</fecha_ultimo_acceso>
+  </cuenta_acceso>
+  <cuenta_acceso>
+    <id_cuenta>3</id_cuenta>
+    <id_usuario>4</id_usuario>
+    <usuario>
+      <id>4</id>
+      <nombre>Marta</nombre>
+      <apellido>Castillo</apellido>
+    </usuario>
+    <proveedor>local</proveedor>
+    <identificador_externo>marta_castillo</identificador_externo>
+    <contrasena_hash>$2y$10$lkjhgfdsaqwertyuiopmnbvcxz1234567890</contrasena_hash>
+    <fecha_ultimo_acceso>2026-09-06T07:30:00</fecha_ultimo_acceso>
+  </cuenta_acceso>
+</cuentas_acceso>

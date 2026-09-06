@@ -1,0 +1,43 @@
+{
+  "cuentas_acceso": [
+    {
+      "id_cuenta": 1,
+      "id_usuario": 1,
+      "usuario": {
+        "id": 1,
+        "nombre": "Carlos",
+        "apellido": "Mendoza"
+      },
+      "proveedor": "local",
+      "identificador_externo": "carlos_admin",
+      "contrasena_hash": "$2y$10$abcdefghijklmnopqrstuvwxyz0123456789",
+      "fecha_ultimo_acceso": "2026-09-05T18:22:00"
+    },
+    {
+      "id_cuenta": 2,
+      "id_usuario": 2,
+      "usuario": {
+        "id": 2,
+        "nombre": "Ana",
+        "apellido": "Torres"
+      },
+      "proveedor": "google",
+      "identificador_externo": "ana.torres@gmail.com",
+      "contrasena_hash": "$2y$10$zyxwvutsrqponmlkjihgfedcba9876543210",
+      "fecha_ultimo_acceso": "2026-09-04T09:10:00"
+    },
+    {
+      "id_cuenta": 3,
+      "id_usuario": 4,
+      "usuario": {
+        "id": 4,
+        "nombre": "Marta",
+        "apellido": "Castillo"
+      },
+      "proveedor": "local",
+      "identificador_externo": "marta_castillo",
+      "contrasena_hash": "$2y$10$lkjhgfdsaqwertyuiopmnbvcxz1234567890",
+      "fecha_ultimo_acceso": "2026-09-06T07:30:00"
+    }
+  ]
+}

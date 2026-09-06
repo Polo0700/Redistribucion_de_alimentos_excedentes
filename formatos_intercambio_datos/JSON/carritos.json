@@ -1,0 +1,85 @@
+{
+  "carritos": [
+    {
+      "id_carrito": 1,
+      "id_usuario": 4,
+      "usuario": {
+        "id": 4,
+        "nombre": "Marta",
+        "apellido": "Castillo"
+      },
+      "fecha_creacion": "2026-09-05T08:00:00",
+      "estado": "activo",
+      "alimentos": [
+        {
+          "id_alimento": 1,
+          "nombre": "Manzanas",
+          "descripcion": "Manzanas rojas frescas.",
+          "estado": true,
+          "cantidad": 5
+        },
+        {
+          "id_alimento": 5,
+          "nombre": "Pan integral",
+          "descripcion": "Pan integral en bolsa sellada.",
+          "estado": true,
+          "cantidad": 2
+        }
+      ]
+    },
+    {
+      "id_carrito": 2,
+      "id_usuario": 5,
+      "usuario": {
+        "id": 5,
+        "nombre": "Jorge",
+        "apellido": "Nunez"
+      },
+      "fecha_creacion": "2026-09-05T09:20:00",
+      "estado": "activo",
+      "alimentos": [
+        {
+          "id_alimento": 6,
+          "nombre": "Arroz blanco",
+          "descripcion": "Arroz blanco de grano largo.",
+          "estado": true,
+          "cantidad": 10
+        },
+        {
+          "id_alimento": 2,
+          "nombre": "Bananos",
+          "descripcion": "Bananos maduros en buen estado.",
+          "estado": true,
+          "cantidad": 6
+        }
+      ]
+    },
+    {
+      "id_carrito": 3,
+      "id_usuario": 6,
+      "usuario": {
+        "id": 6,
+        "nombre": "Patricia",
+        "apellido": "Guzman"
+      },
+      "fecha_creacion": "2026-09-06T07:45:00",
+      "estado": "completado",
+      "alimentos": [
+        {
+          "id_alimento": 3,
+          "nombre": "Leche entera",
+          "descripcion": "Leche entera pasteurizada de 1 litro.",
+          "estado": true,
+          "cantidad": 3
+        },
+        {
+          "id_alimento": 4,
+          "nombre": "Yogurt natural",
+          "descripcion": "Yogurt natural sin azucar.",
+          "estado": true,
+          "cantidad": 4
+        }
+      ]
+    }
+  ]
+}

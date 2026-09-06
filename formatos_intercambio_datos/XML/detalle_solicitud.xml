@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<detalle_solicitudes>
+  <detalle_solicitud>
+    <id_detalle_solicitud>1</id_detalle_solicitud>
+    <id_solicitud>1</id_solicitud>
+    <solicitud>
+      <id_solicitud>1</id_solicitud>
+      <estado>pendiente</estado>
+    </solicitud>
+    <id_alimento>1</id_alimento>
+    <alimento>
+      <id_alimento>1</id_alimento>
+      <nombre>Manzanas</nombre>
+      <categoria>Frutas</categoria>
+    </alimento>
+    <cantidad>5</cantidad>
+    <estado>pendiente</estado>
+  </detalle_solicitud>
+  <detalle_solicitud>
+    <id_detalle_solicitud>2</id_detalle_solicitud>
+    <id_solicitud>2</id_solicitud>
+    <solicitud>
+      <id_solicitud>2</id_solicitud>
+      <estado>en_proceso</estado>
+    </solicitud>
+    <id_alimento>6</id_alimento>
+    <alimento>
+      <id_alimento>6</id_alimento>
+      <nombre>Arroz blanco</nombre>
+      <categoria>Granos</categoria>
+    </alimento>
+    <cantidad>10</cantidad>
+    <estado>en_proceso</estado>
+  </detalle_solicitud>
+  <detalle_solicitud>
+    <id_detalle_solicitud>3</id_detalle_solicitud>
+    <id_solicitud>2</id_solicitud>
+    <solicitud>
+      <id_solicitud>2</id_solicitud>
+      <estado>en_proceso</estado>
+    </solicitud>
+    <id_alimento>2</id_alimento>
+    <alimento>
+      <id_alimento>2</id_alimento>
+      <nombre>Bananos</nombre>
+      <categoria>Frutas</categoria>
+    </alimento>
+    <cantidad>6</cantidad>
+    <estado>en_proceso</estado>
+  </detalle_solicitud>
+  <detalle_solicitud>
+    <id_detalle_solicitud>4</id_detalle_solicitud>
+    <id_solicitud>3</id_solicitud>
+    <solicitud>
+      <id_solicitud>3</id_solicitud>
+      <estado>entregada</estado>
+    </solicitud>
+    <id_alimento>3</id_alimento>
+    <alimento>
+      <id_alimento>3</id_alimento>
+      <nombre>Leche entera</nombre>
+      <categoria>Lacteos</categoria>
+    </alimento>
+    <cantidad>3</cantidad>
+    <estado>entregada</estado>
+  </detalle_solicitud>
+</detalle_solicitudes>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<donaciones>
+  <donacion>
+    <id_donacion>1</id_donacion>
+    <id_usuario>2</id_usuario>
+    <usuario>
+      <id>2</id>
+      <nombre>Ana</nombre>
+      <apellido>Torres</apellido>
+    </usuario>
+    <fecha_donacion>2026-09-03T09:15:00</fecha_donacion>
+    <fecha_limite>2026-09-10</fecha_limite>
+    <ubicacion>Bodega Norte, Centro de Donacion</ubicacion>
+    <estado>disponible</estado>
+    <observaciones>Donacion de frutas del mercado local.</observaciones>
+    <alimentos>
+      <alimento>
+        <id_alimento>1</id_alimento>
+        <nombre>Manzanas</nombre>
+        <descripcion>Manzanas rojas frescas.</descripcion>
+        <estado>true</estado>
+        <cantidad>50</cantidad>
+        <observaciones_detalle>Manzanas clasificadas</observaciones_detalle>
+      </alimento>
+      <alimento>
+        <id_alimento>2</id_alimento>
+        <nombre>Bananos</nombre>
+        <descripcion>Bananos maduros en buen estado.</descripcion>
+        <estado>true</estado>
+        <cantidad>30</cantidad>
+        <observaciones_detalle />
+      </alimento>
+    </alimentos>
+  </donacion>
+  <donacion>
+    <id_donacion>2</id_donacion>
+    <id_usuario>3</id_usuario>
+    <usuario>
+      <id>3</id>
+      <nombre>Luis</nombre>
+      <apellido>Herrera</apellido>
+    </usuario>
+    <fecha_donacion>2026-09-04T14:00:00</fecha_donacion>
+    <fecha_limite>2026-09-12</fecha_limite>
+    <ubicacion>Mercado Sur, modulo 7</ubicacion>
+    <estado>disponible</estado>
+    <observaciones>Pan y arroz sin vender al cierre del dia.</observaciones>
+    <alimentos>
+      <alimento>
+        <id_alimento>5</id_alimento>
+        <nombre>Pan integral</nombre>
+        <descripcion>Pan integral en bolsa sellada.</descripcion>
+        <estado>true</estado>
+        <cantidad>20</cantidad>
+        <observaciones_detalle>Pan en bolsa sellada</observaciones_detalle>
+      </alimento>
+      <alimento>
+        <id_alimento>6</id_alimento>
+        <nombre>Arroz blanco</nombre>
+        <descripcion>Arroz blanco de grano largo.</descripcion>
+        <estado>true</estado>
+        <cantidad>40</cantidad>
+        <observaciones_detalle>Arroz empaquetado</observaciones_detalle>
+      </alimento>
+    </alimentos>
+  </donacion>
+  <donacion>
+    <id_donacion>3</id_donacion>
+    <id_usuario>2</id_usuario>
+    <usuario>
+      <id>2</id>
+      <nombre>Ana</nombre>
+      <apellido>Torres</apellido>
+    </usuario>
+    <fecha_donacion>2026-09-05T16:30:00</fecha_donacion>
+    <fecha_limite>2026-09-15</fecha_limite>
+    <ubicacion>Bodega Norte, Centro de Donacion</ubicacion>
+    <estado>asignada</estado>
+    <observaciones>Lacteos refrigerados con cadena de frio.</observaciones>
+    <alimentos>
+      <alimento>
+        <id_alimento>3</id_alimento>
+        <nombre>Leche entera</nombre>
+        <descripcion>Leche entera pasteurizada de 1 litro.</descripcion>
+        <estado>true</estado>
+        <cantidad>25</cantidad>
+        <observaciones_detalle>Mantener refrigerado</observaciones_detalle>
+      </alimento>
+      <alimento>
+        <id_alimento>4</id_alimento>
+        <nombre>Yogurt natural</nombre>
+        <descripcion>Yogurt natural sin azucar.</descripcion>
+        <estado>true</estado>
+        <cantidad>18</cantidad>
+        <observaciones_detalle>Cadena de frio</observaciones_detalle>
+      </alimento>
+    </alimentos>
+  </donacion>
+</donaciones>

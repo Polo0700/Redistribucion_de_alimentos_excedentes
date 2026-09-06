@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<carritos>
+  <carrito>
+    <id_carrito>1</id_carrito>
+    <id_usuario>4</id_usuario>
+    <usuario>
+      <id>4</id>
+      <nombre>Marta</nombre>
+      <apellido>Castillo</apellido>
+    </usuario>
+    <fecha_creacion>2026-09-05T08:00:00</fecha_creacion>
+    <estado>activo</estado>
+    <alimentos>
+      <alimento>
+        <id_alimento>1</id_alimento>
+        <nombre>Manzanas</nombre>
+        <descripcion>Manzanas rojas frescas.</descripcion>
+        <estado>true</estado>
+        <cantidad>5</cantidad>
+      </alimento>
+      <alimento>
+        <id_alimento>5</id_alimento>
+        <nombre>Pan integral</nombre>
+        <descripcion>Pan integral en bolsa sellada.</descripcion>
+        <estado>true</estado>
+        <cantidad>2</cantidad>
+      </alimento>
+    </alimentos>
+  </carrito>
+  <carrito>
+    <id_carrito>2</id_carrito>
+    <id_usuario>5</id_usuario>
+    <usuario>
+      <id>5</id>
+      <nombre>Jorge</nombre>
+      <apellido>Nunez</apellido>
+    </usuario>
+    <fecha_creacion>2026-09-05T09:20:00</fecha_creacion>
+    <estado>activo</estado>
+    <alimentos>
+      <alimento>
+        <id_alimento>6</id_alimento>
+        <nombre>Arroz blanco</nombre>
+        <descripcion>Arroz blanco de grano largo.</descripcion>
+        <estado>true</estado>
+        <cantidad>10</cantidad>
+      </alimento>
+      <alimento>
+        <id_alimento>2</id_alimento>
+        <nombre>Bananos</nombre>
+        <descripcion>Bananos maduros en buen estado.</descripcion>
+        <estado>true</estado>
+        <cantidad>6</cantidad>
+      </alimento>
+    </alimentos>
+  </carrito>
+  <carrito>
+    <id_carrito>3</id_carrito>
+    <id_usuario>6</id_usuario>
+    <usuario>
+      <id>6</id>
+      <nombre>Patricia</nombre>
+      <apellido>Guzman</apellido>
+    </usuario>
+    <fecha_creacion>2026-09-06T07:45:00</fecha_creacion>
+    <estado>completado</estado>
+    <alimentos>
+      <alimento>
+        <id_alimento>3</id_alimento>
+        <nombre>Leche entera</nombre>
+        <descripcion>Leche entera pasteurizada de 1 litro.</descripcion>
+        <estado>true</estado>
+        <cantidad>3</cantidad>
+      </alimento>
+      <alimento>
+        <id_alimento>4</id_alimento>
+        <nombre>Yogurt natural</nombre>
+        <descripcion>Yogurt natural sin azucar.</descripcion>
+        <estado>true</estado>
+        <cantidad>4</cantidad>
+      </alimento>
+    </alimentos>
+  </carrito>
+</carritos>
