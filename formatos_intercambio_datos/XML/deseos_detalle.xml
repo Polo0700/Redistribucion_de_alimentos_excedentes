@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<deseos_detalles>
+  <deseos_detalle>
+    <id_deseo>1</id_deseo>
+    <id_lista>1</id_lista>
+    <lista>
+      <id_lista>1</id_lista>
+      <nombre>Frutas favoritas</nombre>
+    </lista>
+    <id_alimento>1</id_alimento>
+    <alimento>
+      <id_alimento>1</id_alimento>
+      <nombre>Manzanas</nombre>
+      <categoria>Frutas</categoria>
+    </alimento>
+    <fecha_agregado>2026-08-20T10:05:00</fecha_agregado>
+  </deseos_detalle>
+  <deseos_detalle>
+    <id_deseo>2</id_deseo>
+    <id_lista>1</id_lista>
+    <lista>
+      <id_lista>1</id_lista>
+      <nombre>Frutas favoritas</nombre>
+    </lista>
+    <id_alimento>2</id_alimento>
+    <alimento>
+      <id_alimento>2</id_alimento>
+      <nombre>Bananos</nombre>
+      <categoria>Frutas</categoria>
+    </alimento>
+    <fecha_agregado>2026-08-25T18:30:00</fecha_agregado>
+  </deseos_detalle>
+  <deseos_detalle>
+    <id_deseo>3</id_deseo>
+    <id_lista>2</id_lista>
+    <lista>
+      <id_lista>2</id_lista>
+      <nombre>Desayunos</nombre>
+    </lista>
+    <id_alimento>3</id_alimento>
+    <alimento>
+      <id_alimento>3</id_alimento>
+      <nombre>Leche entera</nombre>
+      <categoria>Lacteos</categoria>
+    </alimento>
+    <fecha_agregado>2026-08-28T07:40:00</fecha_agregado>
+  </deseos_detalle>
+  <deseos_detalle>
+    <id_deseo>4</id_deseo>
+    <id_lista>2</id_lista>
+    <lista>
+      <id_lista>2</id_lista>
+      <nombre>Desayunos</nombre>
+    </lista>
+    <id_alimento>5</id_alimento>
+    <alimento>
+      <id_alimento>5</id_alimento>
+      <nombre>Pan integral</nombre>
+      <categoria>Panaderia</categoria>
+    </alimento>
+    <fecha_agregado>2026-08-30T08:15:00</fecha_agregado>
+  </deseos_detalle>
+  <deseos_detalle>
+    <id_deseo>5</id_deseo>
+    <id_lista>3</id_lista>
+    <lista>
+      <id_lista>3</id_lista>
+      <nombre>Canasta basica</nombre>
+    </lista>
+    <id_alimento>6</id_alimento>
+    <alimento>
+      <id_alimento>6</id_alimento>
+      <nombre>Arroz blanco</nombre>
+      <categoria>Granos</categoria>
+    </alimento>
+    <fecha_agregado>2026-08-26T12:00:00</fecha_agregado>
+  </deseos_detalle>
+  <deseos_detalle>
+    <id_deseo>6</id_deseo>
+    <id_lista>3</id_lista>
+    <lista>
+      <id_lista>3</id_lista>
+      <nombre>Canasta basica</nombre>
+    </lista>
+    <id_alimento>4</id_alimento>
+    <alimento>
+      <id_alimento>4</id_alimento>
+      <nombre>Yogurt natural</nombre>
+      <categoria>Lacteos</categoria>
+    </alimento>
+    <fecha_agregado>2026-09-01T09:20:00</fecha_agregado>
+  </deseos_detalle>
+</deseos_detalles>

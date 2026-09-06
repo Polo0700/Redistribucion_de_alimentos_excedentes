@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<roles>
+  <rol>
+    <id>1</id>
+    <nombre>Administrador</nombre>
+    <descripcion>Gestiona el sistema, los usuarios y las entregas del banco de alimentos.</descripcion>
+    <estado>true</estado>
+  </rol>
+  <rol>
+    <id>2</id>
+    <nombre>Donante</nombre>
+    <descripcion>Registra y publica donaciones de alimentos excedentes.</descripcion>
+    <estado>true</estado>
+  </rol>
+  <rol>
+    <id>3</id>
+    <nombre>Beneficiario</nombre>
+    <descripcion>Solicita y recibe alimentos redistribuidos.</descripcion>
+    <estado>true</estado>
+  </rol>
+</roles>

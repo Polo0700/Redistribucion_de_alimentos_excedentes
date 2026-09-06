@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<listas_deseos>
+  <lista_deseos>
+    <id_lista>1</id_lista>
+    <id_usuario>4</id_usuario>
+    <usuario>
+      <id>4</id>
+      <nombre>Marta</nombre>
+      <apellido>Castillo</apellido>
+    </usuario>
+    <fecha_creacion>2026-08-20T10:00:00</fecha_creacion>
+    <nombre>Frutas favoritas</nombre>
+    <alimentos>
+      <alimento>
+        <id_alimento>1</id_alimento>
+        <nombre>Manzanas</nombre>
+        <descripcion>Manzanas rojas frescas.</descripcion>
+        <estado>true</estado>
+        <fecha_agregado>2026-08-20T10:05:00</fecha_agregado>
+      </alimento>
+      <alimento>
+        <id_alimento>2</id_alimento>
+        <nombre>Bananos</nombre>
+        <descripcion>Bananos maduros en buen estado.</descripcion>
+        <estado>true</estado>
+        <fecha_agregado>2026-08-25T18:30:00</fecha_agregado>
+      </alimento>
+    </alimentos>
+  </lista_deseos>
+  <lista_deseos>
+    <id_lista>2</id_lista>
+    <id_usuario>5</id_usuario>
+    <usuario>
+      <id>5</id>
+      <nombre>Jorge</nombre>
+      <apellido>Nunez</apellido>
+    </usuario>
+    <fecha_creacion>2026-08-22T09:00:00</fecha_creacion>
+    <nombre>Desayunos</nombre>
+    <alimentos>
+      <alimento>
+        <id_alimento>3</id_alimento>
+        <nombre>Leche entera</nombre>
+        <descripcion>Leche entera pasteurizada de 1 litro.</descripcion>
+        <estado>true</estado>
+        <fecha_agregado>2026-08-28T07:40:00</fecha_agregado>
+      </alimento>
+      <alimento>
+        <id_alimento>5</id_alimento>
+        <nombre>Pan integral</nombre>
+        <descripcion>Pan integral en bolsa sellada.</descripcion>
+        <estado>true</estado>
+        <fecha_agregado>2026-08-30T08:15:00</fecha_agregado>
+      </alimento>
+    </alimentos>
+  </lista_deseos>
+  <lista_deseos>
+    <id_lista>3</id_lista>
+    <id_usuario>6</id_usuario>
+    <usuario>
+      <id>6</id>
+      <nombre>Patricia</nombre>
+      <apellido>Guzman</apellido>
+    </usuario>
+    <fecha_creacion>2026-08-25T14:30:00</fecha_creacion>
+    <nombre>Canasta basica</nombre>
+    <alimentos>
+      <alimento>
+        <id_alimento>6</id_alimento>
+        <nombre>Arroz blanco</nombre>
+        <descripcion>Arroz blanco de grano largo.</descripcion>
+        <estado>true</estado>
+        <fecha_agregado>2026-08-26T12:00:00</fecha_agregado>
+      </alimento>
+      <alimento>
+        <id_alimento>4</id_alimento>
+        <nombre>Yogurt natural</nombre>
+        <descripcion>Yogurt natural sin azucar.</descripcion>
+        <estado>true</estado>
+        <fecha_agregado>2026-09-01T09:20:00</fecha_agregado>
+      </alimento>
+    </alimentos>
+  </lista_deseos>
+</listas_deseos>

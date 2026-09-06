@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<acciones_importantes>
+  <accion_importante>
+    <id_accion>1</id_accion>
+    <id_usuario>1</id_usuario>
+    <usuario>
+      <id>1</id>
+      <nombre>Carlos</nombre>
+    </usuario>
+    <accion>Registro de donacion</accion>
+    <descripcion>El administrador registro una donacion de alimentos.</descripcion>
+    <fecha_hora>2026-09-03T09:15:00</fecha_hora>
+    <tabla_afectada>donaciones</tabla_afectada>
+    <ip_origen>192.168.1.10</ip_origen>
+  </accion_importante>
+  <accion_importante>
+    <id_accion>2</id_accion>
+    <id_usuario>2</id_usuario>
+    <usuario>
+      <id>2</id>
+      <nombre>Ana</nombre>
+    </usuario>
+    <accion>Publicacion de donacion</accion>
+    <descripcion>Se publico una donacion de frutas frescas.</descripcion>
+    <fecha_hora>2026-09-03T10:00:00</fecha_hora>
+    <tabla_afectada>donaciones</tabla_afectada>
+    <ip_origen>192.168.1.20</ip_origen>
+  </accion_importante>
+  <accion_importante>
+    <id_accion>3</id_accion>
+    <id_usuario>1</id_usuario>
+    <usuario>
+      <id>1</id>
+      <nombre>Carlos</nombre>
+    </usuario>
+    <accion>Creacion de usuario</accion>
+    <descripcion>Se creo un beneficiario en el sistema.</descripcion>
+    <fecha_hora>2026-09-04T11:30:00</fecha_hora>
+    <tabla_afectada>usuarios</tabla_afectada>
+    <ip_origen>192.168.1.10</ip_origen>
+  </accion_importante>
+</acciones_importantes>

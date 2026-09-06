@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<categorias_alimento>
+  <categoria_alimento>
+    <id_categoria>1</id_categoria>
+    <nombre>Frutas</nombre>
+    <descripcion>Frutas frescas de temporada.</descripcion>
+    <estado>true</estado>
+  </categoria_alimento>
+  <categoria_alimento>
+    <id_categoria>2</id_categoria>
+    <nombre>Lacteos</nombre>
+    <descripcion>Leche, yogurt y derivados lacteos.</descripcion>
+    <estado>true</estado>
+  </categoria_alimento>
+  <categoria_alimento>
+    <id_categoria>3</id_categoria>
+    <nombre>Panaderia</nombre>
+    <descripcion>Pan y productos de panaderia.</descripcion>
+    <estado>true</estado>
+  </categoria_alimento>
+  <categoria_alimento>
+    <id_categoria>4</id_categoria>
+    <nombre>Granos</nombre>
+    <descripcion>Arroz, frijoles y cereales.</descripcion>
+    <estado>true</estado>
+  </categoria_alimento>
+</categorias_alimento>

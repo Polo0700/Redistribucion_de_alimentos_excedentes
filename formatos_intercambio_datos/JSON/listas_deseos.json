@@ -1,0 +1,85 @@
+{
+  "listas_deseos": [
+    {
+      "id_lista": 1,
+      "id_usuario": 4,
+      "usuario": {
+        "id": 4,
+        "nombre": "Marta",
+        "apellido": "Castillo"
+      },
+      "fecha_creacion": "2026-08-20T10:00:00",
+      "nombre": "Frutas favoritas",
+      "alimentos": [
+        {
+          "id_alimento": 1,
+          "nombre": "Manzanas",
+          "descripcion": "Manzanas rojas frescas.",
+          "estado": true,
+          "fecha_agregado": "2026-08-20T10:05:00"
+        },
+        {
+          "id_alimento": 2,
+          "nombre": "Bananos",
+          "descripcion": "Bananos maduros en buen estado.",
+          "estado": true,
+          "fecha_agregado": "2026-08-25T18:30:00"
+        }
+      ]
+    },
+    {
+      "id_lista": 2,
+      "id_usuario": 5,
+      "usuario": {
+        "id": 5,
+        "nombre": "Jorge",
+        "apellido": "Nunez"
+      },
+      "fecha_creacion": "2026-08-22T09:00:00",
+      "nombre": "Desayunos",
+      "alimentos": [
+        {
+          "id_alimento": 3,
+          "nombre": "Leche entera",
+          "descripcion": "Leche entera pasteurizada de 1 litro.",
+          "estado": true,
+          "fecha_agregado": "2026-08-28T07:40:00"
+        },
+        {
+          "id_alimento": 5,
+          "nombre": "Pan integral",
+          "descripcion": "Pan integral en bolsa sellada.",
+          "estado": true,
+          "fecha_agregado": "2026-08-30T08:15:00"
+        }
+      ]
+    },
+    {
+      "id_lista": 3,
+      "id_usuario": 6,
+      "usuario": {
+        "id": 6,
+        "nombre": "Patricia",
+        "apellido": "Guzman"
+      },
+      "fecha_creacion": "2026-08-25T14:30:00",
+      "nombre": "Canasta basica",
+      "alimentos": [
+        {
+          "id_alimento": 6,
+          "nombre": "Arroz blanco",
+          "descripcion": "Arroz blanco de grano largo.",
+          "estado": true,
+          "fecha_agregado": "2026-08-26T12:00:00"
+        },
+        {
+          "id_alimento": 4,
+          "nombre": "Yogurt natural",
+          "descripcion": "Yogurt natural sin azucar.",
+          "estado": true,
+          "fecha_agregado": "2026-09-01T09:20:00"
+        }
+      ]
+    }
+  ]
+}

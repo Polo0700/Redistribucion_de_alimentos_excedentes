@@ -1,0 +1,100 @@
+{
+  "donaciones": [
+    {
+      "id_donacion": 1,
+      "id_usuario": 2,
+      "usuario": {
+        "id": 2,
+        "nombre": "Ana",
+        "apellido": "Torres"
+      },
+      "fecha_donacion": "2026-09-03T09:15:00",
+      "fecha_limite": "2026-09-10",
+      "ubicacion": "Bodega Norte, Centro de Donacion",
+      "estado": "disponible",
+      "observaciones": "Donacion de frutas del mercado local.",
+      "alimentos": [
+        {
+          "id_alimento": 1,
+          "nombre": "Manzanas",
+          "descripcion": "Manzanas rojas frescas.",
+          "estado": true,
+          "cantidad": 50,
+          "observaciones_detalle": "Manzanas clasificadas"
+        },
+        {
+          "id_alimento": 2,
+          "nombre": "Bananos",
+          "descripcion": "Bananos maduros en buen estado.",
+          "estado": true,
+          "cantidad": 30,
+          "observaciones_detalle": ""
+        }
+      ]
+    },
+    {
+      "id_donacion": 2,
+      "id_usuario": 3,
+      "usuario": {
+        "id": 3,
+        "nombre": "Luis",
+        "apellido": "Herrera"
+      },
+      "fecha_donacion": "2026-09-04T14:00:00",
+      "fecha_limite": "2026-09-12",
+      "ubicacion": "Mercado Sur, modulo 7",
+      "estado": "disponible",
+      "observaciones": "Pan y arroz sin vender al cierre del dia.",
+      "alimentos": [
+        {
+          "id_alimento": 5,
+          "nombre": "Pan integral",
+          "descripcion": "Pan integral en bolsa sellada.",
+          "estado": true,
+          "cantidad": 20,
+          "observaciones_detalle": "Pan en bolsa sellada"
+        },
+        {
+          "id_alimento": 6,
+          "nombre": "Arroz blanco",
+          "descripcion": "Arroz blanco de grano largo.",
+          "estado": true,
+          "cantidad": 40,
+          "observaciones_detalle": "Arroz empaquetado"
+        }
+      ]
+    },
+    {
+      "id_donacion": 3,
+      "id_usuario": 2,
+      "usuario": {
+        "id": 2,
+        "nombre": "Ana",
+        "apellido": "Torres"
+      },
+      "fecha_donacion": "2026-09-05T16:30:00",
+      "fecha_limite": "2026-09-15",
+      "ubicacion": "Bodega Norte, Centro de Donacion",
+      "estado": "asignada",
+      "observaciones": "Lacteos refrigerados con cadena de frio.",
+      "alimentos": [
+        {
+          "id_alimento": 3,
+          "nombre": "Leche entera",
+          "descripcion": "Leche entera pasteurizada de 1 litro.",
+          "estado": true,
+          "cantidad": 25,
+          "observaciones_detalle": "Mantener refrigerado"
+        },
+        {
+          "id_alimento": 4,
+          "nombre": "Yogurt natural",
+          "descripcion": "Yogurt natural sin azucar.",
+          "estado": true,
+          "cantidad": 18,
+          "observaciones_detalle": "Cadena de frio"
+        }
+      ]
+    }
+  ]
+}

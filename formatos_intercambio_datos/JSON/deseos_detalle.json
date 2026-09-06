@@ -1,0 +1,94 @@
+{
+  "deseos_detalle": [
+    {
+      "id_deseo": 1,
+      "id_lista": 1,
+      "lista": {
+        "id_lista": 1,
+        "nombre": "Frutas favoritas"
+      },
+      "id_alimento": 1,
+      "alimento": {
+        "id_alimento": 1,
+        "nombre": "Manzanas",
+        "categoria": "Frutas"
+      },
+      "fecha_agregado": "2026-08-20T10:05:00"
+    },
+    {
+      "id_deseo": 2,
+      "id_lista": 1,
+      "lista": {
+        "id_lista": 1,
+        "nombre": "Frutas favoritas"
+      },
+      "id_alimento": 2,
+      "alimento": {
+        "id_alimento": 2,
+        "nombre": "Bananos",
+        "categoria": "Frutas"
+      },
+      "fecha_agregado": "2026-08-25T18:30:00"
+    },
+    {
+      "id_deseo": 3,
+      "id_lista": 2,
+      "lista": {
+        "id_lista": 2,
+        "nombre": "Desayunos"
+      },
+      "id_alimento": 3,
+      "alimento": {
+        "id_alimento": 3,
+        "nombre": "Leche entera",
+        "categoria": "Lacteos"
+      },
+      "fecha_agregado": "2026-08-28T07:40:00"
+    },
+    {
+      "id_deseo": 4,
+      "id_lista": 2,
+      "lista": {
+        "id_lista": 2,
+        "nombre": "Desayunos"
+      },
+      "id_alimento": 5,
+      "alimento": {
+        "id_alimento": 5,
+        "nombre": "Pan integral",
+        "categoria": "Panaderia"
+      },
+      "fecha_agregado": "2026-08-30T08:15:00"
+    },
+    {
+      "id_deseo": 5,
+      "id_lista": 3,
+      "lista": {
+        "id_lista": 3,
+        "nombre": "Canasta basica"
+      },
+      "id_alimento": 6,
+      "alimento": {
+        "id_alimento": 6,
+        "nombre": "Arroz blanco",
+        "categoria": "Granos"
+      },
+      "fecha_agregado": "2026-08-26T12:00:00"
+    },
+    {
+      "id_deseo": 6,
+      "id_lista": 3,
+      "lista": {
+        "id_lista": 3,
+        "nombre": "Canasta basica"
+      },
+      "id_alimento": 4,
+      "alimento": {
+        "id_alimento": 4,
+        "nombre": "Yogurt natural",
+        "categoria": "Lacteos"
+      },
+      "fecha_agregado": "2026-09-01T09:20:00"
+    }
+  ]
+}

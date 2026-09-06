@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<solicitudes>
+  <solicitud>
+    <id_solicitud>1</id_solicitud>
+    <id_usuario>4</id_usuario>
+    <usuario>
+      <id>4</id>
+      <nombre>Marta</nombre>
+      <apellido>Castillo</apellido>
+    </usuario>
+    <direccion_entrega>Calle 10 #5-30, Ciudad</direccion_entrega>
+    <observaciones>Solicitud de frutas para hogar de 4 personas.</observaciones>
+    <fecha_solicitud>2026-09-05T08:15:00</fecha_solicitud>
+    <estado>pendiente</estado>
+    <alimentos>
+      <alimento>
+        <id_alimento>1</id_alimento>
+        <nombre>Manzanas</nombre>
+        <descripcion>Manzanas rojas frescas.</descripcion>
+        <estado>true</estado>
+        <cantidad>5</cantidad>
+        <estado_detalle>pendiente</estado_detalle>
+      </alimento>
+    </alimentos>
+  </solicitud>
+  <solicitud>
+    <id_solicitud>2</id_solicitud>
+    <id_usuario>5</id_usuario>
+    <usuario>
+      <id>5</id>
+      <nombre>Jorge</nombre>
+      <apellido>Nunez</apellido>
+    </usuario>
+    <direccion_entrega>Av. Central #12-45, Ciudad</direccion_entrega>
+    <observaciones />
+    <fecha_solicitud>2026-09-05T09:30:00</fecha_solicitud>
+    <estado>en_proceso</estado>
+    <alimentos>
+      <alimento>
+        <id_alimento>6</id_alimento>
+        <nombre>Arroz blanco</nombre>
+        <descripcion>Arroz blanco de grano largo.</descripcion>
+        <estado>true</estado>
+        <cantidad>10</cantidad>
+        <estado_detalle>en_proceso</estado_detalle>
+      </alimento>
+      <alimento>
+        <id_alimento>2</id_alimento>
+        <nombre>Bananos</nombre>
+        <descripcion>Bananos maduros en buen estado.</descripcion>
+        <estado>true</estado>
+        <cantidad>6</cantidad>
+        <estado_detalle>en_proceso</estado_detalle>
+      </alimento>
+    </alimentos>
+  </solicitud>
+  <solicitud>
+    <id_solicitud>3</id_solicitud>
+    <id_usuario>6</id_usuario>
+    <usuario>
+      <id>6</id>
+      <nombre>Patricia</nombre>
+      <apellido>Guzman</apellido>
+    </usuario>
+    <direccion_entrega>Carrera 8 #22-14, Ciudad</direccion_entrega>
+    <observaciones>Entrega de emergencia prioritaria.</observaciones>
+    <fecha_solicitud>2026-09-06T07:50:00</fecha_solicitud>
+    <estado>entregada</estado>
+    <alimentos>
+      <alimento>
+        <id_alimento>3</id_alimento>
+        <nombre>Leche entera</nombre>
+        <descripcion>Leche entera pasteurizada de 1 litro.</descripcion>
+        <estado>true</estado>
+        <cantidad>3</cantidad>
+        <estado_detalle>entregada</estado_detalle>
+      </alimento>
+    </alimentos>
+  </solicitud>
+</solicitudes>

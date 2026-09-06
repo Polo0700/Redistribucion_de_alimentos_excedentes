@@ -1,0 +1,100 @@
+{
+  "detalle_donacion": [
+    {
+      "id_detalle_donacion": 1,
+      "id_donacion": 1,
+      "donacion": {
+        "id_donacion": 1,
+        "estado": "disponible"
+      },
+      "id_alimento": 1,
+      "alimento": {
+        "id_alimento": 1,
+        "nombre": "Manzanas",
+        "categoria": "Frutas"
+      },
+      "cantidad": 50,
+      "observaciones": "Manzanas clasificadas"
+    },
+    {
+      "id_detalle_donacion": 2,
+      "id_donacion": 1,
+      "donacion": {
+        "id_donacion": 1,
+        "estado": "disponible"
+      },
+      "id_alimento": 2,
+      "alimento": {
+        "id_alimento": 2,
+        "nombre": "Bananos",
+        "categoria": "Frutas"
+      },
+      "cantidad": 30,
+      "observaciones": ""
+    },
+    {
+      "id_detalle_donacion": 3,
+      "id_donacion": 2,
+      "donacion": {
+        "id_donacion": 2,
+        "estado": "disponible"
+      },
+      "id_alimento": 5,
+      "alimento": {
+        "id_alimento": 5,
+        "nombre": "Pan integral",
+        "categoria": "Panaderia"
+      },
+      "cantidad": 20,
+      "observaciones": "Pan en bolsa sellada"
+    },
+    {
+      "id_detalle_donacion": 4,
+      "id_donacion": 2,
+      "donacion": {
+        "id_donacion": 2,
+        "estado": "disponible"
+      },
+      "id_alimento": 6,
+      "alimento": {
+        "id_alimento": 6,
+        "nombre": "Arroz blanco",
+        "categoria": "Granos"
+      },
+      "cantidad": 40,
+      "observaciones": "Arroz empaquetado"
+    },
+    {
+      "id_detalle_donacion": 5,
+      "id_donacion": 3,
+      "donacion": {
+        "id_donacion": 3,
+        "estado": "asignada"
+      },
+      "id_alimento": 3,
+      "alimento": {
+        "id_alimento": 3,
+        "nombre": "Leche entera",
+        "categoria": "Lacteos"
+      },
+      "cantidad": 25,
+      "observaciones": "Mantener refrigerado"
+    },
+    {
+      "id_detalle_donacion": 6,
+      "id_donacion": 3,
+      "donacion": {
+        "id_donacion": 3,
+        "estado": "asignada"
+      },
+      "id_alimento": 4,
+      "alimento": {
+        "id_alimento": 4,
+        "nombre": "Yogurt natural",
+        "categoria": "Lacteos"
+      },
+      "cantidad": 18,
+      "observaciones": "Cadena de frio"
+    }
+  ]
+}

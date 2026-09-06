@@ -1,0 +1,68 @@
+{
+  "detalle_solicitud": [
+    {
+      "id_detalle_solicitud": 1,
+      "id_solicitud": 1,
+      "solicitud": {
+        "id_solicitud": 1,
+        "estado": "pendiente"
+      },
+      "id_alimento": 1,
+      "alimento": {
+        "id_alimento": 1,
+        "nombre": "Manzanas",
+        "categoria": "Frutas"
+      },
+      "cantidad": 5,
+      "estado": "pendiente"
+    },
+    {
+      "id_detalle_solicitud": 2,
+      "id_solicitud": 2,
+      "solicitud": {
+        "id_solicitud": 2,
+        "estado": "en_proceso"
+      },
+      "id_alimento": 6,
+      "alimento": {
+        "id_alimento": 6,
+        "nombre": "Arroz blanco",
+        "categoria": "Granos"
+      },
+      "cantidad": 10,
+      "estado": "en_proceso"
+    },
+    {
+      "id_detalle_solicitud": 3,
+      "id_solicitud": 2,
+      "solicitud": {
+        "id_solicitud": 2,
+        "estado": "en_proceso"
+      },
+      "id_alimento": 2,
+      "alimento": {
+        "id_alimento": 2,
+        "nombre": "Bananos",
+        "categoria": "Frutas"
+      },
+      "cantidad": 6,
+      "estado": "en_proceso"
+    },
+    {
+      "id_detalle_solicitud": 4,
+      "id_solicitud": 3,
+      "solicitud": {
+        "id_solicitud": 3,
+        "estado": "entregada"
+      },
+      "id_alimento": 3,
+      "alimento": {
+        "id_alimento": 3,
+        "nombre": "Leche entera",
+        "categoria": "Lacteos"
+      },
+      "cantidad": 3,
+      "estado": "entregada"
+    }
+  ]
+}

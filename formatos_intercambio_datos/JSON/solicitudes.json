@@ -1,0 +1,81 @@
+{
+  "solicitudes": [
+    {
+      "id_solicitud": 1,
+      "id_usuario": 4,
+      "usuario": {
+        "id": 4,
+        "nombre": "Marta",
+        "apellido": "Castillo"
+      },
+      "direccion_entrega": "Calle 10 #5-30, Ciudad",
+      "observaciones": "Solicitud de frutas para hogar de 4 personas.",
+      "fecha_solicitud": "2026-09-05T08:15:00",
+      "estado": "pendiente",
+      "alimentos": [
+        {
+          "id_alimento": 1,
+          "nombre": "Manzanas",
+          "descripcion": "Manzanas rojas frescas.",
+          "estado": true,
+          "cantidad": 5,
+          "estado_detalle": "pendiente"
+        }
+      ]
+    },
+    {
+      "id_solicitud": 2,
+      "id_usuario": 5,
+      "usuario": {
+        "id": 5,
+        "nombre": "Jorge",
+        "apellido": "Nunez"
+      },
+      "direccion_entrega": "Av. Central #12-45, Ciudad",
+      "observaciones": null,
+      "fecha_solicitud": "2026-09-05T09:30:00",
+      "estado": "en_proceso",
+      "alimentos": [
+        {
+          "id_alimento": 6,
+          "nombre": "Arroz blanco",
+          "descripcion": "Arroz blanco de grano largo.",
+          "estado": true,
+          "cantidad": 10,
+          "estado_detalle": "en_proceso"
+        },
+        {
+          "id_alimento": 2,
+          "nombre": "Bananos",
+          "descripcion": "Bananos maduros en buen estado.",
+          "estado": true,
+          "cantidad": 6,
+          "estado_detalle": "en_proceso"
+        }
+      ]
+    },
+    {
+      "id_solicitud": 3,
+      "id_usuario": 6,
+      "usuario": {
+        "id": 6,
+        "nombre": "Patricia",
+        "apellido": "Guzman"
+      },
+      "direccion_entrega": "Carrera 8 #22-14, Ciudad",
+      "observaciones": "Entrega de emergencia prioritaria.",
+      "fecha_solicitud": "2026-09-06T07:50:00",
+      "estado": "entregada",
+      "alimentos": [
+        {
+          "id_alimento": 3,
+          "nombre": "Leche entera",
+          "descripcion": "Leche entera pasteurizada de 1 litro.",
+          "estado": true,
+          "cantidad": 3,
+          "estado_detalle": "entregada"
+        }
+      ]
+    }
+  ]
+}

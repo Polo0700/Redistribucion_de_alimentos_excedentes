@@ -1,0 +1,70 @@
+{
+  "alimentos": [
+    {
+      "id_alimento": 1,
+      "id_categoria": 1,
+      "categoria": {
+        "id_categoria": 1,
+        "nombre": "Frutas"
+      },
+      "nombre": "Manzanas",
+      "descripcion": "Manzanas rojas frescas.",
+      "estado": true
+    },
+    {
+      "id_alimento": 2,
+      "id_categoria": 1,
+      "categoria": {
+        "id_categoria": 1,
+        "nombre": "Frutas"
+      },
+      "nombre": "Bananos",
+      "descripcion": "Bananos maduros en buen estado.",
+      "estado": true
+    },
+    {
+      "id_alimento": 3,
+      "id_categoria": 2,
+      "categoria": {
+        "id_categoria": 2,
+        "nombre": "Lacteos"
+      },
+      "nombre": "Leche entera",
+      "descripcion": "Leche entera pasteurizada de 1 litro.",
+      "estado": true
+    },
+    {
+      "id_alimento": 4,
+      "id_categoria": 2,
+      "categoria": {
+        "id_categoria": 2,
+        "nombre": "Lacteos"
+      },
+      "nombre": "Yogurt natural",
+      "descripcion": "Yogurt natural sin azucar.",
+      "estado": true
+    },
+    {
+      "id_alimento": 5,
+      "id_categoria": 3,
+      "categoria": {
+        "id_categoria": 3,
+        "nombre": "Panaderia"
+      },
+      "nombre": "Pan integral",
+      "descripcion": "Pan integral en bolsa sellada.",
+      "estado": true
+    },
+    {
+      "id_alimento": 6,
+      "id_categoria": 4,
+      "categoria": {
+        "id_categoria": 4,
+        "nombre": "Granos"
+      },
+      "nombre": "Arroz blanco",
+      "descripcion": "Arroz blanco de grano largo.",
+      "estado": true
+    }
+  ]
+}

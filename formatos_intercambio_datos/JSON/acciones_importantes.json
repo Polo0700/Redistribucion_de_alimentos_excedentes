@@ -1,0 +1,43 @@
+{
+  "acciones_importantes": [
+    {
+      "id_accion": 1,
+      "id_usuario": 1,
+      "usuario": {
+        "id": 1,
+        "nombre": "Carlos"
+      },
+      "accion": "Registro de donacion",
+      "descripcion": "El administrador registro una donacion de alimentos.",
+      "fecha_hora": "2026-09-03T09:15:00",
+      "tabla_afectada": "donaciones",
+      "ip_origen": "192.168.1.10"
+    },
+    {
+      "id_accion": 2,
+      "id_usuario": 2,
+      "usuario": {
+        "id": 2,
+        "nombre": "Ana"
+      },
+      "accion": "Publicacion de donacion",
+      "descripcion": "Se publico una donacion de frutas frescas.",
+      "fecha_hora": "2026-09-03T10:00:00",
+      "tabla_afectada": "donaciones",
+      "ip_origen": "192.168.1.20"
+    },
+    {
+      "id_accion": 3,
+      "id_usuario": 1,
+      "usuario": {
+        "id": 1,
+        "nombre": "Carlos"
+      },
+      "accion": "Creacion de usuario",
+      "descripcion": "Se creo un beneficiario en el sistema.",
+      "fecha_hora": "2026-09-04T11:30:00",
+      "tabla_afectada": "usuarios",
+      "ip_origen": "192.168.1.10"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entregas>
+  <entrega>
+    <id_entrega>1</id_entrega>
+    <id_solicitud>3</id_solicitud>
+    <solicitud>
+      <id_solicitud>3</id_solicitud>
+      <estado>entregada</estado>
+    </solicitud>
+    <fecha_entrega>2026-09-06T09:40:00</fecha_entrega>
+    <responsable>Maria Lopez (Voluntaria)</responsable>
+    <estado>entregada</estado>
+    <observaciones>Entregada en la direccion indicada.</observaciones>
+  </entrega>
+  <entrega>
+    <id_entrega>2</id_entrega>
+    <id_solicitud>2</id_solicitud>
+    <solicitud>
+      <id_solicitud>2</id_solicitud>
+      <estado>en_proceso</estado>
+    </solicitud>
+    <fecha_entrega>2026-09-05T15:00:00</fecha_entrega>
+    <responsable>Carlos Mendoza</responsable>
+    <estado>en_transito</estado>
+    <observaciones>En ruta hacia el domicilio.</observaciones>
+  </entrega>
+  <entrega>
+    <id_entrega>3</id_entrega>
+    <id_solicitud>1</id_solicitud>
+    <solicitud>
+      <id_solicitud>1</id_solicitud>
+      <estado>pendiente</estado>
+    </solicitud>
+    <fecha_entrega>2026-09-06T08:30:00</fecha_entrega>
+    <responsable>Carlos Mendoza</responsable>
+    <estado>programada</estado>
+    <observaciones>Entrega programada.</observaciones>
+  </entrega>
+</entregas>

@@ -1,0 +1,28 @@
+{
+  "categorias_alimento": [
+    {
+      "id_categoria": 1,
+      "nombre": "Frutas",
+      "descripcion": "Frutas frescas de temporada.",
+      "estado": true
+    },
+    {
+      "id_categoria": 2,
+      "nombre": "Lacteos",
+      "descripcion": "Leche, yogurt y derivados lacteos.",
+      "estado": true
+    },
+    {
+      "id_categoria": 3,
+      "nombre": "Panaderia",
+      "descripcion": "Pan y productos de panaderia.",
+      "estado": true
+    },
+    {
+      "id_categoria": 4,
+      "nombre": "Granos",
+      "descripcion": "Arroz, frijoles y cereales.",
+      "estado": true
+    }
+  ]
+}

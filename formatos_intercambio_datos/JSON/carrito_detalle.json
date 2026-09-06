@@ -1,0 +1,94 @@
+{
+  "carrito_detalle": [
+    {
+      "id_detalle_carrito": 1,
+      "id_carrito": 1,
+      "carrito": {
+        "id_carrito": 1,
+        "estado": "activo"
+      },
+      "id_alimento": 1,
+      "alimento": {
+        "id_alimento": 1,
+        "nombre": "Manzanas",
+        "categoria": "Frutas"
+      },
+      "cantidad": 5
+    },
+    {
+      "id_detalle_carrito": 2,
+      "id_carrito": 1,
+      "carrito": {
+        "id_carrito": 1,
+        "estado": "activo"
+      },
+      "id_alimento": 5,
+      "alimento": {
+        "id_alimento": 5,
+        "nombre": "Pan integral",
+        "categoria": "Panaderia"
+      },
+      "cantidad": 2
+    },
+    {
+      "id_detalle_carrito": 3,
+      "id_carrito": 2,
+      "carrito": {
+        "id_carrito": 2,
+        "estado": "activo"
+      },
+      "id_alimento": 6,
+      "alimento": {
+        "id_alimento": 6,
+        "nombre": "Arroz blanco",
+        "categoria": "Granos"
+      },
+      "cantidad": 10
+    },
+    {
+      "id_detalle_carrito": 4,
+      "id_carrito": 2,
+      "carrito": {
+        "id_carrito": 2,
+        "estado": "activo"
+      },
+      "id_alimento": 2,
+      "alimento": {
+        "id_alimento": 2,
+        "nombre": "Bananos",
+        "categoria": "Frutas"
+      },
+      "cantidad": 6
+    },
+    {
+      "id_detalle_carrito": 5,
+      "id_carrito": 3,
+      "carrito": {
+        "id_carrito": 3,
+        "estado": "completado"
+      },
+      "id_alimento": 3,
+      "alimento": {
+        "id_alimento": 3,
+        "nombre": "Leche entera",
+        "categoria": "Lacteos"
+      },
+      "cantidad": 3
+    },
+    {
+      "id_detalle_carrito": 6,
+      "id_carrito": 3,
+      "carrito": {
+        "id_carrito": 3,
+        "estado": "completado"
+      },
+      "id_alimento": 4,
+      "alimento": {
+        "id_alimento": 4,
+        "nombre": "Yogurt natural",
+        "categoria": "Lacteos"
+      },
+      "cantidad": 4
+    }
+  ]
+}

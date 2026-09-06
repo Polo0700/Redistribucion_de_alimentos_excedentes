@@ -1,0 +1,94 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "id_rol": 1,
+      "rol": {
+        "id": 1,
+        "nombre": "Administrador"
+      },
+      "nombre": "Carlos",
+      "apellido": "Mendoza",
+      "correo": "carlos.mendoza@alimentos.org",
+      "telefono": "3001234567",
+      "direccion": "Calle 5 #12-30, Ciudad",
+      "fecha_registro": "2026-06-15T08:00:00",
+      "estado": true
+    },
+    {
+      "id": 2,
+      "id_rol": 2,
+      "rol": {
+        "id": 2,
+        "nombre": "Donante"
+      },
+      "nombre": "Ana",
+      "apellido": "Torres",
+      "correo": "ana.torres@mail.com",
+      "telefono": "3009876543",
+      "direccion": "Carrera 7 #20-15, Ciudad",
+      "fecha_registro": "2026-07-10T10:30:00",
+      "estado": true
+    },
+    {
+      "id": 3,
+      "id_rol": 2,
+      "rol": {
+        "id": 2,
+        "nombre": "Donante"
+      },
+      "nombre": "Luis",
+      "apellido": "Herrera",
+      "correo": "luis.herrera@mail.com",
+      "telefono": "3105558899",
+      "direccion": "Av. Central #45-21, Ciudad",
+      "fecha_registro": "2026-07-18T14:45:00",
+      "estado": true
+    },
+    {
+      "id": 4,
+      "id_rol": 3,
+      "rol": {
+        "id": 3,
+        "nombre": "Beneficiario"
+      },
+      "nombre": "Marta",
+      "apellido": "Castillo",
+      "correo": "marta.castillo@mail.com",
+      "telefono": "3117772233",
+      "direccion": "Calle 10 #5-30, Ciudad",
+      "fecha_registro": "2026-08-01T09:00:00",
+      "estado": true
+    },
+    {
+      "id": 5,
+      "id_rol": 3,
+      "rol": {
+        "id": 3,
+        "nombre": "Beneficiario"
+      },
+      "nombre": "Jorge",
+      "apellido": "Nunez",
+      "correo": "jorge.nunez@mail.com",
+      "telefono": "3124445566",
+      "direccion": "Av. Central #12-45, Ciudad",
+      "fecha_registro": "2026-08-05T11:20:00",
+      "estado": true
+    },
+    {
+      "id": 6,
+      "id_rol": 3,
+      "rol": {
+        "id": 3,
+        "nombre": "Beneficiario"
+      },
+      "nombre": "Patricia",
+      "apellido": "Guzman",
+      "correo": "patricia.guzman@mail.com",
+      "telefono": "3136667788",
+      "direccion": "Carrera 8 #22-14, Ciudad",
+      "fecha_registro": "2026-08-10T16:10:00",
+      "estado": true
+    }
+  ]
+}
