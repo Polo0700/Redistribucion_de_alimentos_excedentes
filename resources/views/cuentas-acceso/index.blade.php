@@ -4,52 +4,175 @@
 
 @section('content')
 
-<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900">Cuentas de acceso</h1>
-        <p class="text-gray-600 mt-1">
-            Consulta de las cuentas utilizadas para acceder al sistema.
-        </p>
+<div class="mb-6">
+
+    <div class="flex items-center justify-between">
+
+        <div>
+
+            <h1 class="text-3xl font-bold text-gray-900">
+                Cuentas de acceso
+            </h1>
+
+            <p class="mt-1 text-gray-500">
+                Administración de las cuentas de acceso del sistema
+            </p>
+
+        </div>
+
+        <a href="{{ route('cuentas-acceso.create') }}"
+           class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
+
+            + Nueva cuenta
+
+        </a>
+
     </div>
 
-    <a href="{{ route('cuentas-acceso.create') }}"
-       class="mt-4 md:mt-0 px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700">
-        + Nueva cuenta
-    </a>
 </div>
 
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white">
 
-<table class="w-full text-sm text-left text-gray-500">
+<!-- BÚSQUEDA -->
 
-<thead class="text-xs text-gray-700 uppercase bg-gray-100">
-<tr>
-    <th class="px-6 py-3">ID</th>
-    <th class="px-6 py-3">Usuario</th>
-    <th class="px-6 py-3">Proveedor</th>
-    <th class="px-6 py-3">Identificador</th>
-    <th class="px-6 py-3">Último acceso</th>
-    <th class="px-6 py-3">Acciones</th>
-</tr>
-</thead>
+<div class="p-4 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
 
-<tbody>
+    <div class="flex flex-col gap-4 md:flex-row">
 
-<tr class="bg-white border-b hover:bg-gray-50">
-    <td class="px-6 py-4">1</td>
-    <td class="px-6 py-4 font-medium text-gray-900">Juan Pérez</td>
-    <td class="px-6 py-4">Correo</td>
-    <td class="px-6 py-4">juan@example.com</td>
-    <td class="px-6 py-4">05/09/2026 10:30</td>
-    <td class="px-6 py-4 space-x-2">
-        <button class="text-blue-600 hover:underline">Ver</button>
-        <button class="text-yellow-600 hover:underline">Editar</button>
-        <button class="text-red-600 hover:underline">Eliminar</button>
-    </td>
-</tr>
+        <input
+            type="text"
+            placeholder="Buscar cuenta..."
+            class="flex-1 p-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500">
 
-</tbody>
-</table>
+        <button
+            type="button"
+            class="px-5 py-2.5 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-gray-900">
+
+            Buscar
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- TABLA -->
+
+<div class="relative overflow-x-auto bg-white border border-gray-200 rounded-lg shadow-sm">
+
+    <table class="w-full text-sm text-left text-gray-500">
+
+        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+
+            <tr>
+
+                <th class="px-6 py-3">
+                    ID
+                </th>
+
+                <th class="px-6 py-3">
+                    Usuario
+                </th>
+
+                <th class="px-6 py-3">
+                    Proveedor
+                </th>
+
+                <th class="px-6 py-3">
+                    Identificador externo
+                </th>
+
+                <th class="px-6 py-3">
+                    Último acceso
+                </th>
+
+                <th class="px-6 py-3">
+                    Acciones
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            @foreach($cuentas as $cuenta)
+
+                <tr class="bg-white border-b hover:bg-gray-50">
+
+                    <td class="px-6 py-4">
+                        {{ $cuenta->id_cuenta }}
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900">
+
+                        {{ $cuenta->usuario->nombre ?? 'Sin usuario' }}
+
+                        {{ $cuenta->usuario->apellido ?? '' }}
+
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $cuenta->proveedor }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $cuenta->identificador_externo }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $cuenta->fecha_ultimo_acceso }}
+                    </td>
+
+                    <td class="px-6 py-4">
+
+                        <div class="flex gap-2">
+
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg hover:bg-blue-200">
+
+                                Ver
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-lg hover:bg-yellow-200">
+
+                                Editar
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200">
+
+                                Eliminar
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- PAGINACIÓN -->
+
+<div class="mt-6">
+
+    {{ $cuentas->links() }}
 
 </div>
 

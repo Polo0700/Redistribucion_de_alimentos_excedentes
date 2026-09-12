@@ -5,108 +5,120 @@
 @section('content')
 
 <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">
-        Acciones importantes
-    </h1>
 
-    <p class="text-gray-600 mt-1">
-        Registro de las acciones relevantes realizadas en el sistema.
-    </p>
+    <div class="flex items-center justify-between">
+
+        <div>
+
+            <h1 class="text-3xl font-bold text-gray-900">
+                Acciones importantes
+            </h1>
+
+            <p class="mt-1 text-gray-500">
+                Registro de acciones importantes realizadas en el sistema
+            </p>
+
+        </div>
+
+    </div>
+
 </div>
 
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white">
 
-<table class="w-full text-sm text-left text-gray-500">
+<div class="p-4 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
 
-<thead class="text-xs text-gray-700 uppercase bg-gray-100">
-<tr>
-    <th class="px-6 py-3">ID</th>
-    <th class="px-6 py-3">Usuario</th>
-    <th class="px-6 py-3">Acción</th>
-    <th class="px-6 py-3">Tabla afectada</th>
-    <th class="px-6 py-3">Descripción</th>
-    <th class="px-6 py-3">Fecha y hora</th>
-    <th class="px-6 py-3">IP</th>
-    <th class="px-6 py-3">Acciones</th>
-</tr>
-</thead>
+    <div class="flex flex-col gap-4 md:flex-row">
 
-<tbody>
+        <input
+            type="text"
+            placeholder="Buscar acción..."
+            class="flex-1 p-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50">
 
-<tr class="border-b hover:bg-gray-50">
+        <button
+            type="button"
+            class="px-5 py-2.5 text-sm font-medium text-white bg-gray-800 rounded-lg">
 
-    <td class="px-6 py-4">1</td>
+            Buscar
 
-    <td class="px-6 py-4 font-medium text-gray-900">
-        Juan Pérez
-    </td>
-
-    <td class="px-6 py-4">
-        Registro
-    </td>
-
-    <td class="px-6 py-4">
-        usuarios
-    </td>
-
-    <td class="px-6 py-4">
-        Se registró un nuevo usuario.
-    </td>
-
-    <td class="px-6 py-4">
-        05/09/2026 10:30
-    </td>
-
-    <td class="px-6 py-4">
-        127.0.0.1
-    </td>
-
-    <td class="px-6 py-4">
-        <button class="text-blue-600 hover:underline">
-            Ver
         </button>
-    </td>
 
-</tr>
+    </div>
 
-<tr class="border-b hover:bg-gray-50">
+</div>
 
-    <td class="px-6 py-4">2</td>
 
-    <td class="px-6 py-4 font-medium text-gray-900">
-        María López
-    </td>
+<div class="relative overflow-x-auto bg-white border border-gray-200 rounded-lg shadow-sm">
 
-    <td class="px-6 py-4">
-        Actualización
-    </td>
+    <table class="w-full text-sm text-left text-gray-500">
 
-    <td class="px-6 py-4">
-        donaciones
-    </td>
+        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
 
-    <td class="px-6 py-4">
-        Se actualizó una donación.
-    </td>
+            <tr>
 
-    <td class="px-6 py-4">
-        05/09/2026 11:20
-    </td>
+                <th class="px-6 py-3">ID</th>
+                <th class="px-6 py-3">Usuario</th>
+                <th class="px-6 py-3">Acción</th>
+                <th class="px-6 py-3">Tabla afectada</th>
+                <th class="px-6 py-3">Descripción</th>
+                <th class="px-6 py-3">Fecha y hora</th>
+                <th class="px-6 py-3">IP</th>
 
-    <td class="px-6 py-4">
-        127.0.0.1
-    </td>
+            </tr>
 
-    <td class="px-6 py-4">
-        <button class="text-blue-600 hover:underline">
-            Ver
-        </button>
-    </td>
+        </thead>
 
-</tr>
+        <tbody>
 
-</tbody>
-</table>
+            @foreach($acciones as $accion)
+
+                <tr class="bg-white border-b hover:bg-gray-50">
+
+                    <td class="px-6 py-4">
+                        {{ $accion->id_accion }}
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900">
+
+                        {{ $accion->usuario->nombre ?? 'Sin usuario' }}
+
+                        {{ $accion->usuario->apellido ?? '' }}
+
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $accion->accion }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $accion->tabla_afectada }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $accion->descripcion }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $accion->fecha_hora }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $accion->ip_origen }}
+                    </td>
+
+                </tr>
+
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<div class="mt-6">
+
+    {{ $acciones->links() }}
 
 </div>
 

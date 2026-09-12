@@ -4,60 +4,187 @@
 
 @section('content')
 
-<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+<div class="mb-6">
 
-<div>
-    <h1 class="text-2xl font-bold text-gray-900">Donaciones</h1>
-    <p class="text-gray-600 mt-1">
-        Consulta de las donaciones registradas en el sistema.
-    </p>
+    <div class="flex items-center justify-between">
+
+        <div>
+
+            <h1 class="text-3xl font-bold text-gray-900">
+                Donaciones
+            </h1>
+
+            <p class="mt-1 text-gray-500">
+                Administración de las donaciones de alimentos
+            </p>
+
+        </div>
+
+        <a href="{{ route('donaciones.create') }}"
+           class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
+
+            + Nueva donación
+
+        </a>
+
+    </div>
+
 </div>
 
-<a href="{{ route('donaciones.create') }}"
-   class="mt-4 md:mt-0 px-4 py-2 text-white bg-green-600 rounded-lg">
-    + Nueva donación
-</a>
+
+<!-- BÚSQUEDA -->
+
+<div class="p-4 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+
+    <div class="flex flex-col gap-4 md:flex-row">
+
+        <input
+            type="text"
+            placeholder="Buscar donación..."
+            class="flex-1 p-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500">
+
+        <button
+            type="button"
+            class="px-5 py-2.5 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-gray-900">
+
+            Buscar
+
+        </button>
+
+    </div>
 
 </div>
 
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white">
 
-<table class="w-full text-sm text-left text-gray-500">
+<!-- TABLA -->
 
-<thead class="text-xs text-gray-700 uppercase bg-gray-100">
-<tr>
-    <th class="px-6 py-3">ID</th>
-    <th class="px-6 py-3">Donador</th>
-    <th class="px-6 py-3">Fecha</th>
-    <th class="px-6 py-3">Fecha límite</th>
-    <th class="px-6 py-3">Ubicación</th>
-    <th class="px-6 py-3">Estado</th>
-    <th class="px-6 py-3">Acciones</th>
-</tr>
-</thead>
+<div class="relative overflow-x-auto bg-white border border-gray-200 rounded-lg shadow-sm">
 
-<tbody>
+    <table class="w-full text-sm text-left text-gray-500">
 
-<tr class="border-b hover:bg-gray-50">
-    <td class="px-6 py-4">1</td>
-    <td class="px-6 py-4 font-medium text-gray-900">María López</td>
-    <td class="px-6 py-4">05/09/2026</td>
-    <td class="px-6 py-4">08/09/2026</td>
-    <td class="px-6 py-4">Col. Centro</td>
-    <td class="px-6 py-4">
-        <span class="px-2 py-1 text-xs text-blue-700 bg-blue-100 rounded-full">
-            Disponible
-        </span>
-    </td>
-    <td class="px-6 py-4 space-x-2">
-        <button class="text-blue-600 hover:underline">Ver</button>
-        <button class="text-yellow-600 hover:underline">Editar</button>
-        <button class="text-red-600 hover:underline">Eliminar</button>
-    </td>
-</tr>
+        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
 
-</tbody>
-</table>
+            <tr>
+
+                <th class="px-6 py-3">
+                    ID
+                </th>
+
+                <th class="px-6 py-3">
+                    Usuario
+                </th>
+
+                <th class="px-6 py-3">
+                    Fecha de donación
+                </th>
+
+                <th class="px-6 py-3">
+                    Fecha límite
+                </th>
+
+                <th class="px-6 py-3">
+                    Ubicación
+                </th>
+
+                <th class="px-6 py-3">
+                    Estado
+                </th>
+
+                <th class="px-6 py-3">
+                    Acciones
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            @foreach($donaciones as $donacion)
+
+                <tr class="bg-white border-b hover:bg-gray-50">
+
+                    <td class="px-6 py-4">
+                        {{ $donacion->id_donacion }}
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900">
+
+                        {{ $donacion->usuario->nombre ?? 'Sin usuario' }}
+
+                        {{ $donacion->usuario->apellido ?? '' }}
+
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $donacion->fecha_donacion }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $donacion->fecha_limite }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $donacion->ubicacion }}
+                    </td>
+
+                    <td class="px-6 py-4">
+
+                        <span class="px-2.5 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">
+                            {{ $donacion->estado }}
+                        </span>
+
+                    </td>
+
+                    <td class="px-6 py-4">
+
+                        <div class="flex gap-2">
+
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg hover:bg-blue-200">
+
+                                Ver
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-lg hover:bg-yellow-200">
+
+                                Editar
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200">
+
+                                Eliminar
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- PAGINACIÓN -->
+
+<div class="mt-6">
+
+    {{ $donaciones->links() }}
 
 </div>
 

@@ -4,72 +4,177 @@
 
 @section('content')
 
-<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+<div class="mb-6">
 
-<div>
-    <h1 class="text-2xl font-bold text-gray-900">Categorías de alimentos</h1>
-    <p class="text-gray-600 mt-1">
-        Administración de las categorías utilizadas para clasificar los alimentos.
-    </p>
+    <div class="flex items-center justify-between">
+
+        <div>
+
+            <h1 class="text-3xl font-bold text-gray-900">
+                Categorías de alimentos
+            </h1>
+
+            <p class="mt-1 text-gray-500">
+                Administración de las categorías de alimentos
+            </p>
+
+        </div>
+
+        <a href="{{ route('categorias.create') }}"
+           class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
+
+            + Nueva categoría
+
+        </a>
+
+    </div>
+
 </div>
 
-<a href="{{ route('categorias.create') }}"
-   class="mt-4 md:mt-0 px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700">
-    + Nueva categoría
-</a>
+
+<!-- BÚSQUEDA -->
+
+<div class="p-4 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+
+    <div class="flex flex-col gap-4 md:flex-row">
+
+        <input
+            type="text"
+            placeholder="Buscar categoría..."
+            class="flex-1 p-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500">
+
+        <button
+            type="button"
+            class="px-5 py-2.5 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-gray-900">
+
+            Buscar
+
+        </button>
+
+    </div>
 
 </div>
 
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white">
 
-<table class="w-full text-sm text-left text-gray-500">
+<!-- TABLA -->
 
-<thead class="text-xs text-gray-700 uppercase bg-gray-100">
-<tr>
-    <th class="px-6 py-3">ID</th>
-    <th class="px-6 py-3">Nombre</th>
-    <th class="px-6 py-3">Descripción</th>
-    <th class="px-6 py-3">Estado</th>
-    <th class="px-6 py-3">Acciones</th>
-</tr>
-</thead>
+<div class="relative overflow-x-auto bg-white border border-gray-200 rounded-lg shadow-sm">
 
-<tbody>
+    <table class="w-full text-sm text-left text-gray-500">
 
-<tr class="border-b hover:bg-gray-50">
-    <td class="px-6 py-4">1</td>
-    <td class="px-6 py-4 font-medium text-gray-900">Frutas</td>
-    <td class="px-6 py-4">Alimentos de origen frutal.</td>
-    <td class="px-6 py-4">
-        <span class="px-2 py-1 text-xs text-green-700 bg-green-100 rounded-full">
-            Activa
-        </span>
-    </td>
-    <td class="px-6 py-4 space-x-2">
-        <button class="text-blue-600 hover:underline">Ver</button>
-        <button class="text-yellow-600 hover:underline">Editar</button>
-        <button class="text-red-600 hover:underline">Eliminar</button>
-    </td>
-</tr>
+        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
 
-<tr class="border-b hover:bg-gray-50">
-    <td class="px-6 py-4">2</td>
-    <td class="px-6 py-4 font-medium text-gray-900">Verduras</td>
-    <td class="px-6 py-4">Vegetales disponibles.</td>
-    <td class="px-6 py-4">
-        <span class="px-2 py-1 text-xs text-green-700 bg-green-100 rounded-full">
-            Activa
-        </span>
-    </td>
-    <td class="px-6 py-4 space-x-2">
-        <button class="text-blue-600 hover:underline">Ver</button>
-        <button class="text-yellow-600 hover:underline">Editar</button>
-        <button class="text-red-600 hover:underline">Eliminar</button>
-    </td>
-</tr>
+            <tr>
 
-</tbody>
-</table>
+                <th class="px-6 py-3">
+                    ID
+                </th>
+
+                <th class="px-6 py-3">
+                    Nombre
+                </th>
+
+                <th class="px-6 py-3">
+                    Descripción
+                </th>
+
+                <th class="px-6 py-3">
+                    Estado
+                </th>
+
+                <th class="px-6 py-3">
+                    Acciones
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            @foreach($categorias as $categoria)
+
+                <tr class="bg-white border-b hover:bg-gray-50">
+
+                    <td class="px-6 py-4">
+                        {{ $categoria->id_categoria }}
+                    </td>
+
+                    <td class="px-6 py-4 font-medium text-gray-900">
+                        {{ $categoria->nombre }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ $categoria->descripcion }}
+                    </td>
+
+                    <td class="px-6 py-4">
+
+                        @if($categoria->estado)
+
+                            <span class="px-2.5 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
+                                Activo
+                            </span>
+
+                        @else
+
+                            <span class="px-2.5 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded-full">
+                                Inactivo
+                            </span>
+
+                        @endif
+
+                    </td>
+
+                    <td class="px-6 py-4">
+
+                        <div class="flex gap-2">
+
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg">
+
+                                Ver
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-lg">
+
+                                Editar
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg">
+
+                                Eliminar
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- PAGINACIÓN -->
+
+<div class="mt-6">
+
+    {{ $categorias->links() }}
 
 </div>
 

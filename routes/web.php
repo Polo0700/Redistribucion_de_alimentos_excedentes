@@ -1,7 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\CuentaAccesoController;
+use App\Http\Controllers\CategoriaAlimentoController;
+use App\Http\Controllers\AlimentoController;
+use App\Http\Controllers\DonacionController;
+use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\ListaDeseoController;
+use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\EntregaController;
+use App\Http\Controllers\AccionImportanteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +33,7 @@ Route::view('/dashboard', 'dashboard')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/roles', 'roles.index')
-    ->name('roles.index');
+Route::get('/roles', [RolController::class, 'index'])->name('roles.index');
 
 Route::view('/roles/create', 'roles.create')
     ->name('roles.create');
@@ -36,8 +45,7 @@ Route::view('/roles/create', 'roles.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/usuarios', 'usuarios.index')
-    ->name('usuarios.index');
+Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
 
 Route::view('/usuarios/create', 'usuarios.create')
     ->name('usuarios.create');
@@ -49,8 +57,7 @@ Route::view('/usuarios/create', 'usuarios.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/cuentas-acceso', 'cuentas-acceso.index')
-    ->name('cuentas-acceso.index');
+Route::get('/cuentas-acceso', [CuentaAccesoController::class, 'index'])->name('cuentas-acceso.index');
 
 Route::view('/cuentas-acceso/create', 'cuentas-acceso.create')
     ->name('cuentas-acceso.create');
@@ -62,8 +69,7 @@ Route::view('/cuentas-acceso/create', 'cuentas-acceso.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/categorias', 'categorias.index')
-    ->name('categorias.index');
+Route::get('/categorias', [CategoriaAlimentoController::class, 'index'])->name('categorias.index');
 
 Route::view('/categorias/create', 'categorias.create')
     ->name('categorias.create');
@@ -75,8 +81,7 @@ Route::view('/categorias/create', 'categorias.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/alimentos', 'alimentos.index')
-    ->name('alimentos.index');
+Route::get('/alimentos', [AlimentoController::class, 'index'])->name('alimentos.index');
 
 Route::view('/alimentos/create', 'alimentos.create')
     ->name('alimentos.create');
@@ -88,8 +93,7 @@ Route::view('/alimentos/create', 'alimentos.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/donaciones', 'donaciones.index')
-    ->name('donaciones.index');
+Route::get('/donaciones', [DonacionController::class, 'index'])->name('donaciones.index');
 
 Route::view('/donaciones/create', 'donaciones.create')
     ->name('donaciones.create');
@@ -101,12 +105,9 @@ Route::view('/donaciones/create', 'donaciones.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/carritos', 'carritos.index')
-    ->name('carritos.index');
+Route::get('/carritos', [CarritoController::class, 'index'])->name('carritos.index');
 
-Route::view('/carritos/create', 'carritos.create')
-    ->name('carritos.create');
-
+Route::view('/carritos/create', 'carritos.create')->name('carritos.create');
 
 /*
 |--------------------------------------------------------------------------
@@ -114,12 +115,9 @@ Route::view('/carritos/create', 'carritos.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/listas-deseos', 'listas-deseos.index')
-    ->name('listas-deseos.index');
+Route::get('/listas-deseos', [ListaDeseoController::class, 'index'])->name('listas-deseos.index');
 
-Route::view('/listas-deseos/create', 'listas-deseos.create')
-    ->name('listas-deseos.create');
-
+Route::view('/listas-deseos/create', 'listas-deseos.create')->name('listas-deseos.create');
 
 /*
 |--------------------------------------------------------------------------
@@ -127,12 +125,9 @@ Route::view('/listas-deseos/create', 'listas-deseos.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/solicitudes', 'solicitudes.index')
-    ->name('solicitudes.index');
+Route::get('/solicitudes', [SolicitudController::class, 'index'])->name('solicitudes.index');
 
-Route::view('/solicitudes/create', 'solicitudes.create')
-    ->name('solicitudes.create');
-
+Route::view('/solicitudes/create', 'solicitudes.create')->name('solicitudes.create');
 
 /*
 |--------------------------------------------------------------------------
@@ -140,12 +135,9 @@ Route::view('/solicitudes/create', 'solicitudes.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/entregas', 'entregas.index')
-    ->name('entregas.index');
+Route::get('/entregas', [EntregaController::class, 'index'])->name('entregas.index');
 
-Route::view('/entregas/create', 'entregas.create')
-    ->name('entregas.create');
-
+Route::view('/entregas/create', 'entregas.create')->name('entregas.create');
 
 /*
 |--------------------------------------------------------------------------
@@ -153,8 +145,6 @@ Route::view('/entregas/create', 'entregas.create')
 |--------------------------------------------------------------------------
 */
 
-Route::view('/acciones-importantes', 'acciones-importantes.index')
-    ->name('acciones.index');
+Route::get('/acciones-importantes', [AccionImportanteController::class, 'index'])->name('acciones.index');
 
-Route::view('/acciones-importantes/create', 'acciones-importantes.create')
-    ->name('acciones.create');
+Route::view('/acciones-importantes/create', 'acciones-importantes.create')->name('acciones.create');

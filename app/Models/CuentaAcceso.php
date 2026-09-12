@@ -23,6 +23,6 @@ class CuentaAcceso extends Model
 
     public function usuario(): BelongsTo
     {
-        return $this->belongsTo(Usuario::class, 'id_usuario', 'id');
+        return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 }

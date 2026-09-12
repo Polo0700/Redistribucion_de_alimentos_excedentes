@@ -90,146 +90,93 @@
 
         </thead>
 
+
         <tbody>
 
-            <tr class="bg-white border-b">
+            @foreach($roles as $rol)
 
-                <td class="px-6 py-4">
-                    1
-                </td>
+                <tr class="bg-white border-b hover:bg-gray-50">
 
-                <td class="px-6 py-4 font-medium text-gray-900">
-                    Administrador
-                </td>
+                    <td class="px-6 py-4">
+                        {{ $rol->id }}
+                    </td>
 
-                <td class="px-6 py-4">
-                    Control total del sistema
-                </td>
+                    <td class="px-6 py-4 font-medium text-gray-900">
+                        {{ $rol->nombre }}
+                    </td>
 
-                <td class="px-6 py-4">
+                    <td class="px-6 py-4">
+                        {{ $rol->descripcion }}
+                    </td>
 
-                    <span class="px-2.5 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
-                        Activo
-                    </span>
+                    <td class="px-6 py-4">
 
-                </td>
+                        @if($rol->estado)
 
-                <td class="px-6 py-4">
+                            <span class="px-2.5 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
+                                Activo
+                            </span>
 
-                    <div class="flex gap-2">
+                        @else
 
-                        <button class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg">
-                            Ver
-                        </button>
+                            <span class="px-2.5 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded-full">
+                                Inactivo
+                            </span>
 
-                        <button class="px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-lg">
-                            Editar
-                        </button>
+                        @endif
 
-                        <button class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg">
-                            Eliminar
-                        </button>
+                    </td>
 
-                    </div>
+                    <td class="px-6 py-4">
 
-                </td>
+                        <div class="flex gap-2">
 
-            </tr>
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg hover:bg-blue-200">
 
+                                Ver
 
-            <tr class="border-b bg-gray-50">
+                            </button>
 
-                <td class="px-6 py-4">
-                    2
-                </td>
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-lg hover:bg-yellow-200">
 
-                <td class="px-6 py-4 font-medium text-gray-900">
-                    Donador
-                </td>
+                                Editar
 
-                <td class="px-6 py-4">
-                    Usuario que registra alimentos
-                </td>
+                            </button>
 
-                <td class="px-6 py-4">
+                            <button
+                                type="button"
+                                class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200">
 
-                    <span class="px-2.5 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
-                        Activo
-                    </span>
+                                Eliminar
 
-                </td>
+                            </button>
 
-                <td class="px-6 py-4">
+                        </div>
 
-                    <div class="flex gap-2">
+                    </td>
 
-                        <button class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg">
-                            Ver
-                        </button>
+                </tr>
 
-                        <button class="px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-lg">
-                            Editar
-                        </button>
-
-                        <button class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg">
-                            Eliminar
-                        </button>
-
-                    </div>
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <td class="px-6 py-4">
-                    3
-                </td>
-
-                <td class="px-6 py-4 font-medium text-gray-900">
-                    Beneficiario
-                </td>
-
-                <td class="px-6 py-4">
-                    Usuario que solicita alimentos
-                </td>
-
-                <td class="px-6 py-4">
-
-                    <span class="px-2.5 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded-full">
-                        Inactivo
-                    </span>
-
-                </td>
-
-                <td class="px-6 py-4">
-
-                    <div class="flex gap-2">
-
-                        <button class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg">
-                            Ver
-                        </button>
-
-                        <button class="px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-lg">
-                            Editar
-                        </button>
-
-                        <button class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg">
-                            Eliminar
-                        </button>
-
-                    </div>
-
-                </td>
-
-            </tr>
+            @endforeach
 
         </tbody>
 
     </table>
 
 </div>
+
+
+<!-- PAGINACIÓN -->
+
+<div class="mt-6">
+
+    {{ $roles->links() }}
+
+</div>
+
 
 @endsection
