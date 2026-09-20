@@ -4,6 +4,12 @@
 
 @section('content')
 
+@if(session('success'))
+    <div class="p-4 mb-4 text-sm text-green-800 bg-green-100 border border-green-200 rounded-lg">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="mb-6">
 
     <div class="flex items-center justify-between">
@@ -71,6 +77,10 @@
                 </th>
 
                 <th class="px-6 py-3">
+                    Imagen
+                </th>
+
+                <th class="px-6 py-3">
                     Nombre
                 </th>
 
@@ -103,6 +113,16 @@
 
                     <td class="px-6 py-4">
                         {{ $alimento->id_alimento }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        @if($alimento->imagen)
+                            <img src="{{ asset('storage/' . $alimento->imagen) }}"
+                                 alt="{{ $alimento->nombre }}"
+                                 class="w-16 h-16 object-cover rounded-lg">
+                        @else
+                            <span class="text-xs text-gray-400">Sin imagen</span>
+                        @endif
                     </td>
 
                     <td class="px-6 py-4 font-medium text-gray-900">

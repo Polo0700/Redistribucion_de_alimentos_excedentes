@@ -35,8 +35,9 @@ Route::view('/dashboard', 'dashboard')
 
 Route::get('/roles', [RolController::class, 'index'])->name('roles.index');
 
-Route::view('/roles/create', 'roles.create')
-    ->name('roles.create');
+Route::get('/roles/create', [RolController::class, 'create'])->name('roles.create');
+
+Route::post('/roles', [RolController::class, 'store'])->name('roles.store');
 
 
 /*
@@ -47,8 +48,9 @@ Route::view('/roles/create', 'roles.create')
 
 Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
 
-Route::view('/usuarios/create', 'usuarios.create')
-    ->name('usuarios.create');
+Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuarios.create');
+
+Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.store');
 
 
 /*
@@ -59,8 +61,9 @@ Route::view('/usuarios/create', 'usuarios.create')
 
 Route::get('/cuentas-acceso', [CuentaAccesoController::class, 'index'])->name('cuentas-acceso.index');
 
-Route::view('/cuentas-acceso/create', 'cuentas-acceso.create')
-    ->name('cuentas-acceso.create');
+Route::get('/cuentas-acceso/create', [CuentaAccesoController::class, 'create'])->name('cuentas-acceso.create');
+
+Route::post('/cuentas-acceso', [CuentaAccesoController::class, 'store'])->name('cuentas-acceso.store');
 
 
 /*
@@ -71,8 +74,9 @@ Route::view('/cuentas-acceso/create', 'cuentas-acceso.create')
 
 Route::get('/categorias', [CategoriaAlimentoController::class, 'index'])->name('categorias.index');
 
-Route::view('/categorias/create', 'categorias.create')
-    ->name('categorias.create');
+Route::get('/categorias/create', [CategoriaAlimentoController::class, 'create'])->name('categorias.create');
+
+Route::post('/categorias', [CategoriaAlimentoController::class, 'store'])->name('categorias.store');
 
 
 /*
@@ -83,8 +87,9 @@ Route::view('/categorias/create', 'categorias.create')
 
 Route::get('/alimentos', [AlimentoController::class, 'index'])->name('alimentos.index');
 
-Route::view('/alimentos/create', 'alimentos.create')
-    ->name('alimentos.create');
+Route::get('/alimentos/create', [AlimentoController::class, 'create'])->name('alimentos.create');
+
+Route::post('/alimentos', [AlimentoController::class, 'store'])->name('alimentos.store');
 
 
 /*
@@ -95,8 +100,9 @@ Route::view('/alimentos/create', 'alimentos.create')
 
 Route::get('/donaciones', [DonacionController::class, 'index'])->name('donaciones.index');
 
-Route::view('/donaciones/create', 'donaciones.create')
-    ->name('donaciones.create');
+Route::get('/donaciones/create', [DonacionController::class, 'create'])->name('donaciones.create');
+
+Route::post('/donaciones', [DonacionController::class, 'store'])->name('donaciones.store');
 
 
 /*
@@ -107,7 +113,10 @@ Route::view('/donaciones/create', 'donaciones.create')
 
 Route::get('/carritos', [CarritoController::class, 'index'])->name('carritos.index');
 
-Route::view('/carritos/create', 'carritos.create')->name('carritos.create');
+Route::get('/carritos/create', [CarritoController::class, 'create'])->name('carritos.create');
+
+Route::post('/carritos', [CarritoController::class, 'store'])->name('carritos.store');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -117,7 +126,10 @@ Route::view('/carritos/create', 'carritos.create')->name('carritos.create');
 
 Route::get('/listas-deseos', [ListaDeseoController::class, 'index'])->name('listas-deseos.index');
 
-Route::view('/listas-deseos/create', 'listas-deseos.create')->name('listas-deseos.create');
+Route::get('/listas-deseos/create', [ListaDeseoController::class, 'create'])->name('listas-deseos.create');
+
+Route::post('/listas-deseos', [ListaDeseoController::class, 'store'])->name('listas-deseos.store');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -127,7 +139,10 @@ Route::view('/listas-deseos/create', 'listas-deseos.create')->name('listas-deseo
 
 Route::get('/solicitudes', [SolicitudController::class, 'index'])->name('solicitudes.index');
 
-Route::view('/solicitudes/create', 'solicitudes.create')->name('solicitudes.create');
+Route::get('/solicitudes/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
+
+Route::post('/solicitudes', [SolicitudController::class, 'store'])->name('solicitudes.store');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -137,7 +152,10 @@ Route::view('/solicitudes/create', 'solicitudes.create')->name('solicitudes.crea
 
 Route::get('/entregas', [EntregaController::class, 'index'])->name('entregas.index');
 
-Route::view('/entregas/create', 'entregas.create')->name('entregas.create');
+Route::get('/entregas/create', [EntregaController::class, 'create'])->name('entregas.create');
+
+Route::post('/entregas', [EntregaController::class, 'store'])->name('entregas.store');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -147,4 +165,6 @@ Route::view('/entregas/create', 'entregas.create')->name('entregas.create');
 
 Route::get('/acciones-importantes', [AccionImportanteController::class, 'index'])->name('acciones.index');
 
-Route::view('/acciones-importantes/create', 'acciones-importantes.create')->name('acciones.create');
+Route::get('/acciones-importantes/create', [AccionImportanteController::class, 'create'])->name('acciones.create');
+
+Route::post('/acciones-importantes', [AccionImportanteController::class, 'store'])->name('acciones.store');

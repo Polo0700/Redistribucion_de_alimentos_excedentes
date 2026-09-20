@@ -13,73 +13,54 @@
 
 <div class="bg-white rounded-lg shadow-md p-6">
 
-<form>
+<form method="POST" action="{{ route('carritos.store') }}">
+
+@csrf
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
     <div>
         <label class="block mb-2 text-sm font-medium">Usuario</label>
-        <select class="w-full p-2.5 border border-gray-300 rounded-lg">
-            <option>Seleccione un usuario</option>
-            <option>Juan Pérez</option>
-            <option>María López</option>
+        <select name="id_usuario" required class="w-full p-2.5 border border-gray-300 rounded-lg">
+            <option value="">Seleccione un usuario</option>
+            @foreach($usuarios as $usuario)
+                <option value="{{ $usuario->id }}" {{ old('id_usuario') == $usuario->id ? 'selected' : '' }}>
+                    {{ $usuario->nombre }} {{ $usuario->apellido }}
+                </option>
+            @endforeach
         </select>
+        @error('id_usuario')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
     </div>
 
     <div>
-        <label class="block mb-2 text-sm font-medium">Fecha de creación</label>
-        <input type="datetime-local"
+        <label class="block mb-2 text-sm font-medium">Fecha de creacion</label>
+        <input type="datetime-local" name="fecha_creacion" value="{{ old('fecha_creacion') }}" required
                class="w-full p-2.5 border border-gray-300 rounded-lg">
+        @error('fecha_creacion')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
     </div>
 
     <div>
         <label class="block mb-2 text-sm font-medium">Estado</label>
-        <select class="w-full p-2.5 border border-gray-300 rounded-lg">
-            <option>Activo</option>
-            <option>Procesado</option>
-            <option>Finalizado</option>
+        <select name="estado" required class="w-full p-2.5 border border-gray-300 rounded-lg">
+            <option value="">Seleccione un estado</option>
+            <option value="Activo" {{ old('estado') == 'Activo' ? 'selected' : '' }}>Activo</option>
+            <option value="Procesado" {{ old('estado') == 'Procesado' ? 'selected' : '' }}>Procesado</option>
+            <option value="Finalizado" {{ old('estado') == 'Finalizado' ? 'selected' : '' }}>Finalizado</option>
         </select>
+        @error('estado')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
     </div>
 
 </div>
 
-<hr class="my-8">
+<div class="flex gap-3 mt-6">
 
-<h2 class="text-lg font-semibold mb-4">
-    Alimentos del carrito
-</h2>
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-    <div>
-        <label class="block mb-2 text-sm font-medium">Alimento</label>
-        <select class="w-full p-2.5 border border-gray-300 rounded-lg">
-            <option>Seleccione un alimento</option>
-            <option>Arroz</option>
-            <option>Manzana</option>
-            <option>Frijol</option>
-        </select>
-    </div>
-
-    <div>
-        <label class="block mb-2 text-sm font-medium">Cantidad</label>
-        <input type="number"
-               class="w-full p-2.5 border border-gray-300 rounded-lg"
-               placeholder="0">
-    </div>
-
-</div>
-
-<div class="mt-4">
-    <button type="button"
-            class="px-4 py-2 text-blue-700 bg-blue-100 rounded-lg">
-        + Agregar alimento
-    </button>
-</div>
-
-<div class="flex gap-3 mt-8">
-
-<button type="button"
+<button type="submit"
         class="px-5 py-2.5 text-white bg-green-600 rounded-lg">
     Guardar
 </button>

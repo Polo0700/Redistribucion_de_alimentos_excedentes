@@ -19,7 +19,9 @@
 
 <div class="max-w-3xl p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
 
-    <form>
+    <form method="POST" action="{{ route('roles.store') }}">
+
+        @csrf
 
         <!-- NOMBRE -->
 
@@ -31,24 +33,39 @@
 
             <input
                 type="text"
+                name="nombre"
+                value="{{ old('nombre') }}"
+                maxlength="50"
+                required
                 placeholder="Ej. Administrador"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5">
+
+            @error('nombre')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
 
         </div>
 
 
-        <!-- DESCRIPCIÓN -->
+        <!-- DESCRIPCION -->
 
         <div class="mb-5">
 
             <label class="block mb-2 text-sm font-medium text-gray-900">
-                Descripción
+                Descripcion
             </label>
 
             <textarea
+                name="descripcion"
                 rows="4"
+                maxlength="200"
+                required
                 placeholder="Describe las funciones del rol..."
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-green-500 focus:border-green-500"></textarea>
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-green-500 focus:border-green-500">{{ old('descripcion') }}</textarea>
+
+            @error('descripcion')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
 
         </div>
 
@@ -61,10 +78,14 @@
                 Estado
             </label>
 
+            <input type="hidden" name="estado" value="0">
+
             <label class="inline-flex items-center cursor-pointer">
 
                 <input
                     type="checkbox"
+                    name="estado"
+                    value="1"
                     checked
                     class="sr-only peer">
 
@@ -75,6 +96,10 @@
                 </span>
 
             </label>
+
+            @error('estado')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
 
         </div>
 
@@ -92,7 +117,7 @@
             </a>
 
             <button
-                type="button"
+                type="submit"
                 class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
 
                 Guardar

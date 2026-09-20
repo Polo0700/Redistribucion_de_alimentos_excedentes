@@ -4,6 +4,12 @@
 
 @section('content')
 
+@if(session('success'))
+    <div class="p-4 mb-4 text-sm text-green-800 bg-green-100 border border-green-200 rounded-lg">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="mb-6">
 
     <div class="flex items-center justify-between">

@@ -19,6 +19,7 @@ class Alimento extends Model
         'nombre',
         'descripcion',
         'estado',
+        'imagen',
     ];
 
     public function categoria(): BelongsTo

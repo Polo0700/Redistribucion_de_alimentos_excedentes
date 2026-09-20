@@ -13,60 +13,81 @@
 
 <div class="bg-white rounded-lg shadow-md p-6">
 
-<form>
+<form method="POST" action="{{ route('entregas.store') }}">
+
+@csrf
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
     <div>
         <label class="block mb-2 text-sm font-medium">Solicitud</label>
-        <select class="w-full p-2.5 border border-gray-300 rounded-lg">
-            <option>Seleccione una solicitud</option>
-            <option>Solicitud #1</option>
-            <option>Solicitud #2</option>
+        <select name="id_solicitud" required class="w-full p-2.5 border border-gray-300 rounded-lg">
+            <option value="">Seleccione una solicitud</option>
+            @foreach($solicitudes as $solicitud)
+                <option value="{{ $solicitud->id_solicitud }}" {{ old('id_solicitud') == $solicitud->id_solicitud ? 'selected' : '' }}>
+                    Solicitud #{{ $solicitud->id_solicitud }}
+                </option>
+            @endforeach
         </select>
+        @error('id_solicitud')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
     </div>
 
     <div>
         <label class="block mb-2 text-sm font-medium">
             Fecha de entrega
         </label>
-        <input type="datetime-local"
+        <input type="datetime-local" name="fecha_entrega" value="{{ old('fecha_entrega') }}" required
                class="w-full p-2.5 border border-gray-300 rounded-lg">
+        @error('fecha_entrega')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
     </div>
 
     <div>
         <label class="block mb-2 text-sm font-medium">
             Responsable
         </label>
-        <input type="text"
+        <input type="text" name="responsable" value="{{ old('responsable') }}" maxlength="100" required
                class="w-full p-2.5 border border-gray-300 rounded-lg"
                placeholder="Nombre del responsable">
+        @error('responsable')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
     </div>
 
     <div>
         <label class="block mb-2 text-sm font-medium">Estado</label>
-        <select class="w-full p-2.5 border border-gray-300 rounded-lg">
-            <option>Pendiente</option>
-            <option>En camino</option>
-            <option>Entregada</option>
-            <option>Cancelada</option>
+        <select name="estado" required class="w-full p-2.5 border border-gray-300 rounded-lg">
+            <option value="">Seleccione un estado</option>
+            <option value="Pendiente" {{ old('estado') == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+            <option value="En camino" {{ old('estado') == 'En camino' ? 'selected' : '' }}>En camino</option>
+            <option value="Entregada" {{ old('estado') == 'Entregada' ? 'selected' : '' }}>Entregada</option>
+            <option value="Cancelada" {{ old('estado') == 'Cancelada' ? 'selected' : '' }}>Cancelada</option>
         </select>
+        @error('estado')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
     </div>
 
     <div class="md:col-span-2">
         <label class="block mb-2 text-sm font-medium">
             Observaciones
         </label>
-        <textarea rows="4"
+        <textarea rows="4" name="observaciones" maxlength="250"
                   class="w-full p-2.5 border border-gray-300 rounded-lg"
-                  placeholder="Observaciones de la entrega"></textarea>
+                  placeholder="Observaciones de la entrega">{{ old('observaciones') }}</textarea>
+        @error('observaciones')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
     </div>
 
 </div>
 
 <div class="flex gap-3 mt-6">
 
-<button type="button"
+<button type="submit"
         class="px-5 py-2.5 text-white bg-green-600 rounded-lg">
     Guardar
 </button>
