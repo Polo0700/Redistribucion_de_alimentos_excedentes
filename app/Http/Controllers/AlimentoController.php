@@ -5,31 +5,46 @@ namespace App\Http\Controllers;
 use App\Models\Alimento;
 use App\Models\CategoriaAlimento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AlimentoController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO
+    |--------------------------------------------------------------------------
+    */
     public function index()
     {
-        // trae los alimentos de la base de datos en una zona de tipo categoria de 5 en 5 
+        // trae los alimentos de la base de datos con su categoría de 5 en 5
         $alimentos = Alimento::with('categoria')->paginate(5);
 
-        // y esto retorna la vista index de alimentos
+        // retorna la vista index de alimentos
         return view('alimentos.index', compact('alimentos'));
     }
-    
+
+    /*
+    |--------------------------------------------------------------------------
+    | FORMULARIO DE CREACIÓN
+    |--------------------------------------------------------------------------
+    */
     public function create()
     {
-        // esta obtiene y las categoriza e organiza por nombre provenientes de la DB
+        // obtiene las categorías ordenadas por nombre
         $categorias = CategoriaAlimento::orderBy('nombre')->get();
 
-        // esta retorna la vista del formulario de creacion de alimentos
+        // retorna la vista de creación de alimentos
         return view('alimentos.create', compact('categorias'));
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | GUARDAR NUEVO ALIMENTO
+    |--------------------------------------------------------------------------
+    */
     public function store(Request $request)
     {
-        // esto pide datos y verifica que sean respondidos de la informacion del alimento
-
+        // validación
         $validado = $request->validate([
             'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
             'nombre'       => 'required|string|max:80',
@@ -38,55 +53,74 @@ class AlimentoController extends Controller
             'imagen'       => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        // crea un tipo de alimento
+        // crear alimento
         $alimento = Alimento::create($validado);
-        // comprueba si la peticion tiene una imagen
+
+        // guardar imagen si existe
         if ($request->hasFile('imagen')) {
-            // si tiene imagen entonces obtiene su extension
             $extension = $request->file('imagen')->extension();
-            // aqui pone un orden alimento_-> _1 junto la extension para tener el nombre completo y su extension
             $nombreImagen = 'Alimento_' . $alimento->id_alimento . '_1.' . $extension;
-            // toma la imagen y la almacena en la carpeta alimentos y lo pone publico
             $ruta = $request->file('imagen')->storeAs('alimentos', $nombreImagen, 'public');
-            // mete el string de la $ruta en imagen para que se guarde
             $alimento->update(['imagen' => $ruta]);
         }
-        // retorna una redireccion a la ruta index del tipo alimentos y da un mensaje de correcto
-        return redirect()->route('alimentos.index')->with('success', 'Alimento creado correctamente');
+
+        return redirect()->route('alimentos.index')->with('success', 'Alimento creado correctamente.');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | FORMULARIO DE EDICIÓN
+    |--------------------------------------------------------------------------
+    */
     public function edit($id)
-{
-    $alimento = Alimento::findOrFail($id);
+    {
+        $alimento = Alimento::findOrFail($id);
+        $categorias = CategoriaAlimento::orderBy('nombre')->get();
 
-    $categorias = CategoriaAlimento::where('estado', true)->get();
+        return view('alimentos.edit', compact('alimento', 'categorias'));
+    }
 
-    return view(
-        'alimentos.edit',
-        compact('alimento', 'categorias')
-    );
-}
+    /*
+    |--------------------------------------------------------------------------
+    | ACTUALIZAR ALIMENTO
+    |--------------------------------------------------------------------------
+    */
+    public function update(Request $request, $id)
+    {
+        $alimento = Alimento::findOrFail($id);
+        $imagenAnterior = $alimento->imagen;
 
-public function update(Request $request, $id)
-{
-    $alimento = Alimento::findOrFail($id);
+        // validación
+        $validado = $request->validate([
+            'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
+            'nombre'       => 'required|string|max:80',
+            'descripcion'  => 'nullable|string|max:200',
+            'estado'       => 'required|boolean',
+            'imagen'       => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
 
-    $request->validate([
-        'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
-        'nombre' => 'required|max:80',
-        'descripcion' => 'nullable|max:200',
-        'estado' => 'required|boolean',
-    ]);
+        // actualizar datos
+        $alimento->update([
+            'id_categoria' => $validado['id_categoria'],
+            'nombre'       => $validado['nombre'],
+            'descripcion'  => $validado['descripcion'],
+            'estado'       => $validado['estado'],
+        ]);
 
-    $alimento->update([
-        'id_categoria' => $request->id_categoria,
-        'nombre' => $request->nombre,
-        'descripcion' => $request->descripcion,
-        'estado' => $request->estado,
-    ]);
+        // si hay nueva imagen
+        if ($request->hasFile('imagen')) {
+            $extension = $request->file('imagen')->extension();
+            $nombreImagen = 'Alimento_' . $alimento->id_alimento . '_1.' . $extension;
+            $rutaNueva = $request->file('imagen')->storeAs('alimentos', $nombreImagen, 'public');
 
-    return redirect()
-        ->route('alimentos.index')
-        ->with('success', 'Alimento actualizado correctamente.');
-}
+            $alimento->update(['imagen' => $rutaNueva]);
+
+            // eliminar imagen anterior si existe y es distinta
+            if ($imagenAnterior && $imagenAnterior !== $rutaNueva) {
+                Storage::disk('public')->delete($imagenAnterior);
+            }
+        }
+
+        return redirect()->route('alimentos.index')->with('success', 'Alimento actualizado correctamente.');
+    }
 }
