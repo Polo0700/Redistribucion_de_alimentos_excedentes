@@ -155,13 +155,10 @@
 
                             </button>
 
-                            <button
-                                type="button"
-                                class="px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-lg hover:bg-yellow-200">
-
-                                Editar
-
-                            </button>
+                         <a href="{{ route('donaciones.edit', $donacion->id_donacion) }}"
+                           class="px-3 py-1 text-sm bg-yellow-500 text-white rounded-lg">
+                             Editar
+                                </a>
 
                             <button
                                 type="button"

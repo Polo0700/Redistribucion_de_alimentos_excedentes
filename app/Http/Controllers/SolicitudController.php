@@ -43,4 +43,41 @@ class SolicitudController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('solicitudes.index')->with('success', 'Solicitud creada correctamente');
     }
+
+    public function edit($id)
+{
+    $solicitud = Solicitud::findOrFail($id);
+
+    $usuarios = Usuario::where('estado', true)->get();
+
+    return view(
+        'solicitudes.edit',
+        compact('solicitud', 'usuarios')
+    );
+}
+
+public function update(Request $request, $id)
+{
+    $solicitud = Solicitud::findOrFail($id);
+
+    $request->validate([
+        'id_usuario' => 'required|exists:usuarios,id',
+        'fecha_solicitud' => 'required|date',
+        'estado' => 'required|max:30',
+        'direccion_entrega' => 'required|max:200',
+        'observaciones' => 'nullable|max:250',
+    ]);
+
+    $solicitud->update([
+        'id_usuario' => $request->id_usuario,
+        'fecha_solicitud' => $request->fecha_solicitud,
+        'estado' => $request->estado,
+        'direccion_entrega' => $request->direccion_entrega,
+        'observaciones' => $request->observaciones,
+    ]);
+
+    return redirect()
+        ->route('solicitudes.index')
+        ->with('success', 'Solicitud actualizada correctamente.');
+}
 }

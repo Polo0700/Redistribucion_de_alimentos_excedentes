@@ -44,4 +44,43 @@ class DonacionController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('donaciones.index')->with('success', 'Donacion creada correctamente');
     }
+
+    public function edit($id)
+{
+    $donacion = Donacion::findOrFail($id);
+
+    $usuarios = Usuario::where('estado', true)->get();
+
+    return view(
+        'donaciones.edit',
+        compact('donacion', 'usuarios')
+    );
+}
+
+public function update(Request $request, $id)
+{
+    $donacion = Donacion::findOrFail($id);
+
+    $request->validate([
+        'id_usuario' => 'required|exists:usuarios,id',
+        'fecha_donacion' => 'required|date',
+        'fecha_limite' => 'required|date',
+        'ubicacion' => 'required|max:200',
+        'estado' => 'required|max:30',
+        'observaciones' => 'nullable|max:250',
+    ]);
+
+    $donacion->update([
+        'id_usuario' => $request->id_usuario,
+        'fecha_donacion' => $request->fecha_donacion,
+        'fecha_limite' => $request->fecha_limite,
+        'ubicacion' => $request->ubicacion,
+        'estado' => $request->estado,
+        'observaciones' => $request->observaciones,
+    ]);
+
+    return redirect()
+        ->route('donaciones.index')
+        ->with('success', 'Donación actualizada correctamente.');
+}
 }

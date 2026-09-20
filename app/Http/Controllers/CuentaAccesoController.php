@@ -44,4 +44,41 @@ class CuentaAccesoController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('cuentas-acceso.index')->with('success', 'Cuenta de acceso creada correctamente');
     }
+
+    public function edit($id)
+{
+    $cuenta = CuentaAcceso::findOrFail($id);
+
+    $usuarios = Usuario::where('estado', true)->get();
+
+    return view(
+        'cuentas-acceso.edit',
+        compact('cuenta', 'usuarios')
+    );
+}
+
+public function update(Request $request, $id)
+{
+    $cuenta = CuentaAcceso::findOrFail($id);
+
+    $request->validate([
+        'id_usuario' => 'required|exists:usuarios,id',
+        'proveedor' => 'required|max:30',
+        'identificador_externo' => 'required|max:150',
+        'contrasena_hash' => 'required|max:255',
+        'fecha_ultimo_acceso' => 'required|date',
+    ]);
+
+    $cuenta->update([
+        'id_usuario' => $request->id_usuario,
+        'proveedor' => $request->proveedor,
+        'identificador_externo' => $request->identificador_externo,
+        'contrasena_hash' => $request->contrasena_hash,
+        'fecha_ultimo_acceso' => $request->fecha_ultimo_acceso,
+    ]);
+
+    return redirect()
+        ->route('cuentas-acceso.index')
+        ->with('success', 'Cuenta de acceso actualizada correctamente.');
+}
 }

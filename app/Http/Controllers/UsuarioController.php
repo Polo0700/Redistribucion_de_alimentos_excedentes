@@ -46,4 +46,47 @@ class UsuarioController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
     }
+
+    // método edit()
+    public function edit($id)
+    {
+        $usuario = Usuario::findOrFail($id);
+
+        // solo roles activos
+        $roles = Rol::where('estado', true)->get();
+
+        return view('usuarios.edit', compact('usuario', 'roles'));
+    }
+
+    //   método update()
+    public function update(Request $request, $id)
+    {
+        $usuario = Usuario::findOrFail($id);
+
+        $request->validate([
+            'id_rol'         => 'required|exists:roles,id',
+            'nombre'         => 'required|max:100',
+            'apellido'       => 'required|max:100',
+            'correo'         => 'required|email|max:150',
+            'telefono'       => 'required|max:100',
+            'direccion'      => 'required|max:200',
+            'fecha_registro' => 'required|date',
+            'estado'         => 'required|boolean',
+        ]);
+
+        $usuario->update([
+            'id_rol'         => $request->id_rol,
+            'nombre'         => $request->nombre,
+            'apellido'       => $request->apellido,
+            'correo'         => $request->correo,
+            'telefono'       => $request->telefono,
+            'direccion'      => $request->direccion,
+            'fecha_registro' => $request->fecha_registro,
+            'estado'         => $request->estado,
+        ]);
+
+        return redirect()
+            ->route('usuarios.index')
+            ->with('success', 'Usuario actualizado correctamente.');
+    }
 }

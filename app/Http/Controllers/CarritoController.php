@@ -41,4 +41,37 @@ class CarritoController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('carritos.index')->with('success', 'Carrito creado correctamente');
     }
+
+    public function edit($id)
+{
+    $carrito = Carrito::findOrFail($id);
+
+    $usuarios = Usuario::where('estado', true)->get();
+
+    return view(
+        'carritos.edit',
+        compact('carrito', 'usuarios')
+    );
+}
+
+public function update(Request $request, $id)
+{
+    $carrito = Carrito::findOrFail($id);
+
+    $request->validate([
+        'id_usuario' => 'required|exists:usuarios,id',
+        'fecha_creacion' => 'required|date',
+        'estado' => 'required|max:30',
+    ]);
+
+    $carrito->update([
+        'id_usuario' => $request->id_usuario,
+        'fecha_creacion' => $request->fecha_creacion,
+        'estado' => $request->estado,
+    ]);
+
+    return redirect()
+        ->route('carritos.index')
+        ->with('success', 'Carrito actualizado correctamente.');
+}
 }

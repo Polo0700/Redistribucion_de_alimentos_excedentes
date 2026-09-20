@@ -37,4 +37,32 @@ class CategoriaAlimentoController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('categorias.index')->with('success', 'Categoria creada correctamente');
     }
+
+    public function edit($id)
+{
+    $categoria = CategoriaAlimento::findOrFail($id);
+
+    return view('categorias.edit', compact('categoria'));
+}
+
+public function update(Request $request, $id)
+{
+    $categoria = CategoriaAlimento::findOrFail($id);
+
+    $request->validate([
+        'nombre' => 'required|max:80',
+        'descripcion' => 'nullable|max:200',
+        'estado' => 'required|boolean',
+    ]);
+
+    $categoria->update([
+        'nombre' => $request->nombre,
+        'descripcion' => $request->descripcion,
+        'estado' => $request->estado,
+    ]);
+
+    return redirect()
+        ->route('categorias.index')
+        ->with('success', 'Categoría actualizada correctamente.');
+}
 }

@@ -34,4 +34,32 @@ class RolController extends Controller
         // retorna la pagina index y te da un mensaje de exito
         return redirect()->route('roles.index')->with('success', 'Rol creado correctamente');
     }
+    // metodfo editar
+    public function edit($id)
+    {
+        $rol = Rol::findOrFail($id);
+        return view('roles.edit', compact('rol'));
+    }
+
+    //metodo ubdete
+    public function update(Request $request, $id)
+    {
+        $rol = Rol::findOrFail($id);
+
+        $request->validate([
+            'nombre'      => 'required|max:50',
+            'descripcion' => 'nullable|max:200',
+            'estado'      => 'required|boolean',
+        ]);
+
+        $rol->update([
+            'nombre'      => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'estado'      => $request->estado,
+        ]);
+
+        return redirect()
+            ->route('roles.index')
+            ->with('success', 'Rol actualizado correctamente.');
+    }
 }

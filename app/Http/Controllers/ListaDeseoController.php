@@ -41,4 +41,37 @@ class ListaDeseoController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('listas-deseos.index')->with('success', 'Lista de deseos creada correctamente');
     }
+
+    public function edit($id)
+{
+    $lista = ListaDeseo::findOrFail($id);
+
+    $usuarios = Usuario::where('estado', true)->get();
+
+    return view(
+        'listas-deseos.edit',
+        compact('lista', 'usuarios')
+    );
+}
+
+public function update(Request $request, $id)
+{
+    $lista = ListaDeseo::findOrFail($id);
+
+    $request->validate([
+        'id_usuario' => 'required|exists:usuarios,id',
+        'nombre' => 'required|max:100',
+        'fecha_creacion' => 'required|date',
+    ]);
+
+    $lista->update([
+        'id_usuario' => $request->id_usuario,
+        'nombre' => $request->nombre,
+        'fecha_creacion' => $request->fecha_creacion,
+    ]);
+
+    return redirect()
+        ->route('listas-deseos.index')
+        ->with('success', 'Lista de deseos actualizada correctamente.');
+}
 }

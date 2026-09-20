@@ -44,4 +44,42 @@ class AccionImportanteController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('acciones.index')->with('success', 'Accion importante creada correctamente');
     }
+    public function edit($id)
+{
+    $accion = AccionImportante::findOrFail($id);
+
+    $usuarios = Usuario::where('estado', true)->get();
+
+    return view(
+        'acciones-importantes.edit',
+        compact('accion', 'usuarios')
+    );
+}
+
+public function update(Request $request, $id)
+{
+    $accion = AccionImportante::findOrFail($id);
+
+    $request->validate([
+        'id_usuario' => 'required|exists:usuarios,id',
+        'accion' => 'required|max:100',
+        'tabla_afectada' => 'required|max:80',
+        'descripcion' => 'nullable|max:250',
+        'fecha_hora' => 'required|date',
+        'ip_origen' => 'nullable|ip',
+    ]);
+
+    $accion->update([
+        'id_usuario' => $request->id_usuario,
+        'accion' => $request->accion,
+        'tabla_afectada' => $request->tabla_afectada,
+        'descripcion' => $request->descripcion,
+        'fecha_hora' => $request->fecha_hora,
+        'ip_origen' => $request->ip_origen,
+    ]);
+
+    return redirect()
+        ->route('acciones.index')
+        ->with('success', 'Acción actualizada correctamente.');
+}
 }

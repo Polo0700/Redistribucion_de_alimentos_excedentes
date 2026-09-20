@@ -43,4 +43,41 @@ class EntregaController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('entregas.index')->with('success', 'Entrega creada correctamente');
     }
+
+    public function edit($id)
+{
+    $entrega = Entrega::findOrFail($id);
+
+    $solicitudes = Solicitud::with('usuario')->get();
+
+    return view(
+        'entregas.edit',
+        compact('entrega', 'solicitudes')
+    );
+}
+
+public function update(Request $request, $id)
+{
+    $entrega = Entrega::findOrFail($id);
+
+    $request->validate([
+        'id_solicitud' => 'required|exists:solicitudes,id_solicitud',
+        'fecha_entrega' => 'required|date',
+        'responsable' => 'required|max:100',
+        'estado' => 'required|max:30',
+        'observaciones' => 'nullable|max:250',
+    ]);
+
+    $entrega->update([
+        'id_solicitud' => $request->id_solicitud,
+        'fecha_entrega' => $request->fecha_entrega,
+        'responsable' => $request->responsable,
+        'estado' => $request->estado,
+        'observaciones' => $request->observaciones,
+    ]);
+
+    return redirect()
+        ->route('entregas.index')
+        ->with('success', 'Entrega actualizada correctamente.');
+}
 }

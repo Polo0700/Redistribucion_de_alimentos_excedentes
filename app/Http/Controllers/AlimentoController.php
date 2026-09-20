@@ -54,4 +54,39 @@ class AlimentoController extends Controller
         // retorna una redireccion a la ruta index del tipo alimentos y da un mensaje de correcto
         return redirect()->route('alimentos.index')->with('success', 'Alimento creado correctamente');
     }
+
+    public function edit($id)
+{
+    $alimento = Alimento::findOrFail($id);
+
+    $categorias = CategoriaAlimento::where('estado', true)->get();
+
+    return view(
+        'alimentos.edit',
+        compact('alimento', 'categorias')
+    );
+}
+
+public function update(Request $request, $id)
+{
+    $alimento = Alimento::findOrFail($id);
+
+    $request->validate([
+        'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
+        'nombre' => 'required|max:80',
+        'descripcion' => 'nullable|max:200',
+        'estado' => 'required|boolean',
+    ]);
+
+    $alimento->update([
+        'id_categoria' => $request->id_categoria,
+        'nombre' => $request->nombre,
+        'descripcion' => $request->descripcion,
+        'estado' => $request->estado,
+    ]);
+
+    return redirect()
+        ->route('alimentos.index')
+        ->with('success', 'Alimento actualizado correctamente.');
+}
 }

@@ -167,13 +167,10 @@
 
                             </button>
 
-                            <button
-                                type="button"
-                                class="px-3 py-1.5 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-lg">
-
-                                Editar
-
-                            </button>
+                                 <a href="{{ route('alimentos.edit', $alimento->id_alimento) }}"
+                                    class="px-3 py-1 text-sm bg-yellow-500 text-white rounded-lg">
+                                  Editar
+                                   </a>
 
                             <button
                                 type="button"
