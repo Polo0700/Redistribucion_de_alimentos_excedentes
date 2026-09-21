@@ -10,6 +10,12 @@
     </div>
 @endif
 
+@if(session('error'))
+    <div class="p-4 mb-4 text-sm text-red-800 bg-red-100 border border-red-200 rounded-lg">
+        {{ session('error') }}
+    </div>
+@endif
+
 <div class="mb-6">
 
     <div class="flex items-center justify-between">
@@ -23,6 +29,17 @@
             <p class="mt-1 text-gray-500">
                 Registro de acciones importantes realizadas en el sistema
             </p>
+
+        </div>
+
+        <div class="flex gap-2">
+
+            <a href="{{ route('acciones.trashed') }}"
+               class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
+
+                Ver eliminados
+
+            </a>
 
         </div>
 
@@ -71,6 +88,8 @@
                 <th class="px-6 py-3">Fecha y hora</th>
                 <th class="px-6 py-3">IP</th>
 
+                <th class="px-6 py-3">Acciones</th>
+
             </tr>
 
         </thead>
@@ -111,6 +130,29 @@
 
                     <td class="px-6 py-4">
                         {{ $accion->ip_origen }}
+                    </td>
+
+                    <td class="px-6 py-4">
+
+                        <div class="flex gap-2">
+
+                            <a href="{{ route('acciones.show', $accion->id_accion) }}"
+                               class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg">
+                                Ver
+                            </a>
+
+                            <form action="{{ route('acciones.destroy', $accion->id_accion) }}" method="POST"
+                                  onsubmit="return confirm('¿Eliminar esta acción importante? Se puede restaurar después.')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg">
+                                    Eliminar
+                                </button>
+                            </form>
+
+                        </div>
+
                     </td>
 
                 </tr>

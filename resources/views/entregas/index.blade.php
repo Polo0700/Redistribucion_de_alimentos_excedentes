@@ -10,6 +10,12 @@
     </div>
 @endif
 
+@if(session('error'))
+    <div class="p-4 mb-4 text-sm text-red-800 bg-red-100 border border-red-200 rounded-lg">
+        {{ session('error') }}
+    </div>
+@endif
+
 <div class="mb-6">
 
     <div class="flex items-center justify-between">
@@ -26,12 +32,23 @@
 
         </div>
 
+        <div class="flex gap-2">
+
+        <a href="{{ route('entregas.trashed') }}"
+           class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
+
+            Ver eliminados
+
+        </a>
+
         <a href="{{ route('entregas.create') }}"
            class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
 
             + Nueva entrega
 
         </a>
+
+    </div>
 
     </div>
 
@@ -111,20 +128,25 @@
 
                         <div class="flex gap-2">
 
-                            <button type="button"
-                                class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg">
+                            <a href="{{ route('entregas.show', $entrega->id_entrega) }}"
+                               class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg">
                                 Ver
-                            </button>
+                            </a>
 
                            <a href="{{ route('entregas.edit', $entrega->id_entrega) }}"
                           class="px-3 py-1 text-sm bg-yellow-500 text-white rounded-lg">
                              Editar
                                </a>
 
-                            <button type="button"
-                                class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg">
-                                Eliminar
-                            </button>
+                            <form action="{{ route('entregas.destroy', $entrega->id_entrega) }}" method="POST"
+                                  onsubmit="return confirm('¿Eliminar esta entrega? Se puede restaurar después.')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg">
+                                    Eliminar
+                                </button>
+                            </form>
 
                         </div>
 

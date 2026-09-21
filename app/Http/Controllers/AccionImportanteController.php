@@ -78,8 +78,78 @@ public function update(Request $request, $id)
         'ip_origen' => $request->ip_origen,
     ]);
 
-    return redirect()
+return redirect()
         ->route('acciones.index')
         ->with('success', 'Acción actualizada correctamente.');
-}
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $accion = AccionImportante::with('usuario')->findOrFail($id);
+
+        return view('acciones-importantes.show', compact('accion'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $accion = AccionImportante::findOrFail($id);
+        $accion->delete();
+
+        return redirect()->route('acciones.index')->with('success', 'Acción importante eliminada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $acciones = AccionImportante::onlyTrashed()->paginate(5);
+
+        return view('acciones-importantes.trashed', compact('acciones'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $accion = AccionImportante::onlyTrashed()->findOrFail($id);
+        $accion->restore();
+
+        return redirect()->route('acciones.trashed')->with('success', 'Acción importante restaurada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $accion = AccionImportante::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminada lógicamente
+        if (!$accion->trashed()) {
+            return redirect()->route('acciones.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // sin tablas dependientes: se elimina directamente
+        $accion->forceDelete();
+
+        return redirect()->route('acciones.trashed')->with('success', 'Acción importante eliminada definitivamente.');
+    }
 }

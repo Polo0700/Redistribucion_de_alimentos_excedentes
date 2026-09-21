@@ -70,8 +70,82 @@ public function update(Request $request, $id)
         'fecha_creacion' => $request->fecha_creacion,
     ]);
 
-    return redirect()
+return redirect()
         ->route('listas-deseos.index')
         ->with('success', 'Lista de deseos actualizada correctamente.');
-}
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $lista = ListaDeseo::with('usuario')->findOrFail($id);
+
+        return view('listas-deseos.show', compact('lista'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $lista = ListaDeseo::findOrFail($id);
+        $lista->delete();
+
+        return redirect()->route('listas-deseos.index')->with('success', 'Lista de deseos eliminada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $listas = ListaDeseo::onlyTrashed()->paginate(5);
+
+        return view('listas-deseos.trashed', compact('listas'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $lista = ListaDeseo::onlyTrashed()->findOrFail($id);
+        $lista->restore();
+
+        return redirect()->route('listas-deseos.trashed')->with('success', 'Lista de deseos restaurada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $lista = ListaDeseo::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminada lógicamente
+        if (!$lista->trashed()) {
+            return redirect()->route('listas-deseos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // validación de relaciones: si otra tabla lo usa, se cancela
+        if ($lista->deseos()->count() > 0) {
+            return redirect()->route('listas-deseos.trashed')->with('error', 'No se puede eliminar: la lista tiene deseos asociados.');
+        }
+
+        $lista->forceDelete();
+
+        return redirect()->route('listas-deseos.trashed')->with('success', 'Lista de deseos eliminada definitivamente.');
+    }
 }

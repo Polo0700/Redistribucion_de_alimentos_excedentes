@@ -62,4 +62,78 @@ class RolController extends Controller
             ->route('roles.index')
             ->with('success', 'Rol actualizado correctamente.');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $rol = Rol::findOrFail($id);
+
+        return view('roles.show', compact('rol'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $rol = Rol::findOrFail($id);
+        $rol->delete();
+
+        return redirect()->route('roles.index')->with('success', 'Rol eliminado correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $roles = Rol::onlyTrashed()->paginate(5);
+
+        return view('roles.trashed', compact('roles'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $rol = Rol::onlyTrashed()->findOrFail($id);
+        $rol->restore();
+
+        return redirect()->route('roles.trashed')->with('success', 'Rol restaurado correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $rol = Rol::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminado lógicamente
+        if (!$rol->trashed()) {
+            return redirect()->route('roles.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // validación de relaciones: si otra tabla lo usa, se cancela
+        if ($rol->usuarios()->count() > 0) {
+            return redirect()->route('roles.trashed')->with('error', 'No se puede eliminar: el rol tiene usuarios asignados.');
+        }
+
+        $rol->forceDelete();
+
+        return redirect()->route('roles.trashed')->with('success', 'Rol eliminado definitivamente.');
+    }
 }

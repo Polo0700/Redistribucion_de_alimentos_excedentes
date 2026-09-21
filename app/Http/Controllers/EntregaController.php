@@ -76,8 +76,78 @@ public function update(Request $request, $id)
         'observaciones' => $request->observaciones,
     ]);
 
-    return redirect()
+return redirect()
         ->route('entregas.index')
         ->with('success', 'Entrega actualizada correctamente.');
-}
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $entrega = Entrega::with('solicitud')->findOrFail($id);
+
+        return view('entregas.show', compact('entrega'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $entrega = Entrega::findOrFail($id);
+        $entrega->delete();
+
+        return redirect()->route('entregas.index')->with('success', 'Entrega eliminada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $entregas = Entrega::onlyTrashed()->paginate(5);
+
+        return view('entregas.trashed', compact('entregas'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $entrega = Entrega::onlyTrashed()->findOrFail($id);
+        $entrega->restore();
+
+        return redirect()->route('entregas.trashed')->with('success', 'Entrega restaurada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $entrega = Entrega::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminada lógicamente
+        if (!$entrega->trashed()) {
+            return redirect()->route('entregas.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // sin tablas dependientes: se elimina directamente
+        $entrega->forceDelete();
+
+        return redirect()->route('entregas.trashed')->with('success', 'Entrega eliminada definitivamente.');
+    }
 }

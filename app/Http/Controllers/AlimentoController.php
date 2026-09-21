@@ -123,4 +123,92 @@ class AlimentoController extends Controller
 
         return redirect()->route('alimentos.index')->with('success', 'Alimento actualizado correctamente.');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $alimento = Alimento::with('categoria')->findOrFail($id);
+
+        return view('alimentos.show', compact('alimento'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $alimento = Alimento::findOrFail($id);
+        $alimento->delete();
+
+        return redirect()->route('alimentos.index')->with('success', 'Alimento eliminado correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $alimentos = Alimento::onlyTrashed()->paginate(5);
+
+        return view('alimentos.trashed', compact('alimentos'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $alimento = Alimento::onlyTrashed()->findOrFail($id);
+        $alimento->restore();
+
+        return redirect()->route('alimentos.trashed')->with('success', 'Alimento restaurado correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $alimento = Alimento::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminado lógicamente
+        if (!$alimento->trashed()) {
+            return redirect()->route('alimentos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // validación de relaciones: si otra tabla lo usa, se cancela
+        if ($alimento->detallesDonacion()->count() > 0) {
+            return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Detalles de Donación.');
+        }
+
+        if ($alimento->detallesCarrito()->count() > 0) {
+            return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Carritos.');
+        }
+
+        if ($alimento->deseosDetalle()->count() > 0) {
+            return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Listas de Deseos.');
+        }
+
+        // eliminar la imagen asociada del almacenamiento
+        if ($alimento->imagen && Storage::disk('public')->exists($alimento->imagen)) {
+            Storage::disk('public')->delete($alimento->imagen);
+        }
+
+        // eliminar el registro de la base de datos
+        $alimento->forceDelete();
+
+        return redirect()->route('alimentos.trashed')->with('success', 'Alimento eliminado físicamente junto con su imagen.');
+    }
 }

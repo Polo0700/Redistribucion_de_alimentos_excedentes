@@ -76,8 +76,86 @@ public function update(Request $request, $id)
         'observaciones' => $request->observaciones,
     ]);
 
-    return redirect()
+return redirect()
         ->route('solicitudes.index')
         ->with('success', 'Solicitud actualizada correctamente.');
-}
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $solicitud = Solicitud::with('usuario')->findOrFail($id);
+
+        return view('solicitudes.show', compact('solicitud'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $solicitud = Solicitud::findOrFail($id);
+        $solicitud->delete();
+
+        return redirect()->route('solicitudes.index')->with('success', 'Solicitud eliminada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $solicitudes = Solicitud::onlyTrashed()->paginate(5);
+
+        return view('solicitudes.trashed', compact('solicitudes'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $solicitud = Solicitud::onlyTrashed()->findOrFail($id);
+        $solicitud->restore();
+
+        return redirect()->route('solicitudes.trashed')->with('success', 'Solicitud restaurada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $solicitud = Solicitud::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminada lógicamente
+        if (!$solicitud->trashed()) {
+            return redirect()->route('solicitudes.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // validación de relaciones: si otra tabla la usa, se cancela
+        if ($solicitud->detalles()->count() > 0) {
+            return redirect()->route('solicitudes.trashed')->with('error', 'No se puede eliminar: la solicitud tiene detalles registrados.');
+        }
+
+        if ($solicitud->entrega()->count() > 0) {
+            return redirect()->route('solicitudes.trashed')->with('error', 'No se puede eliminar: la solicitud tiene una entrega asociada.');
+        }
+
+        $solicitud->forceDelete();
+
+        return redirect()->route('solicitudes.trashed')->with('success', 'Solicitud eliminada definitivamente.');
+    }
 }

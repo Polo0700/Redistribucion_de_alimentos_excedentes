@@ -77,8 +77,78 @@ public function update(Request $request, $id)
         'fecha_ultimo_acceso' => $request->fecha_ultimo_acceso,
     ]);
 
-    return redirect()
+return redirect()
         ->route('cuentas-acceso.index')
         ->with('success', 'Cuenta de acceso actualizada correctamente.');
-}
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $cuenta = CuentaAcceso::with('usuario')->findOrFail($id);
+
+        return view('cuentas-acceso.show', compact('cuenta'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $cuenta = CuentaAcceso::findOrFail($id);
+        $cuenta->delete();
+
+        return redirect()->route('cuentas-acceso.index')->with('success', 'Cuenta de acceso eliminada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $cuentas = CuentaAcceso::onlyTrashed()->paginate(5);
+
+        return view('cuentas-acceso.trashed', compact('cuentas'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $cuenta = CuentaAcceso::onlyTrashed()->findOrFail($id);
+        $cuenta->restore();
+
+        return redirect()->route('cuentas-acceso.trashed')->with('success', 'Cuenta de acceso restaurada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $cuenta = CuentaAcceso::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminada lógicamente
+        if (!$cuenta->trashed()) {
+            return redirect()->route('cuentas-acceso.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // sin tablas dependientes: se elimina directamente
+        $cuenta->forceDelete();
+
+        return redirect()->route('cuentas-acceso.trashed')->with('success', 'Cuenta de acceso eliminada definitivamente.');
+    }
 }

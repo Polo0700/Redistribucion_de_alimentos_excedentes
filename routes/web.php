@@ -43,6 +43,16 @@ Route::get('/roles/{id}/edit', [RolController::class, 'edit'])->name('roles.edit
 
 Route::put('/roles/{id}', [RolController::class, 'update'])->name('roles.update');
 
+Route::get('/roles/eliminados', [RolController::class, 'trashed'])->name('roles.trashed');
+
+Route::get('/roles/{id}', [RolController::class, 'show'])->name('roles.show');
+
+Route::delete('/roles/{id}', [RolController::class, 'destroy'])->name('roles.destroy');
+
+Route::patch('/roles/{id}/restore', [RolController::class, 'restore'])->name('roles.restore');
+
+Route::delete('/roles/{id}/force', [RolController::class, 'forceDestroy'])->name('roles.forceDestroy');
+
 /*
 |--------------------------------------------------------------------------
 | Usuarios
@@ -58,6 +68,16 @@ Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.st
 Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuarios.edit');
 
 Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
+
+Route::get('/usuarios/eliminados', [UsuarioController::class, 'trashed'])->name('usuarios.trashed');
+
+Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
+
+Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+
+Route::patch('/usuarios/{id}/restore', [UsuarioController::class, 'restore'])->name('usuarios.restore');
+
+Route::delete('/usuarios/{id}/force', [UsuarioController::class, 'forceDestroy'])->name('usuarios.forceDestroy');
 
 
 /*
@@ -76,6 +96,16 @@ Route::get('/cuentas-acceso/{id}/edit', [CuentaAccesoController::class, 'edit'])
 
 Route::put('/cuentas-acceso/{id}', [CuentaAccesoController::class, 'update'])->name('cuentas-acceso.update');
 
+Route::get('/cuentas-acceso/eliminados', [CuentaAccesoController::class, 'trashed'])->name('cuentas-acceso.trashed');
+
+Route::get('/cuentas-acceso/{id}', [CuentaAccesoController::class, 'show'])->name('cuentas-acceso.show');
+
+Route::delete('/cuentas-acceso/{id}', [CuentaAccesoController::class, 'destroy'])->name('cuentas-acceso.destroy');
+
+Route::patch('/cuentas-acceso/{id}/restore', [CuentaAccesoController::class, 'restore'])->name('cuentas-acceso.restore');
+
+Route::delete('/cuentas-acceso/{id}/force', [CuentaAccesoController::class, 'forceDestroy'])->name('cuentas-acceso.forceDestroy');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +123,16 @@ Route::get('/categorias/{id}/edit', [CategoriaAlimentoController::class, 'edit']
 
 Route::put('/categorias/{id}', [CategoriaAlimentoController::class, 'update'])->name('categorias.update');
 
+Route::get('/categorias/eliminados', [CategoriaAlimentoController::class, 'trashed'])->name('categorias.trashed');
+
+Route::get('/categorias/{id}', [CategoriaAlimentoController::class, 'show'])->name('categorias.show');
+
+Route::delete('/categorias/{id}', [CategoriaAlimentoController::class, 'destroy'])->name('categorias.destroy');
+
+Route::patch('/categorias/{id}/restore', [CategoriaAlimentoController::class, 'restore'])->name('categorias.restore');
+
+Route::delete('/categorias/{id}/force', [CategoriaAlimentoController::class, 'forceDestroy'])->name('categorias.forceDestroy');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -102,13 +142,23 @@ Route::put('/categorias/{id}', [CategoriaAlimentoController::class, 'update'])->
 
 Route::get('/alimentos', [AlimentoController::class, 'index'])->name('alimentos.index');
 
+Route::get('/alimentos/eliminados', [AlimentoController::class, 'trashed'])->name('alimentos.trashed');
+
 Route::get('/alimentos/create', [AlimentoController::class, 'create'])->name('alimentos.create');
 
 Route::post('/alimentos', [AlimentoController::class, 'store'])->name('alimentos.store');
 
+Route::get('/alimentos/{id}', [AlimentoController::class, 'show'])->name('alimentos.show');
+
 Route::get('/alimentos/{id}/edit', [AlimentoController::class, 'edit'])->name('alimentos.edit');
 
 Route::put('/alimentos/{id}', [AlimentoController::class, 'update'])->name('alimentos.update');
+
+Route::delete('/alimentos/{id}', [AlimentoController::class, 'destroy'])->name('alimentos.destroy');
+
+Route::patch('/alimentos/{id}/restore', [AlimentoController::class, 'restore'])->name('alimentos.restore');
+
+Route::delete('/alimentos/{id}/force', [AlimentoController::class, 'forceDestroy'])->name('alimentos.forceDestroy');
 
 
 /*
@@ -127,6 +177,16 @@ Route::get('/donaciones/{id}/edit', [DonacionController::class, 'edit']) ->name(
 
 Route::put('/donaciones/{id}', [DonacionController::class, 'update'])->name('donaciones.update');
 
+Route::get('/donaciones/eliminados', [DonacionController::class, 'trashed'])->name('donaciones.trashed');
+
+Route::get('/donaciones/{id}', [DonacionController::class, 'show'])->name('donaciones.show');
+
+Route::delete('/donaciones/{id}', [DonacionController::class, 'destroy'])->name('donaciones.destroy');
+
+Route::patch('/donaciones/{id}/restore', [DonacionController::class, 'restore'])->name('donaciones.restore');
+
+Route::delete('/donaciones/{id}/force', [DonacionController::class, 'forceDestroy'])->name('donaciones.forceDestroy');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -143,6 +203,16 @@ Route::post('/carritos', [CarritoController::class, 'store'])->name('carritos.st
 Route::get('/carritos/{id}/edit', [CarritoController::class, 'edit'])->name('carritos.edit');
 
 Route::put('/carritos/{id}', [CarritoController::class, 'update'])->name('carritos.update');
+
+Route::get('/carritos/eliminados', [CarritoController::class, 'trashed'])->name('carritos.trashed');
+
+Route::get('/carritos/{id}', [CarritoController::class, 'show'])->name('carritos.show');
+
+Route::delete('/carritos/{id}', [CarritoController::class, 'destroy'])->name('carritos.destroy');
+
+Route::patch('/carritos/{id}/restore', [CarritoController::class, 'restore'])->name('carritos.restore');
+
+Route::delete('/carritos/{id}/force', [CarritoController::class, 'forceDestroy'])->name('carritos.forceDestroy');
 
 
 /*
@@ -161,6 +231,16 @@ Route::get('/listas-deseos/{id}/edit', [ListaDeseoController::class, 'edit'])->n
 
 Route::put('/listas-deseos/{id}', [ListaDeseoController::class, 'update'])->name('listas-deseos.update');
 
+Route::get('/listas-deseos/eliminados', [ListaDeseoController::class, 'trashed'])->name('listas-deseos.trashed');
+
+Route::get('/listas-deseos/{id}', [ListaDeseoController::class, 'show'])->name('listas-deseos.show');
+
+Route::delete('/listas-deseos/{id}', [ListaDeseoController::class, 'destroy'])->name('listas-deseos.destroy');
+
+Route::patch('/listas-deseos/{id}/restore', [ListaDeseoController::class, 'restore'])->name('listas-deseos.restore');
+
+Route::delete('/listas-deseos/{id}/force', [ListaDeseoController::class, 'forceDestroy'])->name('listas-deseos.forceDestroy');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -177,6 +257,16 @@ Route::post('/solicitudes', [SolicitudController::class, 'store'])->name('solici
 Route::get('/solicitudes/{id}/edit', [SolicitudController::class, 'edit']) ->name('solicitudes.edit');
 
 Route::put('/solicitudes/{id}', [SolicitudController::class, 'update']) ->name('solicitudes.update');
+
+Route::get('/solicitudes/eliminados', [SolicitudController::class, 'trashed'])->name('solicitudes.trashed');
+
+Route::get('/solicitudes/{id}', [SolicitudController::class, 'show'])->name('solicitudes.show');
+
+Route::delete('/solicitudes/{id}', [SolicitudController::class, 'destroy'])->name('solicitudes.destroy');
+
+Route::patch('/solicitudes/{id}/restore', [SolicitudController::class, 'restore'])->name('solicitudes.restore');
+
+Route::delete('/solicitudes/{id}/force', [SolicitudController::class, 'forceDestroy'])->name('solicitudes.forceDestroy');
 
 
 /*
@@ -195,6 +285,16 @@ Route::get('/entregas/{id}/edit', [EntregaController::class, 'edit'])->name('ent
 
 Route::put('/entregas/{id}', [EntregaController::class, 'update'])->name('entregas.update');
 
+Route::get('/entregas/eliminados', [EntregaController::class, 'trashed'])->name('entregas.trashed');
+
+Route::get('/entregas/{id}', [EntregaController::class, 'show'])->name('entregas.show');
+
+Route::delete('/entregas/{id}', [EntregaController::class, 'destroy'])->name('entregas.destroy');
+
+Route::patch('/entregas/{id}/restore', [EntregaController::class, 'restore'])->name('entregas.restore');
+
+Route::delete('/entregas/{id}/force', [EntregaController::class, 'forceDestroy'])->name('entregas.forceDestroy');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -211,3 +311,13 @@ Route::post('/acciones-importantes', [AccionImportanteController::class, 'store'
 Route::get('/acciones-importantes/{id}/edit', [AccionImportanteController::class, 'edit'])->name('acciones.edit');
 
 Route::put('/acciones-importantes/{id}', [AccionImportanteController::class, 'update'])->name('acciones.update');
+
+Route::get('/acciones-importantes/eliminados', [AccionImportanteController::class, 'trashed'])->name('acciones.trashed');
+
+Route::get('/acciones-importantes/{id}', [AccionImportanteController::class, 'show'])->name('acciones.show');
+
+Route::delete('/acciones-importantes/{id}', [AccionImportanteController::class, 'destroy'])->name('acciones.destroy');
+
+Route::patch('/acciones-importantes/{id}/restore', [AccionImportanteController::class, 'restore'])->name('acciones.restore');
+
+Route::delete('/acciones-importantes/{id}/force', [AccionImportanteController::class, 'forceDestroy'])->name('acciones.forceDestroy');

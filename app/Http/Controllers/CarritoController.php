@@ -70,8 +70,82 @@ public function update(Request $request, $id)
         'estado' => $request->estado,
     ]);
 
-    return redirect()
+return redirect()
         ->route('carritos.index')
         ->with('success', 'Carrito actualizado correctamente.');
-}
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $carrito = Carrito::with('usuario')->findOrFail($id);
+
+        return view('carritos.show', compact('carrito'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $carrito = Carrito::findOrFail($id);
+        $carrito->delete();
+
+        return redirect()->route('carritos.index')->with('success', 'Carrito eliminado correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $carritos = Carrito::onlyTrashed()->paginate(5);
+
+        return view('carritos.trashed', compact('carritos'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $carrito = Carrito::onlyTrashed()->findOrFail($id);
+        $carrito->restore();
+
+        return redirect()->route('carritos.trashed')->with('success', 'Carrito restaurado correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $carrito = Carrito::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminado lógicamente
+        if (!$carrito->trashed()) {
+            return redirect()->route('carritos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // validación de relaciones: si otra tabla lo usa, se cancela
+        if ($carrito->detalles()->count() > 0) {
+            return redirect()->route('carritos.trashed')->with('error', 'No se puede eliminar: el carrito tiene detalles registrados.');
+        }
+
+        $carrito->forceDelete();
+
+        return redirect()->route('carritos.trashed')->with('success', 'Carrito eliminado definitivamente.');
+    }
 }

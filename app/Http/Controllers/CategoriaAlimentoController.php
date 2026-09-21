@@ -64,5 +64,79 @@ public function update(Request $request, $id)
     return redirect()
         ->route('categorias.index')
         ->with('success', 'Categoría actualizada correctamente.');
-}
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $categoria = CategoriaAlimento::findOrFail($id);
+
+        return view('categorias.show', compact('categoria'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $categoria = CategoriaAlimento::findOrFail($id);
+        $categoria->delete();
+
+        return redirect()->route('categorias.index')->with('success', 'Categoría eliminada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $categorias = CategoriaAlimento::onlyTrashed()->paginate(5);
+
+        return view('categorias.trashed', compact('categorias'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $categoria = CategoriaAlimento::onlyTrashed()->findOrFail($id);
+        $categoria->restore();
+
+        return redirect()->route('categorias.trashed')->with('success', 'Categoría restaurada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $categoria = CategoriaAlimento::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminada lógicamente
+        if (!$categoria->trashed()) {
+            return redirect()->route('categorias.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // validación de relaciones: si otra tabla la usa, se cancela
+        if ($categoria->alimentos()->count() > 0) {
+            return redirect()->route('categorias.trashed')->with('error', 'No se puede eliminar: la categoría tiene alimentos registrados.');
+        }
+
+        $categoria->forceDelete();
+
+        return redirect()->route('categorias.trashed')->with('success', 'Categoría eliminada definitivamente.');
+    }
 }

@@ -89,4 +89,94 @@ class UsuarioController extends Controller
             ->route('usuarios.index')
             ->with('success', 'Usuario actualizado correctamente.');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $usuario = Usuario::with('rol')->findOrFail($id);
+
+        return view('usuarios.show', compact('usuario'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $usuario = Usuario::findOrFail($id);
+        $usuario->delete();
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $usuarios = Usuario::onlyTrashed()->paginate(5);
+
+        return view('usuarios.trashed', compact('usuarios'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $usuario = Usuario::onlyTrashed()->findOrFail($id);
+        $usuario->restore();
+
+        return redirect()->route('usuarios.trashed')->with('success', 'Usuario restaurado correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $usuario = Usuario::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminado lógicamente
+        if (!$usuario->trashed()) {
+            return redirect()->route('usuarios.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // validación de relaciones: si otra tabla lo usa, se cancela
+        if ($usuario->cuentasAcceso()->count() > 0) {
+            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene cuentas de acceso registradas.');
+        }
+
+        if ($usuario->donaciones()->count() > 0) {
+            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene donaciones registradas.');
+        }
+
+        if ($usuario->carritos()->count() > 0) {
+            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene carritos registrados.');
+        }
+
+        if ($usuario->listasDeseos()->count() > 0) {
+            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene listas de deseos registradas.');
+        }
+
+        if ($usuario->accionesImportantes()->count() > 0) {
+            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene acciones importantes registradas.');
+        }
+
+        $usuario->forceDelete();
+
+        return redirect()->route('usuarios.trashed')->with('success', 'Usuario eliminado definitivamente.');
+    }
 }

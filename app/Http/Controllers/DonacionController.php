@@ -79,8 +79,82 @@ public function update(Request $request, $id)
         'observaciones' => $request->observaciones,
     ]);
 
-    return redirect()
+return redirect()
         ->route('donaciones.index')
         ->with('success', 'Donación actualizada correctamente.');
-}
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR (consulta individual, solo lectura)
+    |--------------------------------------------------------------------------
+    */
+    public function show($id)
+    {
+        $donacion = Donacion::with('usuario')->findOrFail($id);
+
+        return view('donaciones.show', compact('donacion'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO LÓGICO
+    |--------------------------------------------------------------------------
+    */
+    public function destroy($id)
+    {
+        $donacion = Donacion::findOrFail($id);
+        $donacion->delete();
+
+        return redirect()->route('donaciones.index')->with('success', 'Donación eliminada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE REGISTROS ELIMINADOS (papelera)
+    |--------------------------------------------------------------------------
+    */
+    public function trashed()
+    {
+        $donaciones = Donacion::onlyTrashed()->paginate(5);
+
+        return view('donaciones.trashed', compact('donaciones'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR REGISTRO
+    |--------------------------------------------------------------------------
+    */
+    public function restore($id)
+    {
+        $donacion = Donacion::onlyTrashed()->findOrFail($id);
+        $donacion->restore();
+
+        return redirect()->route('donaciones.trashed')->with('success', 'Donación restaurada correctamente.');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
+    |--------------------------------------------------------------------------
+    */
+    public function forceDestroy($id)
+    {
+        $donacion = Donacion::withTrashed()->findOrFail($id);
+
+        // solo se permite si ya estaba eliminada lógicamente
+        if (!$donacion->trashed()) {
+            return redirect()->route('donaciones.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+        }
+
+        // validación de relaciones: si otra tabla la usa, se cancela
+        if ($donacion->detalles()->count() > 0) {
+            return redirect()->route('donaciones.trashed')->with('error', 'No se puede eliminar: la donación tiene detalles registrados.');
+        }
+
+        $donacion->forceDelete();
+
+        return redirect()->route('donaciones.trashed')->with('success', 'Donación eliminada definitivamente.');
+    }
 }

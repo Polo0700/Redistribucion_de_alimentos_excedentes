@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CuentaAcceso extends Model
 {
+    use SoftDeletes;
     protected $table = 'cuentas_acceso';
 
     protected $primaryKey = 'id_cuenta';
