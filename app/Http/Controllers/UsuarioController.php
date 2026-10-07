@@ -14,7 +14,8 @@ class UsuarioController extends Controller
         $usuarios = Usuario::with('rol')->paginate(5);
 
         // retorna la pagina del index de usuarios
-        return view('usuarios.index', compact('usuarios'));
+        // return view('usuarios.index', compact('usuarios'));
+        return response()->json(['usuarios'=>$usuarios], 200);
     }
 
     // obtiene los roles y los ordena por nombre y los mete a roles
@@ -99,7 +100,8 @@ class UsuarioController extends Controller
     {
         $usuario = Usuario::with('rol')->findOrFail($id);
 
-        return view('usuarios.show', compact('usuario'));
+        // return view('usuarios.show', compact('usuario'));
+        return response()->json(['usuario'=>$usuario],200);
     }
 
     /*
