@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar listas de deseos (paginado)'
+method: GET
+url: '{{baseUrl}}/listas-deseos'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la lista paginada en 'listas'", function () {
+          pm.expect(pm.response.json()).to.have.property('listas');
+      });

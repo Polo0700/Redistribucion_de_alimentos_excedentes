@@ -14,7 +14,8 @@ class CarritoController extends Controller
         $carritos = Carrito::with('usuario')->paginate(5);
 
         // retorna la pagina del index de carritos
-        return view('carritos.index', compact('carritos'));
+        // return view('carritos.index', compact('carritos'));
+        return response()->json(['carritos' => $carritos], 200);
     }
 
     // obtiene los usuarios y los ordena por nombre y los mete a usuarios
@@ -23,7 +24,8 @@ class CarritoController extends Controller
         $usuarios = Usuario::orderBy('nombre')->get();
 
         // retorna la vista de creacion de carritos
-        return view('carritos.create', compact('usuarios'));
+        // return view('carritos.create', compact('usuarios'));
+        return response()->json(['usuarios' => $usuarios], 200);
     }
 
     public function store(Request $request)
@@ -39,7 +41,8 @@ class CarritoController extends Controller
         Carrito::create($validado);
 
         // redirige al index y un mensaje de correcto
-        return redirect()->route('carritos.index')->with('success', 'Carrito creado correctamente');
+        // return redirect()->route('carritos.index')->with('success', 'Carrito creado correctamente');
+        return response()->json(['message' => 'Carrito creado correctamente'], 201);
     }
 
     public function edit($id)
@@ -48,10 +51,11 @@ class CarritoController extends Controller
 
     $usuarios = Usuario::where('estado', true)->get();
 
-    return view(
-        'carritos.edit',
-        compact('carrito', 'usuarios')
-    );
+    // return view(
+    //     'carritos.edit',
+    //     compact('carrito', 'usuarios')
+    // );
+    return response()->json(['carrito' => $carrito, 'usuarios' => $usuarios], 200);
 }
 
 public function update(Request $request, $id)
@@ -70,9 +74,10 @@ public function update(Request $request, $id)
         'estado' => $request->estado,
     ]);
 
-return redirect()
-        ->route('carritos.index')
-        ->with('success', 'Carrito actualizado correctamente.');
+// return redirect()
+//         ->route('carritos.index')
+//         ->with('success', 'Carrito actualizado correctamente.');
+return response()->json(['message' => 'Carrito actualizado correctamente.'], 200);
     }
 
     /*
@@ -84,7 +89,8 @@ return redirect()
     {
         $carrito = Carrito::with('usuario')->findOrFail($id);
 
-        return view('carritos.show', compact('carrito'));
+        // return view('carritos.show', compact('carrito'));
+        return response()->json(['carrito' => $carrito], 200);
     }
 
     /*
@@ -97,7 +103,8 @@ return redirect()
         $carrito = Carrito::findOrFail($id);
         $carrito->delete();
 
-        return redirect()->route('carritos.index')->with('success', 'Carrito eliminado correctamente.');
+        // return redirect()->route('carritos.index')->with('success', 'Carrito eliminado correctamente.');
+        return response()->json(['message' => 'Carrito eliminado correctamente.'], 200);
     }
 
     /*
@@ -109,7 +116,8 @@ return redirect()
     {
         $carritos = Carrito::onlyTrashed()->paginate(5);
 
-        return view('carritos.trashed', compact('carritos'));
+        // return view('carritos.trashed', compact('carritos'));
+        return response()->json(['carritos' => $carritos], 200);
     }
 
     /*
@@ -122,7 +130,8 @@ return redirect()
         $carrito = Carrito::onlyTrashed()->findOrFail($id);
         $carrito->restore();
 
-        return redirect()->route('carritos.trashed')->with('success', 'Carrito restaurado correctamente.');
+        // return redirect()->route('carritos.trashed')->with('success', 'Carrito restaurado correctamente.');
+        return response()->json(['message' => 'Carrito restaurado correctamente.'], 200);
     }
 
     /*
@@ -136,16 +145,19 @@ return redirect()
 
         // solo se permite si ya estaba eliminado lógicamente
         if (!$carrito->trashed()) {
-            return redirect()->route('carritos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            // return redirect()->route('carritos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
         }
 
         // validación de relaciones: si otra tabla lo usa, se cancela
         if ($carrito->detalles()->count() > 0) {
-            return redirect()->route('carritos.trashed')->with('error', 'No se puede eliminar: el carrito tiene detalles registrados.');
+            // return redirect()->route('carritos.trashed')->with('error', 'No se puede eliminar: el carrito tiene detalles registrados.');
+            return response()->json(['error' => 'No se puede eliminar: el carrito tiene detalles registrados.'], 409);
         }
 
         $carrito->forceDelete();
 
-        return redirect()->route('carritos.trashed')->with('success', 'Carrito eliminado definitivamente.');
+        // return redirect()->route('carritos.trashed')->with('success', 'Carrito eliminado definitivamente.');
+        return response()->json(['message' => 'Carrito eliminado definitivamente.'], 200);
     }
 }

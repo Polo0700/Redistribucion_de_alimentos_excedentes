@@ -1,0 +1,29 @@
+$kind: http-request
+name: 'Actualizar rol'
+method: PUT
+url: '{{baseUrl}}/roles/:id'
+order: 4000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Rol de prueba",
+      "estado": "1",
+      "descripcion": "Creado por la coleccion de pruebas"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

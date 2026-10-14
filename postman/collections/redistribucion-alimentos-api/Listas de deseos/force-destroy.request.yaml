@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar lista de deseos definitivamente'
+method: DELETE
+url: '{{baseUrl}}/listas-deseos/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

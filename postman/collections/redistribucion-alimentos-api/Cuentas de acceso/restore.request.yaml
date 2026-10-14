@@ -1,0 +1,15 @@
+$kind: http-request
+name: 'Restaurar cuenta de acceso'
+method: PATCH
+url: '{{baseUrl}}/cuentas-acceso/:id/restore'
+order: 7000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

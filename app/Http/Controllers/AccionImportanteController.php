@@ -14,7 +14,8 @@ class AccionImportanteController extends Controller
         $acciones = AccionImportante::with('usuario')->paginate(5);
 
         // retorna la pagina del index de acciones
-        return view('acciones-importantes.index', compact('acciones'));
+        // return view('acciones-importantes.index', compact('acciones'));
+        return response()->json(['acciones' => $acciones], 200);
     }
 
     // obtiene los usuarios y los ordena por nombre y los mete a usuarios
@@ -23,7 +24,8 @@ class AccionImportanteController extends Controller
         $usuarios = Usuario::orderBy('nombre')->get();
 
         // retorna la vista de creacion de acciones
-        return view('acciones-importantes.create', compact('usuarios'));
+        // return view('acciones-importantes.create', compact('usuarios'));
+        return response()->json(['usuarios' => $usuarios], 200);
     }
 
     public function store(Request $request)
@@ -42,7 +44,8 @@ class AccionImportanteController extends Controller
         AccionImportante::create($validado);
 
         // redirige al index y un mensaje de correcto
-        return redirect()->route('acciones.index')->with('success', 'Accion importante creada correctamente');
+        // return redirect()->route('acciones.index')->with('success', 'Accion importante creada correctamente');
+        return response()->json(['message' => 'Accion importante creada correctamente'], 201);
     }
     public function edit($id)
 {
@@ -50,10 +53,11 @@ class AccionImportanteController extends Controller
 
     $usuarios = Usuario::where('estado', true)->get();
 
-    return view(
-        'acciones-importantes.edit',
-        compact('accion', 'usuarios')
-    );
+    // return view(
+    //     'acciones-importantes.edit',
+    //     compact('accion', 'usuarios')
+    // );
+    return response()->json(['accion' => $accion, 'usuarios' => $usuarios], 200);
 }
 
 public function update(Request $request, $id)
@@ -78,9 +82,10 @@ public function update(Request $request, $id)
         'ip_origen' => $request->ip_origen,
     ]);
 
-return redirect()
-        ->route('acciones.index')
-        ->with('success', 'Acción actualizada correctamente.');
+// return redirect()
+//         ->route('acciones.index')
+//         ->with('success', 'Acción actualizada correctamente.');
+return response()->json(['message' => 'Acción actualizada correctamente.'], 200);
     }
 
     /*
@@ -92,7 +97,8 @@ return redirect()
     {
         $accion = AccionImportante::with('usuario')->findOrFail($id);
 
-        return view('acciones-importantes.show', compact('accion'));
+        // return view('acciones-importantes.show', compact('accion'));
+        return response()->json(['accion' => $accion], 200);
     }
 
     /*
@@ -105,7 +111,8 @@ return redirect()
         $accion = AccionImportante::findOrFail($id);
         $accion->delete();
 
-        return redirect()->route('acciones.index')->with('success', 'Acción importante eliminada correctamente.');
+        // return redirect()->route('acciones.index')->with('success', 'Acción importante eliminada correctamente.');
+        return response()->json(['message' => 'Acción importante eliminada correctamente.'], 200);
     }
 
     /*
@@ -117,7 +124,8 @@ return redirect()
     {
         $acciones = AccionImportante::onlyTrashed()->paginate(5);
 
-        return view('acciones-importantes.trashed', compact('acciones'));
+        // return view('acciones-importantes.trashed', compact('acciones'));
+        return response()->json(['acciones' => $acciones], 200);
     }
 
     /*
@@ -130,7 +138,8 @@ return redirect()
         $accion = AccionImportante::onlyTrashed()->findOrFail($id);
         $accion->restore();
 
-        return redirect()->route('acciones.trashed')->with('success', 'Acción importante restaurada correctamente.');
+        // return redirect()->route('acciones.trashed')->with('success', 'Acción importante restaurada correctamente.');
+        return response()->json(['message' => 'Acción importante restaurada correctamente.'], 200);
     }
 
     /*
@@ -144,12 +153,14 @@ return redirect()
 
         // solo se permite si ya estaba eliminada lógicamente
         if (!$accion->trashed()) {
-            return redirect()->route('acciones.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            // return redirect()->route('acciones.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
         }
 
         // sin tablas dependientes: se elimina directamente
         $accion->forceDelete();
 
-        return redirect()->route('acciones.trashed')->with('success', 'Acción importante eliminada definitivamente.');
+        // return redirect()->route('acciones.trashed')->with('success', 'Acción importante eliminada definitivamente.');
+        return response()->json(['message' => 'Acción importante eliminada definitivamente.'], 200);
     }
 }

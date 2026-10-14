@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar acciones importantes (paginado)'
+method: GET
+url: '{{baseUrl}}/acciones-importantes'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la lista paginada en 'acciones'", function () {
+          pm.expect(pm.response.json()).to.have.property('acciones');
+      });

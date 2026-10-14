@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar alimento definitivamente'
+method: DELETE
+url: '{{baseUrl}}/alimentos/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

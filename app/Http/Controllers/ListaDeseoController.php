@@ -14,7 +14,8 @@ class ListaDeseoController extends Controller
         $listas = ListaDeseo::with('usuario')->paginate(5);
 
         // retorna la pagina del index de listas de deseos
-        return view('listas-deseos.index', compact('listas'));
+        // return view('listas-deseos.index', compact('listas'));
+        return response()->json(['listas' => $listas], 200);
     }
 
     // obtiene los usuarios y los ordena por nombre y los mete a usuarios
@@ -23,7 +24,8 @@ class ListaDeseoController extends Controller
         $usuarios = Usuario::orderBy('nombre')->get();
 
         // retorna la vista de creacion de listas de deseos
-        return view('listas-deseos.create', compact('usuarios'));
+        // return view('listas-deseos.create', compact('usuarios'));
+        return response()->json(['usuarios' => $usuarios], 200);
     }
 
     public function store(Request $request)
@@ -39,7 +41,8 @@ class ListaDeseoController extends Controller
         ListaDeseo::create($validado);
 
         // redirige al index y un mensaje de correcto
-        return redirect()->route('listas-deseos.index')->with('success', 'Lista de deseos creada correctamente');
+        // return redirect()->route('listas-deseos.index')->with('success', 'Lista de deseos creada correctamente');
+        return response()->json(['message' => 'Lista de deseos creada correctamente'], 201);
     }
 
     public function edit($id)
@@ -48,10 +51,11 @@ class ListaDeseoController extends Controller
 
     $usuarios = Usuario::where('estado', true)->get();
 
-    return view(
-        'listas-deseos.edit',
-        compact('lista', 'usuarios')
-    );
+    // return view(
+    //     'listas-deseos.edit',
+    //     compact('lista', 'usuarios')
+    // );
+    return response()->json(['lista' => $lista, 'usuarios' => $usuarios], 200);
 }
 
 public function update(Request $request, $id)
@@ -70,9 +74,10 @@ public function update(Request $request, $id)
         'fecha_creacion' => $request->fecha_creacion,
     ]);
 
-return redirect()
-        ->route('listas-deseos.index')
-        ->with('success', 'Lista de deseos actualizada correctamente.');
+// return redirect()
+//         ->route('listas-deseos.index')
+//         ->with('success', 'Lista de deseos actualizada correctamente.');
+return response()->json(['message' => 'Lista de deseos actualizada correctamente.'], 200);
     }
 
     /*
@@ -84,7 +89,8 @@ return redirect()
     {
         $lista = ListaDeseo::with('usuario')->findOrFail($id);
 
-        return view('listas-deseos.show', compact('lista'));
+        // return view('listas-deseos.show', compact('lista'));
+        return response()->json(['lista' => $lista], 200);
     }
 
     /*
@@ -97,7 +103,8 @@ return redirect()
         $lista = ListaDeseo::findOrFail($id);
         $lista->delete();
 
-        return redirect()->route('listas-deseos.index')->with('success', 'Lista de deseos eliminada correctamente.');
+        // return redirect()->route('listas-deseos.index')->with('success', 'Lista de deseos eliminada correctamente.');
+        return response()->json(['message' => 'Lista de deseos eliminada correctamente.'], 200);
     }
 
     /*
@@ -109,7 +116,8 @@ return redirect()
     {
         $listas = ListaDeseo::onlyTrashed()->paginate(5);
 
-        return view('listas-deseos.trashed', compact('listas'));
+        // return view('listas-deseos.trashed', compact('listas'));
+        return response()->json(['listas' => $listas], 200);
     }
 
     /*
@@ -122,7 +130,8 @@ return redirect()
         $lista = ListaDeseo::onlyTrashed()->findOrFail($id);
         $lista->restore();
 
-        return redirect()->route('listas-deseos.trashed')->with('success', 'Lista de deseos restaurada correctamente.');
+        // return redirect()->route('listas-deseos.trashed')->with('success', 'Lista de deseos restaurada correctamente.');
+        return response()->json(['message' => 'Lista de deseos restaurada correctamente.'], 200);
     }
 
     /*
@@ -136,16 +145,19 @@ return redirect()
 
         // solo se permite si ya estaba eliminada lógicamente
         if (!$lista->trashed()) {
-            return redirect()->route('listas-deseos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            // return redirect()->route('listas-deseos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
         }
 
         // validación de relaciones: si otra tabla lo usa, se cancela
         if ($lista->deseos()->count() > 0) {
-            return redirect()->route('listas-deseos.trashed')->with('error', 'No se puede eliminar: la lista tiene deseos asociados.');
+            // return redirect()->route('listas-deseos.trashed')->with('error', 'No se puede eliminar: la lista tiene deseos asociados.');
+            return response()->json(['error' => 'No se puede eliminar: la lista tiene deseos asociados.'], 409);
         }
 
         $lista->forceDelete();
 
-        return redirect()->route('listas-deseos.trashed')->with('success', 'Lista de deseos eliminada definitivamente.');
+        // return redirect()->route('listas-deseos.trashed')->with('success', 'Lista de deseos eliminada definitivamente.');
+        return response()->json(['message' => 'Lista de deseos eliminada definitivamente.'], 200);
     }
 }

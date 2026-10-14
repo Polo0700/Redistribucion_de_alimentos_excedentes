@@ -1,0 +1,34 @@
+$kind: http-request
+name: 'Actualizar usuario'
+method: PUT
+url: '{{baseUrl}}/usuarios/:id'
+order: 4000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "direccion": "Calle Falsa 123",
+      "telefono": "5512345678",
+      "correo": "juan.perez@example.com",
+      "estado": "1",
+      "apellido": "Perez",
+      "fecha_registro": "2026-01-15",
+      "id_rol": "1",
+      "nombre": "Juan"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

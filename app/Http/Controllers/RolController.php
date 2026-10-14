@@ -12,12 +12,14 @@ class RolController extends Controller
     {
         $roles = Rol::paginate(5);
 
-        return view('roles.index', compact('roles'));
+        // return view('roles.index', compact('roles'));
+        return response()->json(['roles' => $roles], 200);
     }
     // genera un formulario en blanco para la pagina
     public function create()
     {
-        return view('roles.create');
+        // return view('roles.create');
+        return response()->json(['message' => 'Formulario de creación de roles'], 200);
     }
 
     public function store(Request $request)
@@ -32,13 +34,15 @@ class RolController extends Controller
         // un nuevo rol validado es añadido en la DB
         Rol::create($validado);
         // retorna la pagina index y te da un mensaje de exito
-        return redirect()->route('roles.index')->with('success', 'Rol creado correctamente');
+        // return redirect()->route('roles.index')->with('success', 'Rol creado correctamente');
+        return response()->json(['message' => 'Rol creado correctamente'], 201);
     }
     // metodfo editar
     public function edit($id)
     {
         $rol = Rol::findOrFail($id);
-        return view('roles.edit', compact('rol'));
+        // return view('roles.edit', compact('rol'));
+        return response()->json(['rol' => $rol], 200);
     }
 
     //metodo ubdete
@@ -58,9 +62,10 @@ class RolController extends Controller
             'estado'      => $request->estado,
         ]);
 
-        return redirect()
-            ->route('roles.index')
-            ->with('success', 'Rol actualizado correctamente.');
+        // return redirect()
+        //     ->route('roles.index')
+        //     ->with('success', 'Rol actualizado correctamente.');
+        return response()->json(['message' => 'Rol actualizado correctamente.'], 200);
     }
 
     /*
@@ -72,7 +77,8 @@ class RolController extends Controller
     {
         $rol = Rol::findOrFail($id);
 
-        return view('roles.show', compact('rol'));
+        // return view('roles.show', compact('rol'));
+        return response()->json(['rol' => $rol], 200);
     }
 
     /*
@@ -85,7 +91,8 @@ class RolController extends Controller
         $rol = Rol::findOrFail($id);
         $rol->delete();
 
-        return redirect()->route('roles.index')->with('success', 'Rol eliminado correctamente.');
+        // return redirect()->route('roles.index')->with('success', 'Rol eliminado correctamente.');
+        return response()->json(['message' => 'Rol eliminado correctamente.'], 200);
     }
 
     /*
@@ -97,7 +104,8 @@ class RolController extends Controller
     {
         $roles = Rol::onlyTrashed()->paginate(5);
 
-        return view('roles.trashed', compact('roles'));
+        // return view('roles.trashed', compact('roles'));
+        return response()->json(['roles' => $roles], 200);
     }
 
     /*
@@ -110,7 +118,8 @@ class RolController extends Controller
         $rol = Rol::onlyTrashed()->findOrFail($id);
         $rol->restore();
 
-        return redirect()->route('roles.trashed')->with('success', 'Rol restaurado correctamente.');
+        // return redirect()->route('roles.trashed')->with('success', 'Rol restaurado correctamente.');
+        return response()->json(['message' => 'Rol restaurado correctamente.'], 200);
     }
 
     /*
@@ -124,16 +133,19 @@ class RolController extends Controller
 
         // solo se permite si ya estaba eliminado lógicamente
         if (!$rol->trashed()) {
-            return redirect()->route('roles.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            // return redirect()->route('roles.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
         }
 
         // validación de relaciones: si otra tabla lo usa, se cancela
         if ($rol->usuarios()->count() > 0) {
-            return redirect()->route('roles.trashed')->with('error', 'No se puede eliminar: el rol tiene usuarios asignados.');
+            // return redirect()->route('roles.trashed')->with('error', 'No se puede eliminar: el rol tiene usuarios asignados.');
+            return response()->json(['error' => 'No se puede eliminar: el rol tiene usuarios asignados.'], 409);
         }
 
         $rol->forceDelete();
 
-        return redirect()->route('roles.trashed')->with('success', 'Rol eliminado definitivamente.');
+        // return redirect()->route('roles.trashed')->with('success', 'Rol eliminado definitivamente.');
+        return response()->json(['message' => 'Rol eliminado definitivamente.'], 200);
     }
 }

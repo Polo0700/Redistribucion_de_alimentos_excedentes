@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar carrito definitivamente'
+method: DELETE
+url: '{{baseUrl}}/carritos/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

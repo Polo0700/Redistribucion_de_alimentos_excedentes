@@ -1,0 +1,32 @@
+$kind: http-request
+name: 'Actualizar accion importante'
+method: PUT
+url: '{{baseUrl}}/acciones-importantes/:id'
+order: 4000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "ip_origen": "127.0.0.1",
+      "id_usuario": "1",
+      "accion": "prueba",
+      "fecha_hora": "2026-01-15 10:00:00",
+      "tabla_afectada": "roles",
+      "descripcion": "Creada por la coleccion de pruebas"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

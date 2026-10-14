@@ -24,7 +24,8 @@ class UsuarioController extends Controller
         $roles = Rol::orderBy('nombre')->get();
 
         // retorna la vista de creacion de usuarios
-        return view('usuarios.create', compact('roles'));
+        // return view('usuarios.create', compact('roles'));
+        return response()->json(['roles' => $roles], 200);
     }
 
     public function store(Request $request)
@@ -45,7 +46,8 @@ class UsuarioController extends Controller
         Usuario::create($validado);
 
         // redirige al index y un mensaje de correcto
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
+        // return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
+        return response()->json(['message' => 'Usuario creado correctamente'], 201);
     }
 
     // método edit()
@@ -56,7 +58,8 @@ class UsuarioController extends Controller
         // solo roles activos
         $roles = Rol::where('estado', true)->get();
 
-        return view('usuarios.edit', compact('usuario', 'roles'));
+        // return view('usuarios.edit', compact('usuario', 'roles'));
+        return response()->json(['usuario' => $usuario, 'roles' => $roles], 200);
     }
 
     //   método update()
@@ -86,9 +89,10 @@ class UsuarioController extends Controller
             'estado'         => $request->estado,
         ]);
 
-        return redirect()
-            ->route('usuarios.index')
-            ->with('success', 'Usuario actualizado correctamente.');
+        // return redirect()
+        //     ->route('usuarios.index')
+        //     ->with('success', 'Usuario actualizado correctamente.');
+        return response()->json(['message' => 'Usuario actualizado correctamente.'], 200);
     }
 
     /*
@@ -114,7 +118,8 @@ class UsuarioController extends Controller
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+        // return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+        return response()->json(['message' => 'Usuario eliminado correctamente.'], 200);
     }
 
     /*
@@ -126,7 +131,8 @@ class UsuarioController extends Controller
     {
         $usuarios = Usuario::onlyTrashed()->paginate(5);
 
-        return view('usuarios.trashed', compact('usuarios'));
+        // return view('usuarios.trashed', compact('usuarios'));
+        return response()->json(['usuarios' => $usuarios], 200);
     }
 
     /*
@@ -139,7 +145,8 @@ class UsuarioController extends Controller
         $usuario = Usuario::onlyTrashed()->findOrFail($id);
         $usuario->restore();
 
-        return redirect()->route('usuarios.trashed')->with('success', 'Usuario restaurado correctamente.');
+        // return redirect()->route('usuarios.trashed')->with('success', 'Usuario restaurado correctamente.');
+        return response()->json(['message' => 'Usuario restaurado correctamente.'], 200);
     }
 
     /*
@@ -153,32 +160,39 @@ class UsuarioController extends Controller
 
         // solo se permite si ya estaba eliminado lógicamente
         if (!$usuario->trashed()) {
-            return redirect()->route('usuarios.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            // return redirect()->route('usuarios.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
         }
 
         // validación de relaciones: si otra tabla lo usa, se cancela
         if ($usuario->cuentasAcceso()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene cuentas de acceso registradas.');
+            // return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene cuentas de acceso registradas.');
+            return response()->json(['error' => 'No se puede eliminar: el usuario tiene cuentas de acceso registradas.'], 409);
         }
 
         if ($usuario->donaciones()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene donaciones registradas.');
+            // return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene donaciones registradas.');
+            return response()->json(['error' => 'No se puede eliminar: el usuario tiene donaciones registradas.'], 409);
         }
 
         if ($usuario->carritos()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene carritos registrados.');
+            // return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene carritos registrados.');
+            return response()->json(['error' => 'No se puede eliminar: el usuario tiene carritos registrados.'], 409);
         }
 
         if ($usuario->listasDeseos()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene listas de deseos registradas.');
+            // return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene listas de deseos registradas.');
+            return response()->json(['error' => 'No se puede eliminar: el usuario tiene listas de deseos registradas.'], 409);
         }
 
         if ($usuario->accionesImportantes()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene acciones importantes registradas.');
+            // return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene acciones importantes registradas.');
+            return response()->json(['error' => 'No se puede eliminar: el usuario tiene acciones importantes registradas.'], 409);
         }
 
         $usuario->forceDelete();
 
-        return redirect()->route('usuarios.trashed')->with('success', 'Usuario eliminado definitivamente.');
+        // return redirect()->route('usuarios.trashed')->with('success', 'Usuario eliminado definitivamente.');
+        return response()->json(['message' => 'Usuario eliminado definitivamente.'], 200);
     }
 }

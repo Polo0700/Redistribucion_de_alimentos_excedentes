@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar donacion definitivamente'
+method: DELETE
+url: '{{baseUrl}}/donaciones/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

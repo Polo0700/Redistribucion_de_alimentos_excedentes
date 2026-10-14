@@ -14,7 +14,8 @@ class CuentaAccesoController extends Controller
         // toma las cuentas que quiere acceso del tipo usuario en la DB
         $cuentas = CuentaAcceso::with('usuario')->paginate(5);
         // retorna la pagina del index
-        return view('cuentas-acceso.index', compact('cuentas'));
+        // return view('cuentas-acceso.index', compact('cuentas'));
+        return response()->json(['cuentas' => $cuentas], 200);
     }
 
     public function create()
@@ -22,7 +23,8 @@ class CuentaAccesoController extends Controller
         // obtiene los usuarios y los ordena por nombre y los mete a usuarios
         $usuarios = Usuario::orderBy('nombre')->get();
         // retorna la vista de creacion de cuentas
-        return view('cuentas-acceso.create', compact('usuarios'));
+        // return view('cuentas-acceso.create', compact('usuarios'));
+        return response()->json(['usuarios' => $usuarios], 200);
     }
 
     public function store(Request $request)
@@ -42,7 +44,8 @@ class CuentaAccesoController extends Controller
         // crea una cuenta
         CuentaAcceso::create($validado);
         // redirige al index y un mensaje de correcto
-        return redirect()->route('cuentas-acceso.index')->with('success', 'Cuenta de acceso creada correctamente');
+        // return redirect()->route('cuentas-acceso.index')->with('success', 'Cuenta de acceso creada correctamente');
+        return response()->json(['message' => 'Cuenta de acceso creada correctamente'], 201);
     }
 
     public function edit($id)
@@ -51,10 +54,11 @@ class CuentaAccesoController extends Controller
 
     $usuarios = Usuario::where('estado', true)->get();
 
-    return view(
-        'cuentas-acceso.edit',
-        compact('cuenta', 'usuarios')
-    );
+    // return view(
+    //     'cuentas-acceso.edit',
+    //     compact('cuenta', 'usuarios')
+    // );
+    return response()->json(['cuenta' => $cuenta, 'usuarios' => $usuarios], 200);
 }
 
 public function update(Request $request, $id)
@@ -77,9 +81,10 @@ public function update(Request $request, $id)
         'fecha_ultimo_acceso' => $request->fecha_ultimo_acceso,
     ]);
 
-return redirect()
-        ->route('cuentas-acceso.index')
-        ->with('success', 'Cuenta de acceso actualizada correctamente.');
+// return redirect()
+//         ->route('cuentas-acceso.index')
+//         ->with('success', 'Cuenta de acceso actualizada correctamente.');
+return response()->json(['message' => 'Cuenta de acceso actualizada correctamente.'], 200);
     }
 
     /*
@@ -91,7 +96,8 @@ return redirect()
     {
         $cuenta = CuentaAcceso::with('usuario')->findOrFail($id);
 
-        return view('cuentas-acceso.show', compact('cuenta'));
+        // return view('cuentas-acceso.show', compact('cuenta'));
+        return response()->json(['cuenta' => $cuenta], 200);
     }
 
     /*
@@ -104,7 +110,8 @@ return redirect()
         $cuenta = CuentaAcceso::findOrFail($id);
         $cuenta->delete();
 
-        return redirect()->route('cuentas-acceso.index')->with('success', 'Cuenta de acceso eliminada correctamente.');
+        // return redirect()->route('cuentas-acceso.index')->with('success', 'Cuenta de acceso eliminada correctamente.');
+        return response()->json(['message' => 'Cuenta de acceso eliminada correctamente.'], 200);
     }
 
     /*
@@ -116,7 +123,8 @@ return redirect()
     {
         $cuentas = CuentaAcceso::onlyTrashed()->paginate(5);
 
-        return view('cuentas-acceso.trashed', compact('cuentas'));
+        // return view('cuentas-acceso.trashed', compact('cuentas'));
+        return response()->json(['cuentas' => $cuentas], 200);
     }
 
     /*
@@ -129,7 +137,8 @@ return redirect()
         $cuenta = CuentaAcceso::onlyTrashed()->findOrFail($id);
         $cuenta->restore();
 
-        return redirect()->route('cuentas-acceso.trashed')->with('success', 'Cuenta de acceso restaurada correctamente.');
+        // return redirect()->route('cuentas-acceso.trashed')->with('success', 'Cuenta de acceso restaurada correctamente.');
+        return response()->json(['message' => 'Cuenta de acceso restaurada correctamente.'], 200);
     }
 
     /*
@@ -143,12 +152,14 @@ return redirect()
 
         // solo se permite si ya estaba eliminada lógicamente
         if (!$cuenta->trashed()) {
-            return redirect()->route('cuentas-acceso.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            // return redirect()->route('cuentas-acceso.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
         }
 
         // sin tablas dependientes: se elimina directamente
         $cuenta->forceDelete();
 
-        return redirect()->route('cuentas-acceso.trashed')->with('success', 'Cuenta de acceso eliminada definitivamente.');
+        // return redirect()->route('cuentas-acceso.trashed')->with('success', 'Cuenta de acceso eliminada definitivamente.');
+        return response()->json(['message' => 'Cuenta de acceso eliminada definitivamente.'], 200);
     }
 }

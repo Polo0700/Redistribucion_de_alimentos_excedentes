@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar cuenta de acceso definitivamente'
+method: DELETE
+url: '{{baseUrl}}/cuentas-acceso/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

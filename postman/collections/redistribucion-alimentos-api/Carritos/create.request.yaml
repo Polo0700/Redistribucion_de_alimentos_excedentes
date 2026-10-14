@@ -1,0 +1,5 @@
+$kind: http-request
+name: 'Datos para el formulario de creacion'
+method: GET
+url: '{{baseUrl}}/carritos/create'
+order: 9000

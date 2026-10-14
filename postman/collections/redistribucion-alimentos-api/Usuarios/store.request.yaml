@@ -1,0 +1,31 @@
+$kind: http-request
+name: 'Crear usuario'
+method: POST
+url: '{{baseUrl}}/usuarios'
+order: 3000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "direccion": "Calle Falsa 123",
+      "telefono": "5512345678",
+      "correo": "juan.perez@example.com",
+      "estado": "1",
+      "apellido": "Perez",
+      "fecha_registro": "2026-01-15",
+      "id_rol": "1",
+      "nombre": "Juan"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

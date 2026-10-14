@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar cuentas de acceso eliminados (papelera)'
+method: GET
+url: '{{baseUrl}}/cuentas-acceso/eliminados'
+order: 6000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la papelera en 'cuentas'", function () {
+          pm.expect(pm.response.json()).to.have.property('cuentas');
+      });

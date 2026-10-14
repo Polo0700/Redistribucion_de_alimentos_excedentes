@@ -1,0 +1,28 @@
+$kind: http-request
+name: 'Crear solicitud'
+method: POST
+url: '{{baseUrl}}/solicitudes'
+order: 3000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "fecha_solicitud": "2026-01-15",
+      "observaciones": "Creada por la coleccion de pruebas",
+      "estado": "pendiente",
+      "id_usuario": "1",
+      "direccion_entrega": "Calle Falsa 123"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

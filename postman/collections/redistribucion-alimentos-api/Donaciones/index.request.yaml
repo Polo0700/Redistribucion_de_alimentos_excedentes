@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar donaciones (paginado)'
+method: GET
+url: '{{baseUrl}}/donaciones'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la lista paginada en 'donaciones'", function () {
+          pm.expect(pm.response.json()).to.have.property('donaciones');
+      });

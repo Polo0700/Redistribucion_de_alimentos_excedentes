@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar listas de deseos eliminados (papelera)'
+method: GET
+url: '{{baseUrl}}/listas-deseos/eliminados'
+order: 6000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la papelera en 'listas'", function () {
+          pm.expect(pm.response.json()).to.have.property('listas');
+      });

@@ -20,7 +20,8 @@ class AlimentoController extends Controller
         $alimentos = Alimento::with('categoria')->paginate(5);
 
         // retorna la vista index de alimentos
-        return view('alimentos.index', compact('alimentos'));
+        // return view('alimentos.index', compact('alimentos'));
+        return response()->json(['alimentos' => $alimentos], 200);
     }
 
     /*
@@ -34,7 +35,8 @@ class AlimentoController extends Controller
         $categorias = CategoriaAlimento::orderBy('nombre')->get();
 
         // retorna la vista de creación de alimentos
-        return view('alimentos.create', compact('categorias'));
+        // return view('alimentos.create', compact('categorias'));
+        return response()->json(['categorias' => $categorias], 200);
     }
 
     /*
@@ -64,7 +66,8 @@ class AlimentoController extends Controller
             $alimento->update(['imagen' => $ruta]);
         }
 
-        return redirect()->route('alimentos.index')->with('success', 'Alimento creado correctamente.');
+        // return redirect()->route('alimentos.index')->with('success', 'Alimento creado correctamente.');
+        return response()->json(['message' => 'Alimento creado correctamente.'], 201);
     }
 
     /*
@@ -77,7 +80,8 @@ class AlimentoController extends Controller
         $alimento = Alimento::findOrFail($id);
         $categorias = CategoriaAlimento::orderBy('nombre')->get();
 
-        return view('alimentos.edit', compact('alimento', 'categorias'));
+        // return view('alimentos.edit', compact('alimento', 'categorias'));
+        return response()->json(['alimento' => $alimento, 'categorias' => $categorias], 200);
     }
 
     /*
@@ -121,7 +125,8 @@ class AlimentoController extends Controller
             }
         }
 
-        return redirect()->route('alimentos.index')->with('success', 'Alimento actualizado correctamente.');
+        // return redirect()->route('alimentos.index')->with('success', 'Alimento actualizado correctamente.');
+        return response()->json(['message' => 'Alimento actualizado correctamente.'], 200);
     }
 
     /*
@@ -133,7 +138,8 @@ class AlimentoController extends Controller
     {
         $alimento = Alimento::with('categoria')->findOrFail($id);
 
-        return view('alimentos.show', compact('alimento'));
+        // return view('alimentos.show', compact('alimento'));
+        return response()->json(['alimento' => $alimento], 200);
     }
 
     /*
@@ -146,7 +152,8 @@ class AlimentoController extends Controller
         $alimento = Alimento::findOrFail($id);
         $alimento->delete();
 
-        return redirect()->route('alimentos.index')->with('success', 'Alimento eliminado correctamente.');
+        // return redirect()->route('alimentos.index')->with('success', 'Alimento eliminado correctamente.');
+        return response()->json(['message' => 'Alimento eliminado correctamente.'], 200);
     }
 
     /*
@@ -158,7 +165,8 @@ class AlimentoController extends Controller
     {
         $alimentos = Alimento::onlyTrashed()->paginate(5);
 
-        return view('alimentos.trashed', compact('alimentos'));
+        // return view('alimentos.trashed', compact('alimentos'));
+        return response()->json(['alimentos' => $alimentos], 200);
     }
 
     /*
@@ -171,7 +179,8 @@ class AlimentoController extends Controller
         $alimento = Alimento::onlyTrashed()->findOrFail($id);
         $alimento->restore();
 
-        return redirect()->route('alimentos.trashed')->with('success', 'Alimento restaurado correctamente.');
+        // return redirect()->route('alimentos.trashed')->with('success', 'Alimento restaurado correctamente.');
+        return response()->json(['message' => 'Alimento restaurado correctamente.'], 200);
     }
 
     /*
@@ -185,20 +194,24 @@ class AlimentoController extends Controller
 
         // solo se permite si ya estaba eliminado lógicamente
         if (!$alimento->trashed()) {
-            return redirect()->route('alimentos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            // return redirect()->route('alimentos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
         }
 
         // validación de relaciones: si otra tabla lo usa, se cancela
         if ($alimento->detallesDonacion()->count() > 0) {
-            return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Detalles de Donación.');
+            // return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Detalles de Donación.');
+            return response()->json(['error' => 'No se puede eliminar: el alimento está registrado en Detalles de Donación.'], 409);
         }
 
         if ($alimento->detallesCarrito()->count() > 0) {
-            return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Carritos.');
+            // return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Carritos.');
+            return response()->json(['error' => 'No se puede eliminar: el alimento está registrado en Carritos.'], 409);
         }
 
         if ($alimento->deseosDetalle()->count() > 0) {
-            return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Listas de Deseos.');
+            // return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Listas de Deseos.');
+            return response()->json(['error' => 'No se puede eliminar: el alimento está registrado en Listas de Deseos.'], 409);
         }
 
         // eliminar la imagen asociada del almacenamiento
@@ -209,6 +222,7 @@ class AlimentoController extends Controller
         // eliminar el registro de la base de datos
         $alimento->forceDelete();
 
-        return redirect()->route('alimentos.trashed')->with('success', 'Alimento eliminado físicamente junto con su imagen.');
+        // return redirect()->route('alimentos.trashed')->with('success', 'Alimento eliminado físicamente junto con su imagen.');
+        return response()->json(['message' => 'Alimento eliminado físicamente junto con su imagen.'], 200);
     }
 }

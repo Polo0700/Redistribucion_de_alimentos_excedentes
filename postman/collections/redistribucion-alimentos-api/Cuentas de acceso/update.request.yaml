@@ -1,0 +1,31 @@
+$kind: http-request
+name: 'Actualizar cuenta de acceso'
+method: PUT
+url: '{{baseUrl}}/cuentas-acceso/:id'
+order: 4000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "proveedor": "local",
+      "contrasena": "secreto123",
+      "id_usuario": "1",
+      "fecha_ultimo_acceso": "2026-01-15",
+      "identificador_externo": "prueba@example.com"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

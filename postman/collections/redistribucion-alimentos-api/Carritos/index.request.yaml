@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar carritos (paginado)'
+method: GET
+url: '{{baseUrl}}/carritos'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la lista paginada en 'carritos'", function () {
+          pm.expect(pm.response.json()).to.have.property('carritos');
+      });

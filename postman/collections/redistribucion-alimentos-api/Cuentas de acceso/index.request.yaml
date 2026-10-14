@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar cuentas de acceso (paginado)'
+method: GET
+url: '{{baseUrl}}/cuentas-acceso'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la lista paginada en 'cuentas'", function () {
+          pm.expect(pm.response.json()).to.have.property('cuentas');
+      });

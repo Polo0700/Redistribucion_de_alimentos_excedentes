@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar usuarios (paginado)'
+method: GET
+url: '{{baseUrl}}/usuarios'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la lista paginada en 'usuarios'", function () {
+          pm.expect(pm.response.json()).to.have.property('usuarios');
+      });

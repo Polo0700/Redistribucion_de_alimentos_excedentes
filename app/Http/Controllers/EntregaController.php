@@ -14,7 +14,8 @@ class EntregaController extends Controller
         $entregas = Entrega::with('solicitud')->paginate(5);
 
         // retorna la pagina del index de entregas
-        return view('entregas.index', compact('entregas'));
+        // return view('entregas.index', compact('entregas'));
+        return response()->json(['entregas' => $entregas], 200);
     }
 
     // obtiene las solicitudes y las organiza por id y las mete a solicitudes
@@ -23,7 +24,8 @@ class EntregaController extends Controller
         $solicitudes = Solicitud::orderBy('id_solicitud')->get();
 
         // retorna la vista de creacion de entregas
-        return view('entregas.create', compact('solicitudes'));
+        // return view('entregas.create', compact('solicitudes'));
+        return response()->json(['solicitudes' => $solicitudes], 200);
     }
 
     public function store(Request $request)
@@ -41,7 +43,8 @@ class EntregaController extends Controller
         Entrega::create($validado);
 
         // redirige al index y un mensaje de correcto
-        return redirect()->route('entregas.index')->with('success', 'Entrega creada correctamente');
+        // return redirect()->route('entregas.index')->with('success', 'Entrega creada correctamente');
+        return response()->json(['message' => 'Entrega creada correctamente'], 201);
     }
 
     public function edit($id)
@@ -50,10 +53,11 @@ class EntregaController extends Controller
 
     $solicitudes = Solicitud::with('usuario')->get();
 
-    return view(
-        'entregas.edit',
-        compact('entrega', 'solicitudes')
-    );
+    // return view(
+    //     'entregas.edit',
+    //     compact('entrega', 'solicitudes')
+    // );
+    return response()->json(['entrega' => $entrega, 'solicitudes' => $solicitudes], 200);
 }
 
 public function update(Request $request, $id)
@@ -76,9 +80,10 @@ public function update(Request $request, $id)
         'observaciones' => $request->observaciones,
     ]);
 
-return redirect()
-        ->route('entregas.index')
-        ->with('success', 'Entrega actualizada correctamente.');
+// return redirect()
+//         ->route('entregas.index')
+//         ->with('success', 'Entrega actualizada correctamente.');
+return response()->json(['message' => 'Entrega actualizada correctamente.'], 200);
     }
 
     /*
@@ -90,7 +95,8 @@ return redirect()
     {
         $entrega = Entrega::with('solicitud')->findOrFail($id);
 
-        return view('entregas.show', compact('entrega'));
+        // return view('entregas.show', compact('entrega'));
+        return response()->json(['entrega' => $entrega], 200);
     }
 
     /*
@@ -103,7 +109,8 @@ return redirect()
         $entrega = Entrega::findOrFail($id);
         $entrega->delete();
 
-        return redirect()->route('entregas.index')->with('success', 'Entrega eliminada correctamente.');
+        // return redirect()->route('entregas.index')->with('success', 'Entrega eliminada correctamente.');
+        return response()->json(['message' => 'Entrega eliminada correctamente.'], 200);
     }
 
     /*
@@ -115,7 +122,8 @@ return redirect()
     {
         $entregas = Entrega::onlyTrashed()->paginate(5);
 
-        return view('entregas.trashed', compact('entregas'));
+        // return view('entregas.trashed', compact('entregas'));
+        return response()->json(['entregas' => $entregas], 200);
     }
 
     /*
@@ -128,7 +136,8 @@ return redirect()
         $entrega = Entrega::onlyTrashed()->findOrFail($id);
         $entrega->restore();
 
-        return redirect()->route('entregas.trashed')->with('success', 'Entrega restaurada correctamente.');
+        // return redirect()->route('entregas.trashed')->with('success', 'Entrega restaurada correctamente.');
+        return response()->json(['message' => 'Entrega restaurada correctamente.'], 200);
     }
 
     /*
@@ -142,12 +151,14 @@ return redirect()
 
         // solo se permite si ya estaba eliminada lógicamente
         if (!$entrega->trashed()) {
-            return redirect()->route('entregas.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            // return redirect()->route('entregas.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
         }
 
         // sin tablas dependientes: se elimina directamente
         $entrega->forceDelete();
 
-        return redirect()->route('entregas.trashed')->with('success', 'Entrega eliminada definitivamente.');
+        // return redirect()->route('entregas.trashed')->with('success', 'Entrega eliminada definitivamente.');
+        return response()->json(['message' => 'Entrega eliminada definitivamente.'], 200);
     }
 }

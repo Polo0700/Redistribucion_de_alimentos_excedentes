@@ -1,0 +1,21 @@
+$kind: http-request
+name: 'Obtener cuenta por id'
+method: GET
+url: '{{baseUrl}}/cuentas-acceso/:id'
+order: 2000
+pathVariables:
+  - key: id
+    value: '1'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("200 con el registro en 'cuenta', o 404 con message", function () {
+          var body = pm.response.json();
+          if (pm.response.code === 200) {
+              pm.expect(body).to.have.property('cuenta');
+          } else {
+              pm.response.to.have.status(404);
+              pm.expect(body).to.have.property('message');
+          }
+      });
