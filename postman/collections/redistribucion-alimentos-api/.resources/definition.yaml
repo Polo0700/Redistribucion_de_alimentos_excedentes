@@ -1,6 +1,6 @@
 $kind: collection
 name: 'Redistribucion de Alimentos API'
-description: 'API REST del proyecto de redistribucion de alimentos excedentes. Todos los recursos responden JSON. Generada desde los controladores de app/Http/Controllers.'
+description: 'API REST del proyecto de redistribucion de alimentos excedentes. Todos los recursos responden JSON.'
 variables:
   - key: baseUrl
     value: 'http://127.0.0.1:8000/api'

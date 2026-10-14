@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Listar usuarios (paginado)'
+name: 'Listar usuarios'
 method: GET
 url: '{{baseUrl}}/usuarios'
 order: 1000

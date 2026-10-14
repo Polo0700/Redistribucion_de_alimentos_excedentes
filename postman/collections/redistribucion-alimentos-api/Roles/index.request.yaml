@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Listar roles (paginado)'
+name: 'Listar roles'
 method: GET
 url: '{{baseUrl}}/roles'
 order: 1000

@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Eliminar solicitud (borrado logico)'
+name: 'Eliminar solicitud'
 method: DELETE
 url: '{{baseUrl}}/solicitudes/:id'
 order: 5000

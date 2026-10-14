@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Eliminar cuenta de acceso (borrado logico)'
+name: 'Eliminar cuenta de acceso'
 method: DELETE
 url: '{{baseUrl}}/cuentas-acceso/:id'
 order: 5000

@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Eliminar carrito (borrado logico)'
+name: 'Eliminar carrito'
 method: DELETE
 url: '{{baseUrl}}/carritos/:id'
 order: 5000

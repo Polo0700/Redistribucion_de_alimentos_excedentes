@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Listar cuentas de acceso (paginado)'
+name: 'Listar cuentas de acceso'
 method: GET
 url: '{{baseUrl}}/cuentas-acceso'
 order: 1000

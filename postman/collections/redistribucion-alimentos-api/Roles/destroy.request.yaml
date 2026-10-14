@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Eliminar rol (borrado logico)'
+name: 'Eliminar rol'
 method: DELETE
 url: '{{baseUrl}}/roles/:id'
 order: 5000

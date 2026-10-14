@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Eliminar accion importante (borrado logico)'
+name: 'Eliminar accion importante'
 method: DELETE
 url: '{{baseUrl}}/acciones-importantes/:id'
 order: 5000

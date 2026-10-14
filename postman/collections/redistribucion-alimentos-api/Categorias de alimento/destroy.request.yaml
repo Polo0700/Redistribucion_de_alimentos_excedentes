@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Eliminar categoria de alimento (borrado logico)'
+name: 'Eliminar categoria de alimento'
 method: DELETE
 url: '{{baseUrl}}/categorias/:id'
 order: 5000

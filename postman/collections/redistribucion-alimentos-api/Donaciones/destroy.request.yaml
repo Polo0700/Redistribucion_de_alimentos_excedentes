@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Eliminar donacion (borrado logico)'
+name: 'Eliminar donacion'
 method: DELETE
 url: '{{baseUrl}}/donaciones/:id'
 order: 5000

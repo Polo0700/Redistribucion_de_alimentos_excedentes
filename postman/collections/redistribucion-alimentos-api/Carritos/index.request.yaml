@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Listar carritos (paginado)'
+name: 'Listar carritos'
 method: GET
 url: '{{baseUrl}}/carritos'
 order: 1000

@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Listar categorias de alimento (paginado)'
+name: 'Listar categorias de alimento'
 method: GET
 url: '{{baseUrl}}/categorias'
 order: 1000

@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Listar donaciones (paginado)'
+name: 'Listar donaciones'
 method: GET
 url: '{{baseUrl}}/donaciones'
 order: 1000

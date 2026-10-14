@@ -1,5 +1,5 @@
 $kind: http-request
-name: 'Listar solicitudes (paginado)'
+name: 'Listar solicitudes'
 method: GET
 url: '{{baseUrl}}/solicitudes'
 order: 1000
