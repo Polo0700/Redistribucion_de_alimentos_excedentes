@@ -15,12 +15,12 @@
             @csrf
 
             <div class="mb-4">
-                <label class="block mb-2 text-sm font-medium text-gray-900">Correo electr&oacute;nico</label>
-                <input type="email" name="identificador_externo"
-                       value="{{ old('identificador_externo') }}" maxlength="150" required
+                <label class="block mb-2 text-sm font-medium text-gray-900">Nombre de usuario</label>
+                <input type="text" name="username"
+                       value="{{ old('username') }}" maxlength="30" required
                        class="w-full p-2.5 border border-gray-300 rounded-lg"
-                       placeholder="correo@ejemplo.com">
-                @error('identificador_externo')
+                       placeholder="tu_usuario">
+                @error('username')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>

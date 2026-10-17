@@ -27,28 +27,28 @@ class AuthAdminController extends Controller
     public function in(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'identificador_externo' => ['required', 'email', 'max:150'],
-            'password' => ['required', 'min:4'],
+            'username' => ['required', 'string', 'max:150'],
+            'password' => ['required', 'min:8'],
         ]);
 
         if (! Auth::guard('admin')->attempt($credentials)) {
             return back()
                 ->withErrors([
-                    'identificador_externo' => 'Usuario o contraseña incorrectos',
+                    'username' => 'Usuario o contraseña incorrectos',
                 ])
-                ->onlyInput('identificador_externo');
+                ->onlyInput('username');
         }
 
         $cuenta = Auth::guard('admin')->user();
 
-        if ($cuenta->usuario?->rol?->nombre !== 'Administrador') {
+        if (! $cuenta->activo){
             Auth::guard('admin')->logout();
 
             return back()
                 ->withErrors([
-                    'identificador_externo' => 'Esta cuenta no tiene permisos de administrador',
+                    'username' => 'Esta cuenta no tiene permisos de administrador',
                 ])
-                ->onlyInput('identificador_externo');
+                ->onlyInput('username');
         }
 
         $request->session()->regenerate();
