@@ -6,7 +6,9 @@
 
 ## favor de leer lo siguiente
 
-### los atributos pueden ser sensibles asi que favor de los valores como contraseña hashear o que no sea texto plano
+### - los atributos pueden ser sensibles asi que favor de los valores como contraseña hashear o que no sea texto plano
+
+---
 
 ### cualquier duda preguntar a mi --Adrian--
 

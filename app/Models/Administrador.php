@@ -10,6 +10,10 @@ class Administrador extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    // modelo administrador
+    // leer en /log/funcion_modelo_admin.md
+    // propiedades de la tabla administradores
+
     protected $table = 'administradores';
     protected $primaryKey = 'id';
     public $timestamps = true;
