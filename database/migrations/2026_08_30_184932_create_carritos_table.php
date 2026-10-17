@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::create('carritos', function (Blueprint $table){
+        Schema::create('carritos', function (Blueprint $table) {
             $table->id('id_carrito');
             $table->foreignId('id_usuario')->constrained('usuarios');
             $table->timestamp('fecha_creacion')->useCurrent();

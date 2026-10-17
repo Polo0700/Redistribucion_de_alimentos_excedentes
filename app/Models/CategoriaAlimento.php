@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CategoriaAlimento extends Model
 {
     use SoftDeletes;
+
     protected $table = 'categorias_alimento';
 
     protected $primaryKey = 'id_categoria';

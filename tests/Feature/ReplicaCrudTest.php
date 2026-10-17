@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\AccionImportante;
+use App\Models\Alimento;
 use App\Models\Carrito;
 use App\Models\CategoriaAlimento;
 use App\Models\CuentaAcceso;
@@ -14,11 +15,19 @@ use App\Models\Rol;
 use App\Models\Solicitud;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\AutenticaComoAdmin;
 use Tests\TestCase;
 
 class ReplicaCrudTest extends TestCase
 {
-    use RefreshDatabase;
+    use AutenticaComoAdmin, RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->actingAsAdmin();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -58,9 +67,9 @@ class ReplicaCrudTest extends TestCase
         ]);
     }
 
-    private function crearAlimento(CategoriaAlimento $categoria): \App\Models\Alimento
+    private function crearAlimento(CategoriaAlimento $categoria): Alimento
     {
-        return \App\Models\Alimento::create([
+        return Alimento::create([
             'id_categoria' => $categoria->id_categoria,
             'nombre' => 'Manzana',
             'descripcion' => 'Fruta roja',

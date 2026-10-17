@@ -30,8 +30,8 @@ class ListaDeseoController extends Controller
     {
         // toma la peticion y la comprueba si tiene los parametros
         $validado = $request->validate([
-            'id_usuario'     => 'required|exists:usuarios,id',
-            'nombre'         => 'required|string|max:100',
+            'id_usuario' => 'required|exists:usuarios,id',
+            'nombre' => 'required|string|max:100',
             'fecha_creacion' => 'required|date',
         ]);
 
@@ -43,36 +43,36 @@ class ListaDeseoController extends Controller
     }
 
     public function edit($id)
-{
-    $lista = ListaDeseo::findOrFail($id);
+    {
+        $lista = ListaDeseo::findOrFail($id);
 
-    $usuarios = Usuario::where('estado', true)->get();
+        $usuarios = Usuario::where('estado', true)->get();
 
-    return view(
-        'listas-deseos.edit',
-        compact('lista', 'usuarios')
-    );
-}
+        return view(
+            'listas-deseos.edit',
+            compact('lista', 'usuarios')
+        );
+    }
 
-public function update(Request $request, $id)
-{
-    $lista = ListaDeseo::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $lista = ListaDeseo::findOrFail($id);
 
-    $request->validate([
-        'id_usuario' => 'required|exists:usuarios,id',
-        'nombre' => 'required|max:100',
-        'fecha_creacion' => 'required|date',
-    ]);
+        $request->validate([
+            'id_usuario' => 'required|exists:usuarios,id',
+            'nombre' => 'required|max:100',
+            'fecha_creacion' => 'required|date',
+        ]);
 
-    $lista->update([
-        'id_usuario' => $request->id_usuario,
-        'nombre' => $request->nombre,
-        'fecha_creacion' => $request->fecha_creacion,
-    ]);
+        $lista->update([
+            'id_usuario' => $request->id_usuario,
+            'nombre' => $request->nombre,
+            'fecha_creacion' => $request->fecha_creacion,
+        ]);
 
-return redirect()
-        ->route('listas-deseos.index')
-        ->with('success', 'Lista de deseos actualizada correctamente.');
+        return redirect()
+            ->route('listas-deseos.index')
+            ->with('success', 'Lista de deseos actualizada correctamente.');
     }
 
     /*
@@ -135,7 +135,7 @@ return redirect()
         $lista = ListaDeseo::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
-        if (!$lista->trashed()) {
+        if (! $lista->trashed()) {
             return redirect()->route('listas-deseos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 

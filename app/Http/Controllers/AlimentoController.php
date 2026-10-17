@@ -47,10 +47,10 @@ class AlimentoController extends Controller
         // validación
         $validado = $request->validate([
             'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
-            'nombre'       => 'required|string|max:80',
-            'descripcion'  => 'required|string|max:200',
-            'estado'       => 'required|boolean',
-            'imagen'       => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'nombre' => 'required|string|max:80',
+            'descripcion' => 'required|string|max:200',
+            'estado' => 'required|boolean',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         // crear alimento
@@ -59,7 +59,7 @@ class AlimentoController extends Controller
         // guardar imagen si existe
         if ($request->hasFile('imagen')) {
             $extension = $request->file('imagen')->extension();
-            $nombreImagen = 'Alimento_' . $alimento->id_alimento . '_1.' . $extension;
+            $nombreImagen = 'Alimento_'.$alimento->id_alimento.'_1.'.$extension;
             $ruta = $request->file('imagen')->storeAs('alimentos', $nombreImagen, 'public');
             $alimento->update(['imagen' => $ruta]);
         }
@@ -93,24 +93,24 @@ class AlimentoController extends Controller
         // validación
         $validado = $request->validate([
             'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
-            'nombre'       => 'required|string|max:80',
-            'descripcion'  => 'nullable|string|max:200',
-            'estado'       => 'required|boolean',
-            'imagen'       => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'nombre' => 'required|string|max:80',
+            'descripcion' => 'nullable|string|max:200',
+            'estado' => 'required|boolean',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         // actualizar datos
         $alimento->update([
             'id_categoria' => $validado['id_categoria'],
-            'nombre'       => $validado['nombre'],
-            'descripcion'  => $validado['descripcion'],
-            'estado'       => $validado['estado'],
+            'nombre' => $validado['nombre'],
+            'descripcion' => $validado['descripcion'],
+            'estado' => $validado['estado'],
         ]);
 
         // si hay nueva imagen
         if ($request->hasFile('imagen')) {
             $extension = $request->file('imagen')->extension();
-            $nombreImagen = 'Alimento_' . $alimento->id_alimento . '_1.' . $extension;
+            $nombreImagen = 'Alimento_'.$alimento->id_alimento.'_1.'.$extension;
             $rutaNueva = $request->file('imagen')->storeAs('alimentos', $nombreImagen, 'public');
 
             $alimento->update(['imagen' => $rutaNueva]);
@@ -184,7 +184,7 @@ class AlimentoController extends Controller
         $alimento = Alimento::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminado lógicamente
-        if (!$alimento->trashed()) {
+        if (! $alimento->trashed()) {
             return redirect()->route('alimentos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 

@@ -2,18 +2,27 @@
 
 namespace Tests\Feature;
 
+use App\Models\Alimento;
 use App\Models\CategoriaAlimento;
 use App\Models\DetalleDonacion;
 use App\Models\Donacion;
+use App\Models\Rol;
 use App\Models\Usuario;
-use App\Models\Alimento;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
+use Tests\Concerns\AutenticaComoAdmin;
 use Tests\TestCase;
 
 class AlimentoCrudTest extends TestCase
 {
-    use RefreshDatabase;
+    use AutenticaComoAdmin, RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->actingAsAdmin();
+    }
 
     private function crearCategoria(): CategoriaAlimento
     {
@@ -39,7 +48,7 @@ class AlimentoCrudTest extends TestCase
 
     private function crearDependencia(Alimento $alimento): void
     {
-        $rol = \App\Models\Rol::create([
+        $rol = Rol::create([
             'nombre' => 'Admin',
             'descripcion' => 'Rol de prueba',
             'estado' => 1,
@@ -96,7 +105,7 @@ class AlimentoCrudTest extends TestCase
         $respuesta->assertSee($alimento->nombre);
         $respuesta->assertSee($alimento->descripcion);
         $respuesta->assertSee('Frutas'); // relación con categoría
-        $respuesta->assertDontSee('<form'); // solo lectura
+        $respuesta->assertDontSee('value="PUT"'); // sin formulario de edición (solo lectura)
     }
 
     public function test_show_de_registro_inexistente_devuelve_404(): void

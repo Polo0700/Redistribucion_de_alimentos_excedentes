@@ -1,0 +1,9 @@
+{
+    "preset": "laravel",
+    "exclude": [
+        "A3_2_plantillas",
+        "bootstrap/cache",
+        "storage",
+        "vendor"
+    ]
+}

@@ -78,7 +78,6 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | 2. CATEGORÍAS DE ALIMENTOS
@@ -147,7 +146,6 @@ class DatosProyectoSeeder extends Seeder
                 'estado' => true,
             ],
         ]);
-
 
         /*
         |--------------------------------------------------------------------------
@@ -268,7 +266,6 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | 4. CUENTAS DE ACCESO
@@ -358,7 +355,6 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | 5. ALIMENTOS
@@ -437,7 +433,6 @@ class DatosProyectoSeeder extends Seeder
                 'estado' => true,
             ],
         ]);
-
 
         /*
         |--------------------------------------------------------------------------
@@ -538,7 +533,6 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | 7. DETALLE DE DONACIONES
@@ -618,7 +612,6 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | 8. CARRITOS
@@ -687,7 +680,6 @@ class DatosProyectoSeeder extends Seeder
                 'estado' => 'Finalizado',
             ],
         ]);
-
 
         /*
         |--------------------------------------------------------------------------
@@ -758,7 +750,6 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | 10. LISTAS DE DESEOS
@@ -828,7 +819,6 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | 11. DETALLE DE LISTAS DE DESEOS
@@ -897,7 +887,6 @@ class DatosProyectoSeeder extends Seeder
                 'fecha_agregado' => '2026-09-06 10:30:00',
             ],
         ]);
-
 
         /*
         |--------------------------------------------------------------------------
@@ -988,7 +977,6 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | 13. DETALLE DE SOLICITUDES
@@ -1067,7 +1055,6 @@ class DatosProyectoSeeder extends Seeder
                 'estado' => 'En proceso',
             ],
         ]);
-
 
         /*
         |--------------------------------------------------------------------------
@@ -1157,7 +1144,6 @@ class DatosProyectoSeeder extends Seeder
                 'observaciones' => 'Pendiente de entrega.',
             ],
         ]);
-
 
         /*
         |--------------------------------------------------------------------------

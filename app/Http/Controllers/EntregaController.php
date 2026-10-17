@@ -30,11 +30,11 @@ class EntregaController extends Controller
     {
         // toma la peticion y la comprueba si tiene los parametros
         $validado = $request->validate([
-            'id_solicitud'   => 'required|exists:solicitudes,id_solicitud',
-            'fecha_entrega'  => 'required|date',
-            'responsable'    => 'required|string|max:100',
-            'estado'         => 'required|string|max:30',
-            'observaciones'  => 'nullable|string|max:250',
+            'id_solicitud' => 'required|exists:solicitudes,id_solicitud',
+            'fecha_entrega' => 'required|date',
+            'responsable' => 'required|string|max:100',
+            'estado' => 'required|string|max:30',
+            'observaciones' => 'nullable|string|max:250',
         ]);
 
         // crea una entrega
@@ -45,40 +45,40 @@ class EntregaController extends Controller
     }
 
     public function edit($id)
-{
-    $entrega = Entrega::findOrFail($id);
+    {
+        $entrega = Entrega::findOrFail($id);
 
-    $solicitudes = Solicitud::with('usuario')->get();
+        $solicitudes = Solicitud::with('usuario')->get();
 
-    return view(
-        'entregas.edit',
-        compact('entrega', 'solicitudes')
-    );
-}
+        return view(
+            'entregas.edit',
+            compact('entrega', 'solicitudes')
+        );
+    }
 
-public function update(Request $request, $id)
-{
-    $entrega = Entrega::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $entrega = Entrega::findOrFail($id);
 
-    $request->validate([
-        'id_solicitud' => 'required|exists:solicitudes,id_solicitud',
-        'fecha_entrega' => 'required|date',
-        'responsable' => 'required|max:100',
-        'estado' => 'required|max:30',
-        'observaciones' => 'nullable|max:250',
-    ]);
+        $request->validate([
+            'id_solicitud' => 'required|exists:solicitudes,id_solicitud',
+            'fecha_entrega' => 'required|date',
+            'responsable' => 'required|max:100',
+            'estado' => 'required|max:30',
+            'observaciones' => 'nullable|max:250',
+        ]);
 
-    $entrega->update([
-        'id_solicitud' => $request->id_solicitud,
-        'fecha_entrega' => $request->fecha_entrega,
-        'responsable' => $request->responsable,
-        'estado' => $request->estado,
-        'observaciones' => $request->observaciones,
-    ]);
+        $entrega->update([
+            'id_solicitud' => $request->id_solicitud,
+            'fecha_entrega' => $request->fecha_entrega,
+            'responsable' => $request->responsable,
+            'estado' => $request->estado,
+            'observaciones' => $request->observaciones,
+        ]);
 
-return redirect()
-        ->route('entregas.index')
-        ->with('success', 'Entrega actualizada correctamente.');
+        return redirect()
+            ->route('entregas.index')
+            ->with('success', 'Entrega actualizada correctamente.');
     }
 
     /*
@@ -141,7 +141,7 @@ return redirect()
         $entrega = Entrega::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
-        if (!$entrega->trashed()) {
+        if (! $entrega->trashed()) {
             return redirect()->route('entregas.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 

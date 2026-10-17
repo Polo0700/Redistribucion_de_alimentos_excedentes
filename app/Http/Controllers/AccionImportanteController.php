@@ -30,12 +30,12 @@ class AccionImportanteController extends Controller
     {
         // toma la peticion y la comprueba si tiene los parametros
         $validado = $request->validate([
-            'id_usuario'    => 'nullable|exists:usuarios,id',
-            'accion'        => 'required|string|max:100',
-            'descripcion'   => 'nullable|string|max:250',
-            'tabla_afectada'=> 'required|string|max:80',
-            'fecha_hora'    => 'required|date',
-            'ip_origen'     => 'required|ip|max:45',
+            'id_usuario' => 'nullable|exists:usuarios,id',
+            'accion' => 'required|string|max:100',
+            'descripcion' => 'nullable|string|max:250',
+            'tabla_afectada' => 'required|string|max:80',
+            'fecha_hora' => 'required|date',
+            'ip_origen' => 'required|ip|max:45',
         ]);
 
         // crea una accion importante
@@ -44,43 +44,44 @@ class AccionImportanteController extends Controller
         // redirige al index y un mensaje de correcto
         return redirect()->route('acciones.index')->with('success', 'Accion importante creada correctamente');
     }
+
     public function edit($id)
-{
-    $accion = AccionImportante::findOrFail($id);
+    {
+        $accion = AccionImportante::findOrFail($id);
 
-    $usuarios = Usuario::where('estado', true)->get();
+        $usuarios = Usuario::where('estado', true)->get();
 
-    return view(
-        'acciones-importantes.edit',
-        compact('accion', 'usuarios')
-    );
-}
+        return view(
+            'acciones-importantes.edit',
+            compact('accion', 'usuarios')
+        );
+    }
 
-public function update(Request $request, $id)
-{
-    $accion = AccionImportante::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $accion = AccionImportante::findOrFail($id);
 
-    $request->validate([
-        'id_usuario' => 'required|exists:usuarios,id',
-        'accion' => 'required|max:100',
-        'tabla_afectada' => 'required|max:80',
-        'descripcion' => 'nullable|max:250',
-        'fecha_hora' => 'required|date',
-        'ip_origen' => 'nullable|ip',
-    ]);
+        $request->validate([
+            'id_usuario' => 'required|exists:usuarios,id',
+            'accion' => 'required|max:100',
+            'tabla_afectada' => 'required|max:80',
+            'descripcion' => 'nullable|max:250',
+            'fecha_hora' => 'required|date',
+            'ip_origen' => 'nullable|ip',
+        ]);
 
-    $accion->update([
-        'id_usuario' => $request->id_usuario,
-        'accion' => $request->accion,
-        'tabla_afectada' => $request->tabla_afectada,
-        'descripcion' => $request->descripcion,
-        'fecha_hora' => $request->fecha_hora,
-        'ip_origen' => $request->ip_origen,
-    ]);
+        $accion->update([
+            'id_usuario' => $request->id_usuario,
+            'accion' => $request->accion,
+            'tabla_afectada' => $request->tabla_afectada,
+            'descripcion' => $request->descripcion,
+            'fecha_hora' => $request->fecha_hora,
+            'ip_origen' => $request->ip_origen,
+        ]);
 
-return redirect()
-        ->route('acciones.index')
-        ->with('success', 'Acción actualizada correctamente.');
+        return redirect()
+            ->route('acciones.index')
+            ->with('success', 'Acción actualizada correctamente.');
     }
 
     /*
@@ -143,7 +144,7 @@ return redirect()
         $accion = AccionImportante::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
-        if (!$accion->trashed()) {
+        if (! $accion->trashed()) {
             return redirect()->route('acciones.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 

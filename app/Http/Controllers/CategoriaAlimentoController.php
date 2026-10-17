@@ -26,9 +26,9 @@ class CategoriaAlimentoController extends Controller
     {
         // toma la peticion y la comprueba si tiene los parametros
         $validado = $request->validate([
-            'nombre'      => 'required|string|max:80',
+            'nombre' => 'required|string|max:80',
             'descripcion' => 'required|string|max:200',
-            'estado'      => 'required|boolean',
+            'estado' => 'required|boolean',
         ]);
 
         // crea una categoria
@@ -39,31 +39,31 @@ class CategoriaAlimentoController extends Controller
     }
 
     public function edit($id)
-{
-    $categoria = CategoriaAlimento::findOrFail($id);
+    {
+        $categoria = CategoriaAlimento::findOrFail($id);
 
-    return view('categorias.edit', compact('categoria'));
-}
+        return view('categorias.edit', compact('categoria'));
+    }
 
-public function update(Request $request, $id)
-{
-    $categoria = CategoriaAlimento::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $categoria = CategoriaAlimento::findOrFail($id);
 
-    $request->validate([
-        'nombre' => 'required|max:80',
-        'descripcion' => 'nullable|max:200',
-        'estado' => 'required|boolean',
-    ]);
+        $request->validate([
+            'nombre' => 'required|max:80',
+            'descripcion' => 'nullable|max:200',
+            'estado' => 'required|boolean',
+        ]);
 
-    $categoria->update([
-        'nombre' => $request->nombre,
-        'descripcion' => $request->descripcion,
-        'estado' => $request->estado,
-    ]);
+        $categoria->update([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'estado' => $request->estado,
+        ]);
 
-    return redirect()
-        ->route('categorias.index')
-        ->with('success', 'Categoría actualizada correctamente.');
+        return redirect()
+            ->route('categorias.index')
+            ->with('success', 'Categoría actualizada correctamente.');
     }
 
     /*
@@ -126,7 +126,7 @@ public function update(Request $request, $id)
         $categoria = CategoriaAlimento::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
-        if (!$categoria->trashed()) {
+        if (! $categoria->trashed()) {
             return redirect()->route('categorias.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_detalle_solicitud');
             $table->foreignId('id_solicitud')->constrained('solicitudes', 'id_solicitud');
             $table->foreignId('id_alimento')->constrained('alimentos', 'id_alimento');
-            $table->decimal('cantidad',10,2)->default(1);
+            $table->decimal('cantidad', 10, 2)->default(1);
             $table->string('estado', 30);
         });
     }

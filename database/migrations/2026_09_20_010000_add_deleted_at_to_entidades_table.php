@@ -23,7 +23,7 @@ return new class extends Migration
         ];
 
         foreach ($tablas as $tabla) {
-            Schema::table($tabla, fn(Blueprint $t) => $t->softDeletes());
+            Schema::table($tabla, fn (Blueprint $t) => $t->softDeletes());
         }
     }
 
@@ -44,7 +44,7 @@ return new class extends Migration
         ];
 
         foreach ($tablas as $tabla) {
-            Schema::table($tabla, fn(Blueprint $t) => $t->dropSoftDeletes());
+            Schema::table($tabla, fn (Blueprint $t) => $t->dropSoftDeletes());
         }
     }
 };

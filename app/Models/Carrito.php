@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Carrito extends Model
 {
     use SoftDeletes;
+
     protected $table = 'carritos';
 
     protected $primaryKey = 'id_carrito';

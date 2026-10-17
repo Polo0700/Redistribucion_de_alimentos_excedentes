@@ -71,11 +71,11 @@
                         <div class="px-4 py-3">
 
                             <p class="text-sm text-gray-900">
-                                Usuario Demo
+                                {{ auth('admin')->user()?->usuario?->nombre ?? 'Administrador' }}
                             </p>
 
                             <p class="text-sm font-medium text-gray-500 truncate">
-                                usuario@ejemplo.com
+                                {{ auth('admin')->user()?->identificador_externo ?? '' }}
                             </p>
 
                         </div>
@@ -83,17 +83,13 @@
                         <ul class="py-1">
 
                             <li>
-                                <a href="#"
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Perfil
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#"
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Cerrar sesión
-                                </a>
+                                <form method="POST" action="{{ route('admin.logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                            class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Cerrar sesión
+                                    </button>
+                                </form>
                             </li>
 
                         </ul>

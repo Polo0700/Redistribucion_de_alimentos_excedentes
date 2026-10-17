@@ -30,12 +30,12 @@ class DonacionController extends Controller
     {
         // toma la peticion y la comprueba si tiene los parametros y que las fechas esten en orden
         $validado = $request->validate([
-            'id_usuario'     => 'required|exists:usuarios,id',
+            'id_usuario' => 'required|exists:usuarios,id',
             'fecha_donacion' => 'required|date',
-            'fecha_limite'   => 'required|date|after:fecha_donacion',
-            'ubicacion'      => 'required|string|max:200',
-            'estado'         => 'required|string|max:30',
-            'observaciones'  => 'required|string|max:250',
+            'fecha_limite' => 'required|date|after:fecha_donacion',
+            'ubicacion' => 'required|string|max:200',
+            'estado' => 'required|string|max:30',
+            'observaciones' => 'required|string|max:250',
         ]);
 
         // crea una donacion
@@ -46,42 +46,42 @@ class DonacionController extends Controller
     }
 
     public function edit($id)
-{
-    $donacion = Donacion::findOrFail($id);
+    {
+        $donacion = Donacion::findOrFail($id);
 
-    $usuarios = Usuario::where('estado', true)->get();
+        $usuarios = Usuario::where('estado', true)->get();
 
-    return view(
-        'donaciones.edit',
-        compact('donacion', 'usuarios')
-    );
-}
+        return view(
+            'donaciones.edit',
+            compact('donacion', 'usuarios')
+        );
+    }
 
-public function update(Request $request, $id)
-{
-    $donacion = Donacion::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $donacion = Donacion::findOrFail($id);
 
-    $request->validate([
-        'id_usuario' => 'required|exists:usuarios,id',
-        'fecha_donacion' => 'required|date',
-        'fecha_limite' => 'required|date',
-        'ubicacion' => 'required|max:200',
-        'estado' => 'required|max:30',
-        'observaciones' => 'nullable|max:250',
-    ]);
+        $request->validate([
+            'id_usuario' => 'required|exists:usuarios,id',
+            'fecha_donacion' => 'required|date',
+            'fecha_limite' => 'required|date',
+            'ubicacion' => 'required|max:200',
+            'estado' => 'required|max:30',
+            'observaciones' => 'nullable|max:250',
+        ]);
 
-    $donacion->update([
-        'id_usuario' => $request->id_usuario,
-        'fecha_donacion' => $request->fecha_donacion,
-        'fecha_limite' => $request->fecha_limite,
-        'ubicacion' => $request->ubicacion,
-        'estado' => $request->estado,
-        'observaciones' => $request->observaciones,
-    ]);
+        $donacion->update([
+            'id_usuario' => $request->id_usuario,
+            'fecha_donacion' => $request->fecha_donacion,
+            'fecha_limite' => $request->fecha_limite,
+            'ubicacion' => $request->ubicacion,
+            'estado' => $request->estado,
+            'observaciones' => $request->observaciones,
+        ]);
 
-return redirect()
-        ->route('donaciones.index')
-        ->with('success', 'Donación actualizada correctamente.');
+        return redirect()
+            ->route('donaciones.index')
+            ->with('success', 'Donación actualizada correctamente.');
     }
 
     /*
@@ -144,7 +144,7 @@ return redirect()
         $donacion = Donacion::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
-        if (!$donacion->trashed()) {
+        if (! $donacion->trashed()) {
             return redirect()->route('donaciones.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 

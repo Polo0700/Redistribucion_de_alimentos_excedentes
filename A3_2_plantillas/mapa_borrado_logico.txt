@@ -1,0 +1,44 @@
+┌─┐
+       Ruta: ───────▶│ │ ◀─ botón "Eliminar" del listado
+       DELETE /alimentos/{id} │ │
+                      └─┘
+                        │  Laravel llama al controlador con el $id
+                        ▼
+             ┌──────────────────────┐
+             │   AlimentoController  │
+             │   destroy($id)        │
+             └──────────────────────┘
+                        │
+                        │  1. Alimento::findOrFail($id)
+                        ▼
+             ┌──────────────────────┐
+             │   Modelo Alimento     │  ← capa LÓGICA
+             │   Eloquent busca la   │
+             │   fila en 'alimentos' │
+             └──────────────────────┘
+                        │  "esta es la fila → $registro"
+                        ▼
+             $registro->delete()   ← el propio registro usa
+                        │            su botón de borrado lógico
+                        │            (pone deleted_at, NO borra la fila)
+                        ▼
+             ┌──────────────────────┐
+             │   MySQL 'alimentos'  │  ← capa FÍSICA
+             │   UPDATE alimentos   │
+             │   SET deleted_at=NOW │
+             │   WHERE id_alimento=3│
+             └──────────────────────┘
+                        │
+                        ▼
+        redirect('alimentos.index')
+                        │
+                        ▶ vuelve al listado + mensaje verde
+                                "Registro eliminado correctamente"
+
+─────────────────────────────────────────────────────────────
+  • findOrFail: "busca la fila; si no existe → error 404"
+  • delete():   botón lógico (marca, reversible con restore())
+  • forceDelete(): botón físico (borra la fila de verdad)
+  • El listado ya NO muestra registros con deleted_at != null
+    (eso lo hace SoftDeletes automáticamente)
+─────────────────────────────────────────────────────────────

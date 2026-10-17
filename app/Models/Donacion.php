@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Donacion extends Model
 {
     use SoftDeletes;
+
     protected $table = 'donaciones';
 
     protected $primaryKey = 'id_donacion';

@@ -30,11 +30,11 @@ class SolicitudController extends Controller
     {
         // toma la peticion y la comprueba si tiene los parametros
         $validado = $request->validate([
-            'id_usuario'       => 'required|exists:usuarios,id',
-            'fecha_solicitud'  => 'required|date',
-            'estado'           => 'required|string|max:30',
-            'direccion_entrega'=> 'required|string|max:200',
-            'observaciones'    => 'nullable|string|max:250',
+            'id_usuario' => 'required|exists:usuarios,id',
+            'fecha_solicitud' => 'required|date',
+            'estado' => 'required|string|max:30',
+            'direccion_entrega' => 'required|string|max:200',
+            'observaciones' => 'nullable|string|max:250',
         ]);
 
         // crea una solicitud
@@ -45,40 +45,40 @@ class SolicitudController extends Controller
     }
 
     public function edit($id)
-{
-    $solicitud = Solicitud::findOrFail($id);
+    {
+        $solicitud = Solicitud::findOrFail($id);
 
-    $usuarios = Usuario::where('estado', true)->get();
+        $usuarios = Usuario::where('estado', true)->get();
 
-    return view(
-        'solicitudes.edit',
-        compact('solicitud', 'usuarios')
-    );
-}
+        return view(
+            'solicitudes.edit',
+            compact('solicitud', 'usuarios')
+        );
+    }
 
-public function update(Request $request, $id)
-{
-    $solicitud = Solicitud::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $solicitud = Solicitud::findOrFail($id);
 
-    $request->validate([
-        'id_usuario' => 'required|exists:usuarios,id',
-        'fecha_solicitud' => 'required|date',
-        'estado' => 'required|max:30',
-        'direccion_entrega' => 'required|max:200',
-        'observaciones' => 'nullable|max:250',
-    ]);
+        $request->validate([
+            'id_usuario' => 'required|exists:usuarios,id',
+            'fecha_solicitud' => 'required|date',
+            'estado' => 'required|max:30',
+            'direccion_entrega' => 'required|max:200',
+            'observaciones' => 'nullable|max:250',
+        ]);
 
-    $solicitud->update([
-        'id_usuario' => $request->id_usuario,
-        'fecha_solicitud' => $request->fecha_solicitud,
-        'estado' => $request->estado,
-        'direccion_entrega' => $request->direccion_entrega,
-        'observaciones' => $request->observaciones,
-    ]);
+        $solicitud->update([
+            'id_usuario' => $request->id_usuario,
+            'fecha_solicitud' => $request->fecha_solicitud,
+            'estado' => $request->estado,
+            'direccion_entrega' => $request->direccion_entrega,
+            'observaciones' => $request->observaciones,
+        ]);
 
-return redirect()
-        ->route('solicitudes.index')
-        ->with('success', 'Solicitud actualizada correctamente.');
+        return redirect()
+            ->route('solicitudes.index')
+            ->with('success', 'Solicitud actualizada correctamente.');
     }
 
     /*
@@ -141,7 +141,7 @@ return redirect()
         $solicitud = Solicitud::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
-        if (!$solicitud->trashed()) {
+        if (! $solicitud->trashed()) {
             return redirect()->route('solicitudes.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 

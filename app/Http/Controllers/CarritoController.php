@@ -30,9 +30,9 @@ class CarritoController extends Controller
     {
         // toma la peticion y la comprueba si tiene los parametros
         $validado = $request->validate([
-            'id_usuario'     => 'required|exists:usuarios,id',
+            'id_usuario' => 'required|exists:usuarios,id',
             'fecha_creacion' => 'required|date',
-            'estado'         => 'required|string|max:30',
+            'estado' => 'required|string|max:30',
         ]);
 
         // crea un carrito
@@ -43,36 +43,36 @@ class CarritoController extends Controller
     }
 
     public function edit($id)
-{
-    $carrito = Carrito::findOrFail($id);
+    {
+        $carrito = Carrito::findOrFail($id);
 
-    $usuarios = Usuario::where('estado', true)->get();
+        $usuarios = Usuario::where('estado', true)->get();
 
-    return view(
-        'carritos.edit',
-        compact('carrito', 'usuarios')
-    );
-}
+        return view(
+            'carritos.edit',
+            compact('carrito', 'usuarios')
+        );
+    }
 
-public function update(Request $request, $id)
-{
-    $carrito = Carrito::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $carrito = Carrito::findOrFail($id);
 
-    $request->validate([
-        'id_usuario' => 'required|exists:usuarios,id',
-        'fecha_creacion' => 'required|date',
-        'estado' => 'required|max:30',
-    ]);
+        $request->validate([
+            'id_usuario' => 'required|exists:usuarios,id',
+            'fecha_creacion' => 'required|date',
+            'estado' => 'required|max:30',
+        ]);
 
-    $carrito->update([
-        'id_usuario' => $request->id_usuario,
-        'fecha_creacion' => $request->fecha_creacion,
-        'estado' => $request->estado,
-    ]);
+        $carrito->update([
+            'id_usuario' => $request->id_usuario,
+            'fecha_creacion' => $request->fecha_creacion,
+            'estado' => $request->estado,
+        ]);
 
-return redirect()
-        ->route('carritos.index')
-        ->with('success', 'Carrito actualizado correctamente.');
+        return redirect()
+            ->route('carritos.index')
+            ->with('success', 'Carrito actualizado correctamente.');
     }
 
     /*
@@ -135,7 +135,7 @@ return redirect()
         $carrito = Carrito::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminado lógicamente
-        if (!$carrito->trashed()) {
+        if (! $carrito->trashed()) {
             return redirect()->route('carritos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 

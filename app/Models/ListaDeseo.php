@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ListaDeseo extends Model
 {
     use SoftDeletes;
+
     protected $table = 'listas_deseos';
 
     protected $primaryKey = 'id_lista';

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Rol;
 use App\Models\CategoriaAlimento;
+use App\Models\Rol;
 use App\Models\Usuario;
+use Illuminate\Database\Seeder;
 
 class RegistrosBaseSeeder extends Seeder
 {
@@ -34,14 +34,14 @@ class RegistrosBaseSeeder extends Seeder
 
         $rolAdmin = Rol::where('nombre', 'Administrador')->first();
         $usuarioDemo = Usuario::create([
-            'id_rol'         => $rolAdmin->id,
-            'nombre'         => 'Juan',
-            'apellido'       => 'Perez',
-            'correo'         => 'juan@ejemplo.com',
-            'telefono'       => '555-0101',
-            'direccion'      => 'Calle Principal 123',
+            'id_rol' => $rolAdmin->id,
+            'nombre' => 'Juan',
+            'apellido' => 'Perez',
+            'correo' => 'juan@ejemplo.com',
+            'telefono' => '555-0101',
+            'direccion' => 'Calle Principal 123',
             'fecha_registro' => now(),
-            'estado'         => true,
+            'estado' => true,
         ]);
 
         $this->command->info('Datos base creados: roles, categorias y usuario demo.');

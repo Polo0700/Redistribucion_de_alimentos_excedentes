@@ -2,18 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class CuentaAcceso extends Model
+class CuentaAcceso extends Authenticatable
 {
     use SoftDeletes;
+
     protected $table = 'cuentas_acceso';
 
     protected $primaryKey = 'id_cuenta';
 
     public $timestamps = false;
+
+    protected $hidden = [
+        'contrasena_hash',
+    ];
 
     protected $fillable = [
         'id_usuario',
@@ -26,5 +31,13 @@ class CuentaAcceso extends Model
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');
+    }
+
+    /**
+     * Columna que guarda el hash de la contraseña (esquema del proyecto).
+     */
+    public function getAuthPasswordName(): string
+    {
+        return 'contrasena_hash';
     }
 }

@@ -30,14 +30,14 @@ class UsuarioController extends Controller
     {
         // toma la peticion y la comprueba si tiene los parametros
         $validado = $request->validate([
-            'id_rol'         => 'required|exists:roles,id',
-            'nombre'         => 'required|string|max:100',
-            'apellido'       => 'required|string|max:100',
-            'correo'         => 'required|email|max:150',
-            'telefono'       => 'required|string|max:100',
-            'direccion'      => 'required|string|max:200',
+            'id_rol' => 'required|exists:roles,id',
+            'nombre' => 'required|string|max:100',
+            'apellido' => 'required|string|max:100',
+            'correo' => 'required|email|max:150',
+            'telefono' => 'required|string|max:100',
+            'direccion' => 'required|string|max:200',
             'fecha_registro' => 'required|date',
-            'estado'         => 'required|boolean',
+            'estado' => 'required|boolean',
         ]);
 
         // crea un usuario
@@ -64,25 +64,25 @@ class UsuarioController extends Controller
         $usuario = Usuario::findOrFail($id);
 
         $request->validate([
-            'id_rol'         => 'required|exists:roles,id',
-            'nombre'         => 'required|max:100',
-            'apellido'       => 'required|max:100',
-            'correo'         => 'required|email|max:150',
-            'telefono'       => 'required|max:100',
-            'direccion'      => 'required|max:200',
+            'id_rol' => 'required|exists:roles,id',
+            'nombre' => 'required|max:100',
+            'apellido' => 'required|max:100',
+            'correo' => 'required|email|max:150',
+            'telefono' => 'required|max:100',
+            'direccion' => 'required|max:200',
             'fecha_registro' => 'required|date',
-            'estado'         => 'required|boolean',
+            'estado' => 'required|boolean',
         ]);
 
         $usuario->update([
-            'id_rol'         => $request->id_rol,
-            'nombre'         => $request->nombre,
-            'apellido'       => $request->apellido,
-            'correo'         => $request->correo,
-            'telefono'       => $request->telefono,
-            'direccion'      => $request->direccion,
+            'id_rol' => $request->id_rol,
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'correo' => $request->correo,
+            'telefono' => $request->telefono,
+            'direccion' => $request->direccion,
             'fecha_registro' => $request->fecha_registro,
-            'estado'         => $request->estado,
+            'estado' => $request->estado,
         ]);
 
         return redirect()
@@ -150,7 +150,7 @@ class UsuarioController extends Controller
         $usuario = Usuario::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminado lógicamente
-        if (!$usuario->trashed()) {
+        if (! $usuario->trashed()) {
             return redirect()->route('usuarios.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 

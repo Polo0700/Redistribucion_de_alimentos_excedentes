@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            
+
             $table->foreignId('id_rol')
                 ->constrained('roles')
                 ->onUpdate('cascade')
