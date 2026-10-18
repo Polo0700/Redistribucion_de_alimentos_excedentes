@@ -2,41 +2,22 @@
 
 namespace Tests\Feature;
 
-use App\Models\CuentaAcceso;
-use App\Models\Rol;
-use App\Models\Usuario;
+use App\Models\Administrador;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AdminAuthTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function crearCuentaAdmin(string $rolNombre = 'Administrador'): CuentaAcceso
+    private function crearAdmin(bool $activo = true): Administrador
     {
-        $rol = Rol::create([
-            'nombre' => $rolNombre,
-            'descripcion' => 'Rol de prueba',
-            'estado' => 1,
-        ]);
-
-        $usuario = Usuario::create([
-            'id_rol' => $rol->id,
-            'nombre' => 'Jorge',
-            'apellido' => 'Moreno',
-            'correo' => 'admin@test.com',
-            'telefono' => '1234567890',
-            'direccion' => 'Calle test 123',
-            'fecha_registro' => now(),
-            'estado' => 1,
-        ]);
-
-        return CuentaAcceso::create([
-            'id_usuario' => $usuario->id,
-            'proveedor' => 'Correo',
-            'identificador_externo' => 'admin@test.com',
-            'contrasena_hash' => bcrypt('12345678'),
-            'fecha_ultimo_acceso' => now(),
+        return Administrador::create([
+            'nombre_completo' => 'Jorge Moreno',
+            'username' => 'admin',
+            'password' => Hash::make('12345678'),
+            'activo' => $activo,
         ]);
     }
 
@@ -47,10 +28,10 @@ class AdminAuthTest extends TestCase
 
     public function test_ingreso_valido_autentica_y_redirige_al_dashboard(): void
     {
-        $this->crearCuentaAdmin();
+        $this->crearAdmin();
 
         $respuesta = $this->post('/admin/login', [
-            'identificador_externo' => 'admin@test.com',
+            'username' => 'admin',
             'password' => '12345678',
         ]);
 
@@ -60,42 +41,42 @@ class AdminAuthTest extends TestCase
 
     public function test_contrasena_incorrecta_no_autentica(): void
     {
-        $this->crearCuentaAdmin();
+        $this->crearAdmin();
 
         $respuesta = $this->post('/admin/login', [
-            'identificador_externo' => 'admin@test.com',
+            'username' => 'admin',
             'password' => 'clave-mala',
         ]);
 
-        $respuesta->assertSessionHasErrors('identificador_externo');
+        $respuesta->assertSessionHas('aviso');
         $this->assertGuest('admin');
     }
 
-    public function test_cuenta_sin_rol_administrador_no_autentica(): void
+    public function test_cuenta_deshabilitada_no_autentica(): void
     {
-        $this->crearCuentaAdmin('Cliente');
+        $this->crearAdmin(activo: false);
 
         $respuesta = $this->post('/admin/login', [
-            'identificador_externo' => 'admin@test.com',
+            'username' => 'admin',
             'password' => '12345678',
         ]);
 
-        $respuesta->assertSessionHasErrors('identificador_externo');
+        $respuesta->assertSessionHas('aviso');
         $this->assertGuest('admin');
     }
 
     public function test_campos_requeridos(): void
     {
         $this->post('/admin/login', [])
-            ->assertSessionHasErrors(['identificador_externo', 'password']);
+            ->assertSessionHasErrors(['username', 'password']);
     }
 
     public function test_logout_cierra_sesion_y_redirige_al_login(): void
     {
-        $this->crearCuentaAdmin();
+        $this->crearAdmin();
 
         $this->post('/admin/login', [
-            'identificador_externo' => 'admin@test.com',
+            'username' => 'admin',
             'password' => '12345678',
         ]);
 
@@ -116,7 +97,7 @@ class AdminAuthTest extends TestCase
 
     public function test_panel_con_sesion_de_admin_accede(): void
     {
-        $cuenta = $this->crearCuentaAdmin();
+        $cuenta = $this->crearAdmin();
         $this->actingAs($cuenta, 'admin');
 
         $this->get(route('dashboard'))->assertOk();

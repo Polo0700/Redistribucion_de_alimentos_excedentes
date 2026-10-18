@@ -26,4 +26,59 @@
 
 ---
 
+# Instalación
+
+## Requisitos
+
+- PHP 8.2 o superior
+- Composer
+- MySQL (por ejemplo XAMPP)
+
+## Pasos
+
+### 1. Clonar el repositorio
+
+```
+git clone https://github.com/Polo0700/Redistribucion_de_alimentos_excedentes.git
+```
+
+### 2. Instalar dependencias
+
+```
+composer install
+```
+
+### 3. Configurar el entorno
+
+```
+copy .env.example .env
+php artisan key:generate
+```
+
+Abrir el `.env` y poner los datos de la base de datos (DB_DATABASE, DB_USERNAME, DB_PASSWORD).
+
+### 4. Crear la base de datos y las tablas
+
+```
+php artisan migrate
+php artisan db:seed --class=AdministradorSeeder
+```
+
+El seed crea 2 cuentas de prueba:
+
+- `admin` / `admin123` (activa, puede entrar)
+- `inactivo` / `admin123` (deshabilitada, no puede entrar)
+
+### 5. Arrancar el proyecto
+
+```
+php artisan serve
+```
+
+### 6. Entrar al area administrativa
+
+Abrir `http://127.0.0.1:8000/admin/login` y usar las cuentas del paso 4.
+
+---
+
 <sub>© 2026 - Creacion del repositorio: 29 de agosto de 2026</sub>

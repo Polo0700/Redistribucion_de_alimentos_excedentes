@@ -53,6 +53,19 @@
                 <!-- USUARIO -->
                 <div class="flex items-center">
 
+                    @guest('admin')
+
+                    <!-- invitado: solo el link al login -->
+                    <a href="{{ route('admin.login') }}"
+                       class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-100">
+                        <span class="text-xl">🔑</span>
+                        <span class="ms-3">Iniciar sesión</span>
+                    </a>
+
+                    @endguest
+
+                    @auth('admin')
+
                     <button
                         type="button"
                         class="flex text-sm bg-gray-800 rounded-full"
@@ -71,11 +84,11 @@
                         <div class="px-4 py-3">
 
                             <p class="text-sm text-gray-900">
-                                {{ auth('admin')->user()?->usuario?->nombre ?? 'Administrador' }}
+                                {{ auth('admin')->user()->nombre_completo }}
                             </p>
 
                             <p class="text-sm font-medium text-gray-500 truncate">
-                                {{ auth('admin')->user()?->identificador_externo ?? '' }}
+                                {{ auth('admin')->user()->username }}
                             </p>
 
                         </div>
@@ -96,6 +109,8 @@
 
                     </div>
 
+                    @endauth
+
                 </div>
 
             </div>
@@ -115,6 +130,28 @@
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white border-r">
 
             <ul class="space-y-2 font-medium">
+
+                @guest('admin')
+
+                <!-- invitado: solo link al login -->
+                <li>
+
+                    <a href="{{ route('admin.login') }}"
+                       class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-100">
+
+                        <span class="text-xl">🔑</span>
+
+                        <span class="ms-3">
+                            Iniciar sesión
+                        </span>
+
+                    </a>
+
+                </li>
+
+                @endguest
+
+                @auth('admin')
 
                 <!-- DASHBOARD -->
 
@@ -353,6 +390,8 @@
 
                 </li>
 
+                @endauth
+
             </ul>
 
         </div>
@@ -363,6 +402,18 @@
     <!-- CONTENIDO -->
 
     <main class="p-4 sm:ml-64 pt-24">
+
+        @session('exito')
+            <div class="mb-4 p-4 text-sm text-green-700 bg-green-100 border border-green-200 rounded-lg">
+                ✅ {{ session('exito') }}
+            </div>
+        @endsession
+
+        @session('aviso')
+            <div class="mb-4 p-4 text-sm text-red-700 bg-red-100 border border-red-200 rounded-lg">
+                ❌ {{ session('aviso') }}
+            </div>
+        @endsession
 
         @yield('content')
 

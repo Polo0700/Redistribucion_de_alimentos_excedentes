@@ -22,38 +22,35 @@ class AuthAdminController extends Controller
     }
 
     /**
-     * Autentica contra cuentas_acceso y exige el rol Administrador.
+     * Autentica contra la tabla administradores y valida que la cuenta este activa.
      */
     public function in(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'username' => ['required', 'string', 'max:150'],
+            'username' => ['required', 'string', 'max:30'],
             'password' => ['required', 'min:8'],
         ]);
 
         if (! Auth::guard('admin')->attempt($credentials)) {
             return back()
-                ->withErrors([
-                    'username' => 'Usuario o contraseña incorrectos',
-                ])
+                ->with('aviso', 'Usuario o contraseña incorrectos')
                 ->onlyInput('username');
         }
 
         $cuenta = Auth::guard('admin')->user();
 
-        if (! $cuenta->activo){
+        if (! $cuenta->activo) {
             Auth::guard('admin')->logout();
 
             return back()
-                ->withErrors([
-                    'username' => 'Esta cuenta no tiene permisos de administrador',
-                ])
+                ->with('aviso', 'La cuenta está deshabilitada')
                 ->onlyInput('username');
         }
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()->intended(route('dashboard'))
+            ->with('exito', 'Inicio de sesión exitoso');
     }
 
     /**
@@ -66,6 +63,7 @@ class AuthAdminController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login');
+        return redirect()->route('admin.login')
+            ->with('exito', 'Cierre de sesión exitoso');
     }
 }
