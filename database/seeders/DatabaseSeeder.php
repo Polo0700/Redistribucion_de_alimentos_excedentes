@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // cuentas de acceso al panel administrativo (admin / admin123)
+        $this->call(AdministradorSeeder::class);
     }
 }

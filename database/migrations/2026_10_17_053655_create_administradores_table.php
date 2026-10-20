@@ -17,9 +17,9 @@ return new class extends Migration
         Schema::create('administradores', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nombre_completo',50);
-            $table->string('username',30)->unique();
-            $table->string('password',100);
+            $table->string('nombre_completo', 50);
+            $table->string('username', 30)->unique();
+            $table->string('password', 100);
             $table->boolean('activo')->default(true);
         });
     }

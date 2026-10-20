@@ -15,14 +15,18 @@ class Administrador extends Authenticatable
     // propiedades de la tabla administradores
 
     protected $table = 'administradores';
+
     protected $primaryKey = 'id';
+
     public $timestamps = true;
+
     protected $fillable = [
         'nombre_completo',
         'username',
         'password',
         'activo',
     ];
+
     protected $hidden = [
         'password',
     ];
