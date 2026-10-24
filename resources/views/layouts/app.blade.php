@@ -292,22 +292,7 @@
 
 
 
-                <!-- LISTAS -->
-
-                <li>
-
-                    <a href="{{ route('listas-deseos.index') }}"
-                       class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-100">
-
-                        <span class="text-xl">❤️</span>
-
-                        <span class="ms-3">
-                            Listas de deseos
-                        </span>
-
-                    </a>
-
-                </li>
+                
 
 
                 <!-- SOLICITUDES -->

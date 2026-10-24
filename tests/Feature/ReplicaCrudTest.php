@@ -9,7 +9,6 @@ use App\Models\CuentaAcceso;
 use App\Models\DetalleDonacion;
 use App\Models\Donacion;
 use App\Models\Entrega;
-use App\Models\ListaDeseo;
 use App\Models\Rol;
 use App\Models\Solicitud;
 use App\Models\Usuario;
@@ -258,37 +257,8 @@ class ReplicaCrudTest extends TestCase
    
    
 
-    /*
-    |--------------------------------------------------------------------------
-    | Listas de deseos
-    |--------------------------------------------------------------------------
-    */
-    public function test_flujo_completo_lista_deseos(): void
-    {
-        $rol = $this->crearRol();
-        $usuario = $this->crearUsuario($rol);
-        $lista = ListaDeseo::create([
-            'id_usuario' => $usuario->id,
-            'nombre' => 'Mi lista',
-            'fecha_creacion' => now(),
-        ]);
 
-        $this->get(route('listas-deseos.index'))->assertOk()->assertSee('Ver eliminados');
-        $this->get(route('listas-deseos.show', $lista->id_lista))->assertOk()->assertSee('Detalle de la lista de deseos');
-
-        $this->delete(route('listas-deseos.destroy', $lista->id_lista))
-            ->assertRedirect(route('listas-deseos.index'))
-            ->assertSessionHas('success');
-
-        $this->assertTrue(ListaDeseo::withTrashed()->findOrFail($lista->id_lista)->trashed());
-
-        $this->get(route('listas-deseos.trashed'))->assertOk();
-
-        $this->patch(route('listas-deseos.restore', $lista->id_lista))->assertRedirect(route('listas-deseos.trashed'));
-
-        $this->assertFalse(ListaDeseo::withTrashed()->findOrFail($lista->id_lista)->trashed());
-    }
-
+    
     /*
     |--------------------------------------------------------------------------
     | Solicitudes

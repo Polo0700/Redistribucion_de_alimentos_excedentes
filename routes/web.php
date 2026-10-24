@@ -7,7 +7,6 @@ use App\Http\Controllers\CategoriaAlimentoController;
 use App\Http\Controllers\CuentaAccesoController;
 use App\Http\Controllers\DonacionController;
 use App\Http\Controllers\EntregaController;
-use App\Http\Controllers\ListaDeseoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\UsuarioController;
@@ -201,32 +200,7 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::delete('/donaciones/{id}/force', [DonacionController::class, 'forceDestroy'])->name('donaciones.forceDestroy');
 
-   
-    /*
-    |--------------------------------------------------------------------------
-    | Listas de deseos
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/listas-deseos', [ListaDeseoController::class, 'index'])->name('listas-deseos.index');
-
-    Route::get('/listas-deseos/create', [ListaDeseoController::class, 'create'])->name('listas-deseos.create');
-
-    Route::post('/listas-deseos', [ListaDeseoController::class, 'store'])->name('listas-deseos.store');
-
-    Route::get('/listas-deseos/{id}/edit', [ListaDeseoController::class, 'edit'])->name('listas-deseos.edit');
-
-    Route::put('/listas-deseos/{id}', [ListaDeseoController::class, 'update'])->name('listas-deseos.update');
-
-    Route::get('/listas-deseos/eliminados', [ListaDeseoController::class, 'trashed'])->name('listas-deseos.trashed');
-
-    Route::get('/listas-deseos/{id}', [ListaDeseoController::class, 'show'])->name('listas-deseos.show');
-
-    Route::delete('/listas-deseos/{id}', [ListaDeseoController::class, 'destroy'])->name('listas-deseos.destroy');
-
-    Route::patch('/listas-deseos/{id}/restore', [ListaDeseoController::class, 'restore'])->name('listas-deseos.restore');
-
-    Route::delete('/listas-deseos/{id}/force', [ListaDeseoController::class, 'forceDestroy'])->name('listas-deseos.forceDestroy');
+  
 
     /*
     |--------------------------------------------------------------------------

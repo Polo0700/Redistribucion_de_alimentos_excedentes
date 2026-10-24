@@ -165,9 +165,7 @@ class UsuarioController extends Controller
 
         
 
-        if ($usuario->listasDeseos()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene listas de deseos registradas.');
-        }
+        
 
         if ($usuario->accionesImportantes()->count() > 0) {
             return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene acciones importantes registradas.');

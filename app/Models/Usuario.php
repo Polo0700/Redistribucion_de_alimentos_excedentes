@@ -45,10 +45,6 @@ class Usuario extends Model
 
    
 
-    public function listasDeseos(): HasMany
-    {
-        return $this->hasMany(ListaDeseo::class, 'id_usuario', 'id');
-    }
 
     public function accionesImportantes(): HasMany
     {

@@ -195,10 +195,7 @@ class AlimentoController extends Controller
 
         
 
-        if ($alimento->deseosDetalle()->count() > 0) {
-            return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Listas de Deseos.');
-        }
-
+    
         // eliminar la imagen asociada del almacenamiento
         if ($alimento->imagen && Storage::disk('public')->exists($alimento->imagen)) {
             Storage::disk('public')->delete($alimento->imagen);
