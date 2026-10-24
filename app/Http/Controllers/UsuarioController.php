@@ -163,9 +163,7 @@ class UsuarioController extends Controller
             return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene donaciones registradas.');
         }
 
-        if ($usuario->carritos()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene carritos registrados.');
-        }
+        
 
         if ($usuario->listasDeseos()->count() > 0) {
             return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene listas de deseos registradas.');

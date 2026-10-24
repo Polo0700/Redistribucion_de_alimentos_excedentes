@@ -193,9 +193,7 @@ class AlimentoController extends Controller
             return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Detalles de Donación.');
         }
 
-        if ($alimento->detallesCarrito()->count() > 0) {
-            return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Carritos.');
-        }
+        
 
         if ($alimento->deseosDetalle()->count() > 0) {
             return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Listas de Deseos.');

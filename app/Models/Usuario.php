@@ -43,10 +43,7 @@ class Usuario extends Model
         return $this->hasMany(Donacion::class, 'id_usuario', 'id');
     }
 
-    public function carritos(): HasMany
-    {
-        return $this->hasMany(Carrito::class, 'id_usuario', 'id');
-    }
+   
 
     public function listasDeseos(): HasMany
     {

@@ -3,7 +3,6 @@
 use App\Http\Controllers\AccionImportanteController;
 use App\Http\Controllers\AlimentoController;
 use App\Http\Controllers\AuthAdminController;
-use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\CategoriaAlimentoController;
 use App\Http\Controllers\CuentaAccesoController;
 use App\Http\Controllers\DonacionController;
@@ -202,32 +201,7 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::delete('/donaciones/{id}/force', [DonacionController::class, 'forceDestroy'])->name('donaciones.forceDestroy');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Carritos
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/carritos', [CarritoController::class, 'index'])->name('carritos.index');
-
-    Route::get('/carritos/create', [CarritoController::class, 'create'])->name('carritos.create');
-
-    Route::post('/carritos', [CarritoController::class, 'store'])->name('carritos.store');
-
-    Route::get('/carritos/{id}/edit', [CarritoController::class, 'edit'])->name('carritos.edit');
-
-    Route::put('/carritos/{id}', [CarritoController::class, 'update'])->name('carritos.update');
-
-    Route::get('/carritos/eliminados', [CarritoController::class, 'trashed'])->name('carritos.trashed');
-
-    Route::get('/carritos/{id}', [CarritoController::class, 'show'])->name('carritos.show');
-
-    Route::delete('/carritos/{id}', [CarritoController::class, 'destroy'])->name('carritos.destroy');
-
-    Route::patch('/carritos/{id}/restore', [CarritoController::class, 'restore'])->name('carritos.restore');
-
-    Route::delete('/carritos/{id}/force', [CarritoController::class, 'forceDestroy'])->name('carritos.forceDestroy');
-
+   
     /*
     |--------------------------------------------------------------------------
     | Listas de deseos

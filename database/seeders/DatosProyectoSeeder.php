@@ -612,143 +612,9 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 8. CARRITOS
-        |--------------------------------------------------------------------------
-        */
+        
 
-        DB::table('carritos')->insert([
-            [
-                'id_carrito' => 1,
-                'id_usuario' => 3,
-                'fecha_creacion' => '2026-09-01 10:00:00',
-                'estado' => 'Activo',
-            ],
-            [
-                'id_carrito' => 2,
-                'id_usuario' => 3,
-                'fecha_creacion' => '2026-09-02 10:00:00',
-                'estado' => 'Procesado',
-            ],
-            [
-                'id_carrito' => 3,
-                'id_usuario' => 4,
-                'fecha_creacion' => '2026-09-02 11:00:00',
-                'estado' => 'Activo',
-            ],
-            [
-                'id_carrito' => 4,
-                'id_usuario' => 5,
-                'fecha_creacion' => '2026-09-03 09:00:00',
-                'estado' => 'Activo',
-            ],
-            [
-                'id_carrito' => 5,
-                'id_usuario' => 6,
-                'fecha_creacion' => '2026-09-03 12:00:00',
-                'estado' => 'Finalizado',
-            ],
-            [
-                'id_carrito' => 6,
-                'id_usuario' => 7,
-                'fecha_creacion' => '2026-09-04 09:00:00',
-                'estado' => 'Activo',
-            ],
-            [
-                'id_carrito' => 7,
-                'id_usuario' => 8,
-                'fecha_creacion' => '2026-09-04 13:00:00',
-                'estado' => 'Procesado',
-            ],
-            [
-                'id_carrito' => 8,
-                'id_usuario' => 9,
-                'fecha_creacion' => '2026-09-05 10:00:00',
-                'estado' => 'Activo',
-            ],
-            [
-                'id_carrito' => 9,
-                'id_usuario' => 10,
-                'fecha_creacion' => '2026-09-05 14:00:00',
-                'estado' => 'Activo',
-            ],
-            [
-                'id_carrito' => 10,
-                'id_usuario' => 3,
-                'fecha_creacion' => '2026-09-06 09:00:00',
-                'estado' => 'Finalizado',
-            ],
-        ]);
-
-        /*
-        |--------------------------------------------------------------------------
-        | 9. DETALLE DE CARRITOS
-        |--------------------------------------------------------------------------
-        */
-
-        DB::table('carrito_detalle')->insert([
-            [
-                'id_detalle_carrito' => 1,
-                'id_carrito' => 1,
-                'id_alimento' => 1,
-                'cantidad' => 3,
-            ],
-            [
-                'id_detalle_carrito' => 2,
-                'id_carrito' => 2,
-                'id_alimento' => 2,
-                'cantidad' => 5,
-            ],
-            [
-                'id_detalle_carrito' => 3,
-                'id_carrito' => 3,
-                'id_alimento' => 3,
-                'cantidad' => 2,
-            ],
-            [
-                'id_detalle_carrito' => 4,
-                'id_carrito' => 4,
-                'id_alimento' => 4,
-                'cantidad' => 4,
-            ],
-            [
-                'id_detalle_carrito' => 5,
-                'id_carrito' => 5,
-                'id_alimento' => 5,
-                'cantidad' => 2,
-            ],
-            [
-                'id_detalle_carrito' => 6,
-                'id_carrito' => 6,
-                'id_alimento' => 6,
-                'cantidad' => 3,
-            ],
-            [
-                'id_detalle_carrito' => 7,
-                'id_carrito' => 7,
-                'id_alimento' => 7,
-                'cantidad' => 2,
-            ],
-            [
-                'id_detalle_carrito' => 8,
-                'id_carrito' => 8,
-                'id_alimento' => 8,
-                'cantidad' => 3,
-            ],
-            [
-                'id_detalle_carrito' => 9,
-                'id_carrito' => 9,
-                'id_alimento' => 9,
-                'cantidad' => 5,
-            ],
-            [
-                'id_detalle_carrito' => 10,
-                'id_carrito' => 10,
-                'id_alimento' => 10,
-                'cantidad' => 2,
-            ],
-        ]);
+        
 
         /*
         |--------------------------------------------------------------------------
@@ -1188,15 +1054,7 @@ class DatosProyectoSeeder extends Seeder
                 'fecha_hora' => '2026-09-02 12:00:00',
                 'ip_origen' => '127.0.0.1',
             ],
-            [
-                'id_accion' => 5,
-                'id_usuario' => 5,
-                'accion' => 'Registro',
-                'tabla_afectada' => 'carritos',
-                'descripcion' => 'Se creó un carrito.',
-                'fecha_hora' => '2026-09-03 09:00:00',
-                'ip_origen' => '127.0.0.1',
-            ],
+           
             [
                 'id_accion' => 6,
                 'id_usuario' => 6,

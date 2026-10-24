@@ -43,14 +43,7 @@ class Alimento extends Model
         );
     }
 
-    public function detallesCarrito(): HasMany
-    {
-        return $this->hasMany(
-            CarritoDetalle::class,
-            'id_alimento',
-            'id_alimento'
-        );
-    }
+   
 
     public function deseosDetalle(): HasMany
     {

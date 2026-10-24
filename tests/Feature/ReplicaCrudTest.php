@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\AccionImportante;
 use App\Models\Alimento;
-use App\Models\Carrito;
 use App\Models\CategoriaAlimento;
 use App\Models\CuentaAcceso;
 use App\Models\DetalleDonacion;
@@ -256,36 +255,8 @@ class ReplicaCrudTest extends TestCase
         $this->assertDatabaseMissing('cuentas_acceso', ['id_cuenta' => $cuenta->id_cuenta]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Carritos
-    |--------------------------------------------------------------------------
-    */
-    public function test_flujo_completo_carrito(): void
-    {
-        $rol = $this->crearRol();
-        $usuario = $this->crearUsuario($rol);
-        $carrito = Carrito::create([
-            'id_usuario' => $usuario->id,
-            'fecha_creacion' => now(),
-            'estado' => 'Activo',
-        ]);
-
-        $this->get(route('carritos.index'))->assertOk()->assertSee('Ver eliminados');
-        $this->get(route('carritos.show', $carrito->id_carrito))->assertOk()->assertSee('Detalle del carrito');
-
-        $this->delete(route('carritos.destroy', $carrito->id_carrito))
-            ->assertRedirect(route('carritos.index'))
-            ->assertSessionHas('success');
-
-        $this->assertTrue(Carrito::withTrashed()->findOrFail($carrito->id_carrito)->trashed());
-
-        $this->get(route('carritos.trashed'))->assertOk();
-
-        $this->patch(route('carritos.restore', $carrito->id_carrito))->assertRedirect(route('carritos.trashed'));
-
-        $this->assertFalse(Carrito::withTrashed()->findOrFail($carrito->id_carrito)->trashed());
-    }
+   
+   
 
     /*
     |--------------------------------------------------------------------------
