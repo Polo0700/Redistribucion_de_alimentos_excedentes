@@ -1,0 +1,31 @@
+$kind: http-request
+name: 'Actualizar entrega'
+method: PUT
+url: '{{baseUrl}}/entregas/:id'
+order: 4000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+        "id_solicitud": 1,
+        "fecha_entrega": "2026-01-01",
+        "responsable": "Responsable de prueba",
+        "estado": "entregada",
+        "observaciones": "Creada por la coleccion de pruebas"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar categorias eliminadas (papelera)'
+method: GET
+url: '{{baseUrl}}/categorias/eliminados'
+order: 6000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la papelera en 'categorias'", function () {
+          pm.expect(pm.response.json()).to.have.property('categorias');
+      });

@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar solicitud definitivamente'
+method: DELETE
+url: '{{baseUrl}}/solicitudes/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

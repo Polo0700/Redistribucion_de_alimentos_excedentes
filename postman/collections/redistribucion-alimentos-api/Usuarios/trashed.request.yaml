@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar usuarios eliminados (papelera)'
+method: GET
+url: '{{baseUrl}}/usuarios/eliminados'
+order: 6000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la papelera en 'usuarios'", function () {
+          pm.expect(pm.response.json()).to.have.property('usuarios');
+      });

@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar roles eliminados (papelera)'
+method: GET
+url: '{{baseUrl}}/roles/eliminados'
+order: 6000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la papelera en 'roles'", function () {
+          pm.expect(pm.response.json()).to.have.property('roles');
+      });

@@ -1,0 +1,26 @@
+$kind: http-request
+name: 'Crear rol'
+method: POST
+url: '{{baseUrl}}/roles'
+order: 3000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+        "nombre": "Rol de prueba",
+        "estado": "1",
+        "descripcion": "Creado por la coleccion de pruebas"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

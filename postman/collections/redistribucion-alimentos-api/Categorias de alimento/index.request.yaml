@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar categorias'
+method: GET
+url: '{{baseUrl}}/categorias'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la lista paginada en 'categorias'", function () {
+          pm.expect(pm.response.json()).to.have.property('categorias');
+      });

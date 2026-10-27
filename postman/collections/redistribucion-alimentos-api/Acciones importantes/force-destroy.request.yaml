@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar accion importante definitivamente'
+method: DELETE
+url: '{{baseUrl}}/acciones/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

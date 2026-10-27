@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar rol definitivamente'
+method: DELETE
+url: '{{baseUrl}}/roles/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Datos para el formulario de edicion'
+method: GET
+url: '{{baseUrl}}/donaciones/:id/edit'
+order: 10000
+pathVariables:
+  - key: id
+    value: '1'

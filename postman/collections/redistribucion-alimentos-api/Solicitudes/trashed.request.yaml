@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar solicitudes eliminadas (papelera)'
+method: GET
+url: '{{baseUrl}}/solicitudes/eliminados'
+order: 6000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la papelera en 'solicitudes'", function () {
+          pm.expect(pm.response.json()).to.have.property('solicitudes');
+      });

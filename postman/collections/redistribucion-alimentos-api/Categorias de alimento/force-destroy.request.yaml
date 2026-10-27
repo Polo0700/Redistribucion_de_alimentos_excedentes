@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar categoria definitivamente'
+method: DELETE
+url: '{{baseUrl}}/categorias/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

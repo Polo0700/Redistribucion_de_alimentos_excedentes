@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar acciones importantes eliminadas (papelera)'
+method: GET
+url: '{{baseUrl}}/acciones/eliminados'
+order: 6000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la papelera en 'acciones'", function () {
+          pm.expect(pm.response.json()).to.have.property('acciones');
+      });

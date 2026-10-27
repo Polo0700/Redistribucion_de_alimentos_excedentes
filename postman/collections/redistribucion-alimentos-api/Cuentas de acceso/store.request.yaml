@@ -1,0 +1,28 @@
+$kind: http-request
+name: 'Crear cuenta de acceso'
+method: POST
+url: '{{baseUrl}}/cuentas'
+order: 3000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+        "id_usuario": 1,
+        "proveedor": "google",
+        "identificador_externo": "externo@example.com",
+        "contrasena": "secreto123",
+        "fecha_ultimo_acceso": "2026-01-01 10:00:00"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

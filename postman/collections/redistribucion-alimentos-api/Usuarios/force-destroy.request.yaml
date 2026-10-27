@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar usuario definitivamente'
+method: DELETE
+url: '{{baseUrl}}/usuarios/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

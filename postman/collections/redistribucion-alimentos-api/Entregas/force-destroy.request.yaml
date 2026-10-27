@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'Eliminar entrega definitivamente'
+method: DELETE
+url: '{{baseUrl}}/entregas/:id/force'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'

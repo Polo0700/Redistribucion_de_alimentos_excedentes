@@ -1,0 +1,31 @@
+$kind: http-request
+name: 'Actualizar cuenta de acceso'
+method: PUT
+url: '{{baseUrl}}/cuentas/:id'
+order: 4000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+        "id_usuario": 1,
+        "proveedor": "google",
+        "identificador_externo": "externo@example.com",
+        "contrasena_hash": "hash-de-prueba",
+        "fecha_ultimo_acceso": "2026-01-01 10:00:00"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

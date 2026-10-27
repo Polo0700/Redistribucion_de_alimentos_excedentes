@@ -1,0 +1,12 @@
+$kind: http-request
+name: 'Listar entregas'
+method: GET
+url: '{{baseUrl}}/entregas'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve la lista paginada en 'entregas'", function () {
+          pm.expect(pm.response.json()).to.have.property('entregas');
+      });
