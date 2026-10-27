@@ -12,7 +12,6 @@ class RegistrosBaseSeeder extends Seeder
     public function run(): void
     {
         $roles = [
-            ['nombre' => 'Administrador', 'descripcion' => 'Control total del sistema', 'estado' => true],
             ['nombre' => 'Donador', 'descripcion' => 'Realiza donaciones de alimentos', 'estado' => true],
             ['nombre' => 'Beneficiario', 'descripcion' => 'Solicita y recibe alimentos', 'estado' => true],
         ];
@@ -32,9 +31,9 @@ class RegistrosBaseSeeder extends Seeder
             CategoriaAlimento::create($categoria);
         }
 
-        $rolAdmin = Rol::where('nombre', 'Administrador')->first();
+        $rolDonador = Rol::where('nombre', 'Donador')->first();
         $usuarioDemo = Usuario::create([
-            'id_rol' => $rolAdmin->id,
+            'id_rol' => $rolDonador->id,
             'nombre' => 'Juan',
             'apellido' => 'Perez',
             'correo' => 'juan@ejemplo.com',

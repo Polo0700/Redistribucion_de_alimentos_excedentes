@@ -5,7 +5,7 @@
       "id_rol": 1,
       "rol": {
         "id": 1,
-        "nombre": "Administrador"
+        "nombre": "Donador"
       },
       "nombre": "Carlos",
       "apellido": "Mendoza",
@@ -17,10 +17,10 @@
     },
     {
       "id": 2,
-      "id_rol": 2,
+      "id_rol": 1,
       "rol": {
-        "id": 2,
-        "nombre": "Donante"
+        "id": 1,
+        "nombre": "Donador"
       },
       "nombre": "Ana",
       "apellido": "Torres",
@@ -32,10 +32,10 @@
     },
     {
       "id": 3,
-      "id_rol": 2,
+      "id_rol": 1,
       "rol": {
-        "id": 2,
-        "nombre": "Donante"
+        "id": 1,
+        "nombre": "Donador"
       },
       "nombre": "Luis",
       "apellido": "Herrera",
@@ -47,9 +47,9 @@
     },
     {
       "id": 4,
-      "id_rol": 3,
+      "id_rol": 2,
       "rol": {
-        "id": 3,
+        "id": 2,
         "nombre": "Beneficiario"
       },
       "nombre": "Marta",
@@ -62,9 +62,9 @@
     },
     {
       "id": 5,
-      "id_rol": 3,
+      "id_rol": 2,
       "rol": {
-        "id": 3,
+        "id": 2,
         "nombre": "Beneficiario"
       },
       "nombre": "Jorge",
@@ -77,9 +77,9 @@
     },
     {
       "id": 6,
-      "id_rol": 3,
+      "id_rol": 2,
       "rol": {
-        "id": 3,
+        "id": 2,
         "nombre": "Beneficiario"
       },
       "nombre": "Patricia",

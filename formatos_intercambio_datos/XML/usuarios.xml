@@ -5,7 +5,7 @@
     <id_rol>1</id_rol>
     <rol>
       <id>1</id>
-      <nombre>Administrador</nombre>
+      <nombre>Donador</nombre>
     </rol>
     <nombre>Carlos</nombre>
     <apellido>Mendoza</apellido>
@@ -17,10 +17,10 @@
   </usuario>
   <usuario>
     <id>2</id>
-    <id_rol>2</id_rol>
+    <id_rol>1</id_rol>
     <rol>
-      <id>2</id>
-      <nombre>Donante</nombre>
+      <id>1</id>
+      <nombre>Donador</nombre>
     </rol>
     <nombre>Ana</nombre>
     <apellido>Torres</apellido>
@@ -32,10 +32,10 @@
   </usuario>
   <usuario>
     <id>3</id>
-    <id_rol>2</id_rol>
+    <id_rol>1</id_rol>
     <rol>
-      <id>2</id>
-      <nombre>Donante</nombre>
+      <id>1</id>
+      <nombre>Donador</nombre>
     </rol>
     <nombre>Luis</nombre>
     <apellido>Herrera</apellido>
@@ -47,9 +47,9 @@
   </usuario>
   <usuario>
     <id>4</id>
-    <id_rol>3</id_rol>
+    <id_rol>2</id_rol>
     <rol>
-      <id>3</id>
+      <id>2</id>
       <nombre>Beneficiario</nombre>
     </rol>
     <nombre>Marta</nombre>
@@ -62,9 +62,9 @@
   </usuario>
   <usuario>
     <id>5</id>
-    <id_rol>3</id_rol>
+    <id_rol>2</id_rol>
     <rol>
-      <id>3</id>
+      <id>2</id>
       <nombre>Beneficiario</nombre>
     </rol>
     <nombre>Jorge</nombre>
@@ -77,9 +77,9 @@
   </usuario>
   <usuario>
     <id>6</id>
-    <id_rol>3</id_rol>
+    <id_rol>2</id_rol>
     <rol>
-      <id>3</id>
+      <id>2</id>
       <nombre>Beneficiario</nombre>
     </rol>
     <nombre>Patricia</nombre>

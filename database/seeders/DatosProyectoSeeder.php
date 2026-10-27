@@ -18,62 +18,14 @@ class DatosProyectoSeeder extends Seeder
         DB::table('roles')->insert([
             [
                 'id' => 1,
-                'nombre' => 'Administrador',
-                'descripcion' => 'Administra completamente el sistema.',
-                'estado' => true,
-            ],
-            [
-                'id' => 2,
                 'nombre' => 'Donador',
                 'descripcion' => 'Usuario que registra donaciones.',
                 'estado' => true,
             ],
             [
-                'id' => 3,
+                'id' => 2,
                 'nombre' => 'Beneficiario',
                 'descripcion' => 'Usuario que solicita alimentos.',
-                'estado' => true,
-            ],
-            [
-                'id' => 4,
-                'nombre' => 'Coordinador',
-                'descripcion' => 'Coordina las actividades del sistema.',
-                'estado' => true,
-            ],
-            [
-                'id' => 5,
-                'nombre' => 'Voluntario',
-                'descripcion' => 'Apoya en actividades de distribución.',
-                'estado' => true,
-            ],
-            [
-                'id' => 6,
-                'nombre' => 'Repartidor',
-                'descripcion' => 'Realiza entregas de alimentos.',
-                'estado' => true,
-            ],
-            [
-                'id' => 7,
-                'nombre' => 'Supervisor',
-                'descripcion' => 'Supervisa las operaciones.',
-                'estado' => true,
-            ],
-            [
-                'id' => 8,
-                'nombre' => 'Consulta',
-                'descripcion' => 'Usuario con acceso de consulta.',
-                'estado' => true,
-            ],
-            [
-                'id' => 9,
-                'nombre' => 'Organización',
-                'descripcion' => 'Representante de una organización.',
-                'estado' => true,
-            ],
-            [
-                'id' => 10,
-                'nombre' => 'Invitado',
-                'descripcion' => 'Usuario con acceso limitado.',
                 'estado' => true,
             ],
         ]);
@@ -178,7 +130,7 @@ class DatosProyectoSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'id_rol' => 3,
+                'id_rol' => 1,
                 'nombre' => 'Carlos',
                 'apellido' => 'Ramírez',
                 'correo' => 'carlos@example.com',
@@ -189,7 +141,7 @@ class DatosProyectoSeeder extends Seeder
             ],
             [
                 'id' => 4,
-                'id_rol' => 4,
+                'id_rol' => 2,
                 'nombre' => 'Ana',
                 'apellido' => 'García',
                 'correo' => 'ana@example.com',
@@ -200,7 +152,7 @@ class DatosProyectoSeeder extends Seeder
             ],
             [
                 'id' => 5,
-                'id_rol' => 5,
+                'id_rol' => 1,
                 'nombre' => 'Luis',
                 'apellido' => 'Hernández',
                 'correo' => 'luis@example.com',
@@ -211,7 +163,7 @@ class DatosProyectoSeeder extends Seeder
             ],
             [
                 'id' => 6,
-                'id_rol' => 6,
+                'id_rol' => 2,
                 'nombre' => 'Sofía',
                 'apellido' => 'Martínez',
                 'correo' => 'sofia@example.com',
@@ -222,7 +174,7 @@ class DatosProyectoSeeder extends Seeder
             ],
             [
                 'id' => 7,
-                'id_rol' => 7,
+                'id_rol' => 1,
                 'nombre' => 'Diego',
                 'apellido' => 'Torres',
                 'correo' => 'diego@example.com',
@@ -233,7 +185,7 @@ class DatosProyectoSeeder extends Seeder
             ],
             [
                 'id' => 8,
-                'id_rol' => 8,
+                'id_rol' => 2,
                 'nombre' => 'Laura',
                 'apellido' => 'Sánchez',
                 'correo' => 'laura@example.com',
@@ -244,7 +196,7 @@ class DatosProyectoSeeder extends Seeder
             ],
             [
                 'id' => 9,
-                'id_rol' => 9,
+                'id_rol' => 1,
                 'nombre' => 'Pedro',
                 'apellido' => 'Morales',
                 'correo' => 'pedro@example.com',
@@ -255,7 +207,7 @@ class DatosProyectoSeeder extends Seeder
             ],
             [
                 'id' => 10,
-                'id_rol' => 10,
+                'id_rol' => 2,
                 'nombre' => 'Elena',
                 'apellido' => 'Vargas',
                 'correo' => 'elena@example.com',

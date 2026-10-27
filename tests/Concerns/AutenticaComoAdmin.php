@@ -14,8 +14,8 @@ trait AutenticaComoAdmin
     protected function actingAsAdmin(): CuentaAcceso
     {
         $rol = Rol::create([
-            'nombre' => 'Administrador',
-            'descripcion' => 'Acceso al panel administrativo',
+            'nombre' => 'Donador',
+            'descripcion' => 'Realiza donaciones de alimentos',
             'estado' => 1,
         ]);
 
