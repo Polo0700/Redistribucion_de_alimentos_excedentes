@@ -36,11 +36,17 @@ class UsuarioController extends Controller
             'correo' => 'required|email|max:150',
             'telefono' => 'required|string|max:100',
             'direccion' => 'required|string|max:200',
+            'foto' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'fecha_registro' => 'required|date',
             'estado' => 'required|boolean',
         ]);
 
-        // crea un usuario
+        // guarda el archivo en disco y deja la ruta en $validado
+        $extension = $request->file('foto')->extension();
+        $nombreFoto = 'Usuario_' . time() . '_' . uniqid() . '.' . $extension;
+        $validado['foto'] = $request->file('foto')->storeAs('usuarios', $nombreFoto, 'public');
+
+        // crea un usuario (con la ruta de la foto ya adentro)
         Usuario::create($validado);
 
         // redirige al index y un mensaje de correcto

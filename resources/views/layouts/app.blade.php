@@ -71,9 +71,15 @@
                         class="flex text-sm bg-gray-800 rounded-full"
                         data-dropdown-toggle="dropdown-user">
 
-                        <div class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold">
-                            U
-                        </div>
+                        @if(auth('admin')->user()->foto)
+                            <img src="{{ asset('storage/' . auth('admin')->user()->foto) }}"
+                                 alt="Foto de {{ auth('admin')->user()->username }}"
+                                 class="w-8 h-8 rounded-full object-cover">
+                        @else
+                            <div class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold">
+                                {{ strtoupper(substr(auth('admin')->user()->nombre_completo, 0, 1)) }}
+                            </div>
+                        @endif
 
                     </button>
 

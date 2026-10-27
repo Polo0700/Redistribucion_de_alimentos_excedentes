@@ -13,7 +13,7 @@
 
 <div class="bg-white rounded-lg shadow-md p-6">
 
-    <form method="POST" action="{{ route('usuarios.store') }}">
+    <form method="POST" action="{{ route('usuarios.store') }}" enctype="multipart/form-data">
 
         @csrf
 
@@ -94,6 +94,19 @@
                 @enderror
             </div>
 
+            <div class="md:col-span-2">
+                <label class="block mb-2 text-sm font-medium text-gray-900">Foto del usuario</label>
+                <input type="file" id="foto" name="foto"
+                       accept=".jpg,.jpeg,.png,.webp"
+                       class="w-full p-2.5 border border-gray-300 rounded-lg">
+                <p class="text-sm text-gray-500 mt-1">
+                    Formatos permitidos: JPG, PNG, WEBP. Tamano maximo: 2 MB.
+                </p>
+                @error('foto')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <div>
                 <input type="hidden" name="estado" value="0">
                 <label class="flex items-center gap-2">
@@ -122,5 +135,27 @@
     </form>
 
 </div>
+
+<script>
+    document.querySelector('form[action="{{ route('usuarios.store') }}"]').addEventListener('submit', function (e) {
+        const input = document.getElementById('foto');
+        const archivo = input.files[0];
+
+        if (archivo) {
+            const permitidos = ['image/jpeg', 'image/png', 'image/webp'];
+
+            if (!permitidos.includes(archivo.type)) {
+                alert('Tipo de archivo no permitido. Usa JPG, PNG o WEBP.');
+                e.preventDefault();
+                return;
+            }
+
+            if (archivo.size > 2 * 1024 * 1024) {
+                alert('La imagen supera el tamano maximo permitido de 2 MB.');
+                e.preventDefault();
+            }
+        }
+    });
+</script>
 
 @endsection

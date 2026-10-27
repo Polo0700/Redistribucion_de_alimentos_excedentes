@@ -24,6 +24,7 @@ class Administrador extends Authenticatable
         'nombre_completo',
         'username',
         'password',
+        'foto',
         'activo',
     ];
 

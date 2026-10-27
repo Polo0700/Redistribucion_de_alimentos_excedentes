@@ -24,6 +24,7 @@ class Usuario extends Model
         'correo',
         'telefono',
         'direccion',
+        'foto',
         'fecha_registro',
         'estado',
     ];
