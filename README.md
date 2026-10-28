@@ -64,10 +64,45 @@ php artisan migrate
 php artisan db:seed --class=AdministradorSeeder
 ```
 
-El seed crea 2 cuentas de prueba:
+El seed crea estas cuentas de prueba (contraseña `admin123` para todas):
 
-- `admin` / `admin123` (activa, puede entrar)
-- `inactivo` / `admin123` (deshabilitada, no puede entrar)
+| Username   | Nivel | Capacidades                        |
+|------------|-------|------------------------------------|
+| `admin`    | 3     | Acceso total (superadmin)          |
+| `admin1`   | 1     | Solo consulta                      |
+| `admin2`   | 2     | Consulta, crear y editar           |
+| `admin3`   | 3     | Acceso total (superadmin)          |
+| `inactivo` | 1     | Deshabilitada, no puede entrar     |
+
+---
+
+# Autorización por niveles de administrador
+
+El sistema define **tres niveles de administrador** en el campo `nivel` de la tabla `administradores` (migración `add_nivel_to_administradores_table`). La autorización usa los mecanismos nativos de Laravel (Gates, middleware `can:` y directivas Blade `@can`/`@cannot`), sin paquetes externos.
+
+| Operación                       | Nivel 1 | Nivel 2 | Nivel 3 |
+|---------------------------------|---------|---------|---------|
+| Consultar información           | ✅      | ✅      | ✅      |
+| Crear registros                 | ❌      | ✅      | ✅      |
+| Editar registros                | ❌      | ✅      | ✅      |
+| Eliminar registros              | ❌      | ❌      | ✅      |
+| Administrar cuentas de admins   | ❌      | ❌      | ✅      |
+
+Cómo está implementado:
+
+- **Gates centralizados** en `app/Providers/AppServiceProvider.php` (`boot()`): `consultar`, `crear`, `editar`, `eliminar` y `administrar-administradores`. Todos verifican `$user instanceof Administrador`, que esté activo y su `nivel` (leído de la BD, nunca del formulario).
+- **Protección en rutas**: cada ruta del panel está bajo `auth:admin` y añade `can:<habilidad>` (ver `routes/web.php`). Las operaciones restringidas devuelven **403** (página `resources/views/errors/403.blade.php`) aunque se llamen directamente por URL.
+- **Vistas Blade**: los botones de crear, editar y eliminar se muestran u ocultan con `@can`/`@cannot` según el Gate, para que la UI siempre coincida con las reglas del servidor.
+- **CRUD de administradores** (`/administradores`, exclusivo nivel 3): el campo `nivel` se valida en el servidor con `in:1,2,3`; la contraseña se guarda hasheada; un administrador no puede eliminarse ni desactivarse a sí mismo.
+- **Futura API**: los mismos Gates son reutilizables con `Gate::allows('eliminar')` tras autenticar la API (p. ej. con Sanctum); `@can` sigue siendo solo para vistas web.
+
+### Pruebas
+
+```bash
+php artisan test
+```
+
+Incluye `AutorizacionNivelesTest` (permisos por nivel, invitados y administradores inactivos) y `AdministradorCrudTest` (CRUD de administradores).
 
 ### 5. Arrancar el proyecto
 

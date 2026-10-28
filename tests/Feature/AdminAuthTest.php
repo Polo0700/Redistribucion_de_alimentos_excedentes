@@ -18,6 +18,7 @@ class AdminAuthTest extends TestCase
             'username' => 'admin',
             'password' => Hash::make('12345678'),
             'activo' => $activo,
+            'nivel' => 3,
         ]);
     }
 

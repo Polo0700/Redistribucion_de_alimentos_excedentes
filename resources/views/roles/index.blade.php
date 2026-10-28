@@ -41,12 +41,18 @@
 
         </a>
 
+        @can('crear')
         <a href="{{ route('roles.create') }}"
            class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
-
             + Nuevo rol
-
         </a>
+        @endcan
+
+        @cannot('crear')
+        <span class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-100 rounded-lg border border-gray-200 inline-flex items-center">
+            🔒 Creación restringida (Nivel {{ auth('admin')->user()->nivel ?? 1 }})
+        </span>
+        @endcannot
 
     </div>
 
@@ -150,20 +156,22 @@
 
                     </td>
 
-                   <td class="px-6 py-4">
-    <div class="flex gap-2">
+                    <td class="px-6 py-4">
+    <div class="flex items-center gap-2">
 
         <a href="{{ route('roles.show', $rol->id) }}"
            class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg hover:bg-blue-200">
             Ver
         </a>
 
-        
+        @can('editar')
         <a href="{{ route('roles.edit', $rol->id) }}"
            class="px-3 py-1 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">
             Editar
         </a>
+        @endcan
 
+        @can('eliminar')
         <form action="{{ route('roles.destroy', $rol->id) }}" method="POST"
               onsubmit="return confirm('¿Eliminar este rol? Se puede restaurar después.')">
             @csrf
@@ -173,6 +181,13 @@
                 Eliminar
             </button>
         </form>
+        @endcan
+
+        @cannot('editar')
+        <span class="text-xs text-gray-400 italic">
+            Solo lectura
+        </span>
+        @endcannot
 
     </div>
 </td>

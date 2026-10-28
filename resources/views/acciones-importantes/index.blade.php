@@ -34,12 +34,14 @@
 
         <div class="flex gap-2">
 
+            @can('consultar')
             <a href="{{ route('acciones.trashed') }}"
                class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
 
                 Ver eliminados
 
             </a>
+            @endcan
 
         </div>
 
@@ -141,6 +143,7 @@
                                 Ver
                             </a>
 
+                            @can('eliminar')
                             <form action="{{ route('acciones.destroy', $accion->id_accion) }}" method="POST"
                                   onsubmit="return confirm('¿Eliminar esta acción importante? Se puede restaurar después.')">
                                 @csrf
@@ -150,6 +153,13 @@
                                     Eliminar
                                 </button>
                             </form>
+                            @endcan
+
+                            @cannot('editar')
+                            <span class="text-xs text-gray-400 italic">
+                                Solo lectura
+                            </span>
+                            @endcannot
 
                         </div>
 

@@ -2,44 +2,26 @@
 
 namespace Tests\Concerns;
 
-use App\Models\CuentaAcceso;
-use App\Models\Rol;
-use App\Models\Usuario;
+use App\Models\Administrador;
 
 trait AutenticaComoAdmin
 {
     /**
-     * Crea un administrador mínimo y autentica el request como él (guard admin).
+     * Crea un administrador (nivel 3) y autentica el request con el guard 'admin'.
+     * La autorización se evalúa sobre el modelo Administrador, no sobre CuentaAcceso.
      */
-    protected function actingAsAdmin(): CuentaAcceso
+    protected function actingAsAdmin(int $nivel = 3): Administrador
     {
-        $rol = Rol::create([
-            'nombre' => 'Donador',
-            'descripcion' => 'Realiza donaciones de alimentos',
-            'estado' => 1,
+        $administrador = Administrador::create([
+            'nombre_completo' => 'Admin de Prueba',
+            'username' => 'admin-test-' . uniqid(),
+            'password' => bcrypt('12345678'),
+            'activo' => true,
+            'nivel' => $nivel,
         ]);
 
-        $usuario = Usuario::create([
-            'id_rol' => $rol->id,
-            'nombre' => 'Admin',
-            'apellido' => 'Sistema',
-            'correo' => 'admin-sistema@test.com',
-            'telefono' => '0000000000',
-            'direccion' => 'Direccion test',
-            'fecha_registro' => now(),
-            'estado' => 1,
-        ]);
+        $this->actingAs($administrador, 'admin');
 
-        $cuenta = CuentaAcceso::create([
-            'id_usuario' => $usuario->id,
-            'proveedor' => 'Correo',
-            'identificador_externo' => 'admin-sistema@test.com',
-            'contrasena_hash' => bcrypt('12345678'),
-            'fecha_ultimo_acceso' => now(),
-        ]);
-
-        $this->actingAs($cuenta, 'admin');
-
-        return $cuenta;
+        return $administrador;
     }
 }

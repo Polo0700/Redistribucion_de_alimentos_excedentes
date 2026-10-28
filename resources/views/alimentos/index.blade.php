@@ -41,12 +41,18 @@
 
             </a>
 
+            @can('crear')
             <a href="{{ route('alimentos.create') }}"
                class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
-
                 + Nuevo alimento
-
             </a>
+            @endcan
+
+            @cannot('crear')
+            <span class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-100 rounded-lg border border-gray-200 inline-flex items-center">
+                🔒 Creación restringida (Nivel {{ auth('admin')->user()->nivel ?? 1 }})
+            </span>
+            @endcannot
 
         </div>
 
@@ -178,27 +184,33 @@
 
                             <a href="{{ route('alimentos.show', $alimento->id_alimento) }}"
                                class="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-lg">
-
                                 Ver
-
                             </a>
 
-                                 <a href="{{ route('alimentos.edit', $alimento->id_alimento) }}"
-                                    class="px-3 py-1 text-sm bg-yellow-500 text-white rounded-lg">
-                                  Editar
-                                   </a>
+                            @can('editar')
+                            <a href="{{ route('alimentos.edit', $alimento->id_alimento) }}"
+                               class="px-3 py-1 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">
+                                Editar
+                            </a>
+                            @endcan
 
+                            @can('eliminar')
                             <form action="{{ route('alimentos.destroy', $alimento->id_alimento) }}" method="POST"
                                   onsubmit="return confirm('¿Eliminar este alimento? Se puede restaurar después.')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
                                         class="px-3 py-1.5 text-xs font-medium text-red-700 bg-red-100 rounded-lg hover:bg-red-200">
-
                                     Eliminar
-
                                 </button>
                             </form>
+                            @endcan
+
+                            @cannot('editar')
+                            <span class="text-xs text-gray-400 italic">
+                                Solo lectura
+                            </span>
+                            @endcannot
 
                         </div>
 

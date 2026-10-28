@@ -41,12 +41,20 @@
 
             </a>
 
+            @can('crear')
             <a href="{{ route('cuentas-acceso.create') }}"
                class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
 
                 + Nueva cuenta
 
             </a>
+            @endcan
+
+            @cannot('crear')
+            <span class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-100 rounded-lg border border-gray-200 inline-flex items-center">
+                🔒 Creación restringida (Nivel {{ auth('admin')->user()->nivel ?? 1 }})
+            </span>
+            @endcannot
 
         </div>
 
@@ -159,11 +167,14 @@
 
                             </a>
 
+                            @can('editar')
                            <a href="{{ route('cuentas-acceso.edit', $cuenta->id_cuenta) }}"
                              class="px-3 py-1 text-sm bg-yellow-500 text-white rounded-lg">
                                Editar
                                  </a>
+                            @endcan
 
+                            @can('eliminar')
                             <form action="{{ route('cuentas-acceso.destroy', $cuenta->id_cuenta) }}" method="POST"
                                   onsubmit="return confirm('¿Eliminar esta cuenta de acceso? Se puede restaurar después.')">
                                 @csrf
@@ -175,6 +186,13 @@
 
                                 </button>
                             </form>
+                            @endcan
+
+                            @cannot('editar')
+                            <span class="text-xs text-gray-400 italic">
+                                Solo lectura
+                            </span>
+                            @endcannot
 
                         </div>
 

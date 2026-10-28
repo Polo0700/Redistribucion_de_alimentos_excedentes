@@ -66,6 +66,15 @@
 
                     @auth('admin')
 
+                    <!-- NIVEL DEL ADMINISTRADOR EN NAVBAR -->
+                    <div class="mr-3 text-right hidden sm:block">
+                        <p class="text-xs font-semibold text-gray-800">{{ auth('admin')->user()->nombre_completo }}</p>
+                        <span class="inline-block px-2 py-0.5 text-xs font-bold rounded-full 
+                            {{ (auth('admin')->user()->nivel ?? 1) == 3 ? 'bg-purple-100 text-purple-800' : ((auth('admin')->user()->nivel ?? 1) == 2 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700') }}">
+                            Nivel {{ auth('admin')->user()->nivel ?? 1 }} ({{ (auth('admin')->user()->nivel ?? 1) == 3 ? 'Superadmin' : ((auth('admin')->user()->nivel ?? 1) == 2 ? 'Editor' : 'Consulta') }})
+                        </span>
+                    </div>
+
                     <button
                         type="button"
                         class="flex text-sm bg-gray-800 rounded-full"
@@ -204,6 +213,26 @@
                     </a>
 
                 </li>
+
+
+                <!-- ADMINISTRADORES (Exclusivo Nivel 3) -->
+
+                @can('administrar-administradores')
+                <li>
+
+                    <a href="{{ route('administradores.index') }}"
+                       class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-green-100">
+
+                        <span class="text-xl">🛡️</span>
+
+                        <span class="ms-3">
+                            Administradores
+                        </span>
+
+                    </a>
+
+                </li>
+                @endcan
 
 
                 <!-- ROLES -->
