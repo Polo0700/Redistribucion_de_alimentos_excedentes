@@ -13,8 +13,9 @@ class UsuarioController extends Controller
     {
         $usuarios = Usuario::with('rol')->paginate(5);
 
-        // retorna la pagina del index de usuarios
-        return view('usuarios.index', compact('usuarios'));
+        return response()->json([
+            'usuarios' => $usuarios
+        ], 200);
     }
 
     // obtiene los roles y los ordena por nombre y los mete a roles
@@ -22,8 +23,9 @@ class UsuarioController extends Controller
     {
         $roles = Rol::orderBy('nombre')->get();
 
-        // retorna la vista de creacion de usuarios
-        return view('usuarios.create', compact('roles'));
+        return response()->json([
+            'roles' => $roles
+        ], 200);
     }
 
     public function store(Request $request)
@@ -41,10 +43,12 @@ class UsuarioController extends Controller
         ]);
 
         // crea un usuario
-        Usuario::create($validado);
+        $usuario = Usuario::create($validado);
 
-        // redirige al index y un mensaje de correcto
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
+        return response()->json([
+            'message' => 'Usuario creado correctamente',
+            'data' => $usuario
+        ], 201);
     }
 
     // método edit()
@@ -55,10 +59,13 @@ class UsuarioController extends Controller
         // solo roles activos
         $roles = Rol::where('estado', true)->get();
 
-        return view('usuarios.edit', compact('usuario', 'roles'));
+        return response()->json([
+            'usuario' => $usuario,
+            'roles' => $roles
+        ], 200);
     }
 
-    //   método update()
+    // método update()
     public function update(Request $request, $id)
     {
         $usuario = Usuario::findOrFail($id);
@@ -85,9 +92,10 @@ class UsuarioController extends Controller
             'estado' => $request->estado,
         ]);
 
-        return redirect()
-            ->route('usuarios.index')
-            ->with('success', 'Usuario actualizado correctamente.');
+        return response()->json([
+            'message' => 'Usuario actualizado correctamente.',
+            'data' => $usuario
+        ], 200);
     }
 
     /*
@@ -99,7 +107,9 @@ class UsuarioController extends Controller
     {
         $usuario = Usuario::with('rol')->findOrFail($id);
 
-        return view('usuarios.show', compact('usuario'));
+        return response()->json([
+            'usuario' => $usuario
+        ], 200);
     }
 
     /*
@@ -112,7 +122,9 @@ class UsuarioController extends Controller
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+        return response()->json([
+            'message' => 'Usuario eliminado correctamente.'
+        ], 200);
     }
 
     /*
@@ -124,7 +136,9 @@ class UsuarioController extends Controller
     {
         $usuarios = Usuario::onlyTrashed()->paginate(5);
 
-        return view('usuarios.trashed', compact('usuarios'));
+        return response()->json([
+            'usuarios' => $usuarios
+        ], 200);
     }
 
     /*
@@ -137,7 +151,9 @@ class UsuarioController extends Controller
         $usuario = Usuario::onlyTrashed()->findOrFail($id);
         $usuario->restore();
 
-        return redirect()->route('usuarios.trashed')->with('success', 'Usuario restaurado correctamente.');
+        return response()->json([
+            'message' => 'Usuario restaurado correctamente.'
+        ], 200);
     }
 
     /*
@@ -151,28 +167,34 @@ class UsuarioController extends Controller
 
         // solo se permite si ya estaba eliminado lógicamente
         if (! $usuario->trashed()) {
-            return redirect()->route('usuarios.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json([
+                'message' => 'Primero debe aplicar el borrado lógico al registro.'
+            ], 422);
         }
 
         // validación de relaciones: si otra tabla lo usa, se cancela
         if ($usuario->cuentasAcceso()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene cuentas de acceso registradas.');
+            return response()->json([
+                'message' => 'No se puede eliminar: el usuario tiene cuentas de acceso registradas.'
+            ], 422);
         }
 
         if ($usuario->donaciones()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene donaciones registradas.');
+            return response()->json([
+                'message' => 'No se puede eliminar: el usuario tiene donaciones registradas.'
+            ], 422);
         }
 
-        
-
-        
-
         if ($usuario->accionesImportantes()->count() > 0) {
-            return redirect()->route('usuarios.trashed')->with('error', 'No se puede eliminar: el usuario tiene acciones importantes registradas.');
+            return response()->json([
+                'message' => 'No se puede eliminar: el usuario tiene acciones importantes registradas.'
+            ], 422);
         }
 
         $usuario->forceDelete();
 
-        return redirect()->route('usuarios.trashed')->with('success', 'Usuario eliminado definitivamente.');
+        return response()->json([
+            'message' => 'Usuario eliminado definitivamente.'
+        ], 200);
     }
 }

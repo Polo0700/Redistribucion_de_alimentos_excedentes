@@ -19,9 +19,9 @@ class AlimentoController extends Controller
         // trae los alimentos de la base de datos con su categoría de 5 en 5
         $alimentos = Alimento::with('categoria')->paginate(5);
 
-        // retorna la vista index de alimentos
-        // return view('alimentos.index', compact('alimentos'));
-        response()->json($alimentos);
+        return response()->json([
+            'alimentos' => $alimentos
+        ], 200);
     }
 
     /*
@@ -34,8 +34,9 @@ class AlimentoController extends Controller
         // obtiene las categorías ordenadas por nombre
         $categorias = CategoriaAlimento::orderBy('nombre')->get();
 
-        // retorna la vista de creación de alimentos
-        return view('alimentos.create', compact('categorias'));
+        return response()->json([
+            'categorias' => $categorias
+        ], 200);
     }
 
     /*
@@ -65,7 +66,10 @@ class AlimentoController extends Controller
             $alimento->update(['imagen' => $ruta]);
         }
 
-        return redirect()->route('alimentos.index')->with('success', 'Alimento creado correctamente.');
+        return response()->json([
+            'message' => 'Alimento creado correctamente.',
+            'data' => $alimento
+        ], 201);
     }
 
     /*
@@ -78,7 +82,10 @@ class AlimentoController extends Controller
         $alimento = Alimento::findOrFail($id);
         $categorias = CategoriaAlimento::orderBy('nombre')->get();
 
-        return view('alimentos.edit', compact('alimento', 'categorias'));
+        return response()->json([
+            'alimento' => $alimento,
+            'categorias' => $categorias
+        ], 200);
     }
 
     /*
@@ -122,7 +129,10 @@ class AlimentoController extends Controller
             }
         }
 
-        return redirect()->route('alimentos.index')->with('success', 'Alimento actualizado correctamente.');
+        return response()->json([
+            'message' => 'Alimento actualizado correctamente.',
+            'data' => $alimento
+        ], 200);
     }
 
     /*
@@ -134,7 +144,9 @@ class AlimentoController extends Controller
     {
         $alimento = Alimento::with('categoria')->findOrFail($id);
 
-        return view('alimentos.show', compact('alimento'));
+        return response()->json([
+            'alimento' => $alimento
+        ], 200);
     }
 
     /*
@@ -147,7 +159,9 @@ class AlimentoController extends Controller
         $alimento = Alimento::findOrFail($id);
         $alimento->delete();
 
-        return redirect()->route('alimentos.index')->with('success', 'Alimento eliminado correctamente.');
+        return response()->json([
+            'message' => 'Alimento eliminado correctamente.'
+        ], 200);
     }
 
     /*
@@ -159,7 +173,9 @@ class AlimentoController extends Controller
     {
         $alimentos = Alimento::onlyTrashed()->paginate(5);
 
-        return view('alimentos.trashed', compact('alimentos'));
+        return response()->json([
+            'alimentos' => $alimentos
+        ], 200);
     }
 
     /*
@@ -172,7 +188,9 @@ class AlimentoController extends Controller
         $alimento = Alimento::onlyTrashed()->findOrFail($id);
         $alimento->restore();
 
-        return redirect()->route('alimentos.trashed')->with('success', 'Alimento restaurado correctamente.');
+        return response()->json([
+            'message' => 'Alimento restaurado correctamente.'
+        ], 200);
     }
 
     /*
@@ -186,17 +204,18 @@ class AlimentoController extends Controller
 
         // solo se permite si ya estaba eliminado lógicamente
         if (! $alimento->trashed()) {
-            return redirect()->route('alimentos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json([
+                'message' => 'Primero debe aplicar el borrado lógico al registro.'
+            ], 422);
         }
 
         // validación de relaciones: si otra tabla lo usa, se cancela
         if ($alimento->detallesDonacion()->count() > 0) {
-            return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Detalles de Donación.');
+            return response()->json([
+                'message' => 'No se puede eliminar: el alimento está registrado en Detalles de Donación.'
+            ], 422);
         }
 
-        
-
-    
         // eliminar la imagen asociada del almacenamiento
         if ($alimento->imagen && Storage::disk('public')->exists($alimento->imagen)) {
             Storage::disk('public')->delete($alimento->imagen);
@@ -205,6 +224,8 @@ class AlimentoController extends Controller
         // eliminar el registro de la base de datos
         $alimento->forceDelete();
 
-        return redirect()->route('alimentos.trashed')->with('success', 'Alimento eliminado físicamente junto con su imagen.');
+        return response()->json([
+            'message' => 'Alimento eliminado físicamente junto con su imagen.'
+        ], 200);
     }
 }

@@ -12,15 +12,16 @@ class CategoriaAlimentoController extends Controller
     {
         $categorias = CategoriaAlimento::paginate(5);
 
-        // retorna la pagina del index de categorias
-        return view('categorias.index', compact('categorias'));
+        return response()->json(['categorias' => $categorias], 200);
     }
 
-    // genera un formulario en blanco para la pagina
+    
     public function create()
-    {
-        return view('categorias.create');
-    }
+{
+    return response()->json([
+        'message' => 'Endpoint no utilizado en API'
+    ]);
+}
 
     public function store(Request $request)
     {
@@ -31,18 +32,20 @@ class CategoriaAlimentoController extends Controller
             'estado' => 'required|boolean',
         ]);
 
-        // crea una categoria
-        CategoriaAlimento::create($validado);
-
-        // redirige al index y un mensaje de correcto
-        return redirect()->route('categorias.index')->with('success', 'Categoria creada correctamente');
+       $categoria = CategoriaAlimento::create($validado);
+              return response()->json([
+      'message' => 'Categoria creada correctamente',
+      'data' => $categoria
+      ], 201);
     }
 
     public function edit($id)
     {
         $categoria = CategoriaAlimento::findOrFail($id);
 
-        return view('categorias.edit', compact('categoria'));
+       return response()->json([
+    'categoria' => $categoria
+]);
     }
 
     public function update(Request $request, $id)
@@ -61,9 +64,8 @@ class CategoriaAlimentoController extends Controller
             'estado' => $request->estado,
         ]);
 
-        return redirect()
-            ->route('categorias.index')
-            ->with('success', 'Categoría actualizada correctamente.');
+           return response()->json([
+    'message' => 'Categoría actualizada correctamente.','data' => $categoria], 200);
     }
 
     /*
@@ -75,7 +77,7 @@ class CategoriaAlimentoController extends Controller
     {
         $categoria = CategoriaAlimento::findOrFail($id);
 
-        return view('categorias.show', compact('categoria'));
+       return response()->json(['categoria' => $categoria], 200);
     }
 
     /*
@@ -88,7 +90,7 @@ class CategoriaAlimentoController extends Controller
         $categoria = CategoriaAlimento::findOrFail($id);
         $categoria->delete();
 
-        return redirect()->route('categorias.index')->with('success', 'Categoría eliminada correctamente.');
+        return response()->json(['message' => 'Categoría eliminada correctamente.'], 200);
     }
 
     /*
@@ -100,7 +102,7 @@ class CategoriaAlimentoController extends Controller
     {
         $categorias = CategoriaAlimento::onlyTrashed()->paginate(5);
 
-        return view('categorias.trashed', compact('categorias'));
+        return response()->json(['categorias' => $categorias], 200);
     }
 
     /*
@@ -113,7 +115,7 @@ class CategoriaAlimentoController extends Controller
         $categoria = CategoriaAlimento::onlyTrashed()->findOrFail($id);
         $categoria->restore();
 
-        return redirect()->route('categorias.trashed')->with('success', 'Categoría restaurada correctamente.');
+        return response()->json(['message' => 'Categoría restaurada correctamente.'], 200);
     }
 
     /*
@@ -127,12 +129,13 @@ class CategoriaAlimentoController extends Controller
 
         // solo se permite si ya estaba eliminada lógicamente
         if (! $categoria->trashed()) {
-            return redirect()->route('categorias.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json(['message' => 'Primero debe aplicar el borrado lógico al registro.'], 422);
         }
 
         // validación de relaciones: si otra tabla la usa, se cancela
         if ($categoria->alimentos()->count() > 0) {
-            return redirect()->route('categorias.trashed')->with('error', 'No se puede eliminar: la categoría tiene alimentos registrados.');
+          return response()->json([
+    'message' => 'Categoría eliminada definitivamente.'], 200);
         }
 
         $categoria->forceDelete();

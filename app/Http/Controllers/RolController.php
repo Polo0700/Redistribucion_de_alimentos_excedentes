@@ -12,14 +12,17 @@ class RolController extends Controller
     {
         $roles = Rol::paginate(5);
 
-        //return view('roles.index', compact('roles'));
-        response()->json($roles);
+        return response()->json([
+            'roles' => $roles
+        ], 200);
     }
 
     // genera un formulario en blanco para la pagina
     public function create()
     {
-        return view('roles.create');
+        return response()->json([
+            'message' => 'Formulario de creación de rol'
+        ], 200);
     }
 
     public function store(Request $request)
@@ -32,10 +35,12 @@ class RolController extends Controller
         ]);
 
         // un nuevo rol validado es añadido en la DB
-        Rol::create($validado);
+        $rol = Rol::create($validado);
 
-        // retorna la pagina index y te da un mensaje de exito
-        return redirect()->route('roles.index')->with('success', 'Rol creado correctamente');
+        return response()->json([
+            'message' => 'Rol creado correctamente',
+            'data' => $rol
+        ], 201);
     }
 
     // metodfo editar
@@ -43,7 +48,9 @@ class RolController extends Controller
     {
         $rol = Rol::findOrFail($id);
 
-        return view('roles.edit', compact('rol'));
+        return response()->json([
+            'rol' => $rol
+        ], 200);
     }
 
     // metodo ubdete
@@ -63,9 +70,10 @@ class RolController extends Controller
             'estado' => $request->estado,
         ]);
 
-        return redirect()
-            ->route('roles.index')
-            ->with('success', 'Rol actualizado correctamente.');
+        return response()->json([
+            'message' => 'Rol actualizado correctamente.',
+            'data' => $rol
+        ], 200);
     }
 
     /*
@@ -77,7 +85,9 @@ class RolController extends Controller
     {
         $rol = Rol::findOrFail($id);
 
-        return view('roles.show', compact('rol'));
+        return response()->json([
+            'rol' => $rol
+        ], 200);
     }
 
     /*
@@ -90,7 +100,9 @@ class RolController extends Controller
         $rol = Rol::findOrFail($id);
         $rol->delete();
 
-        return redirect()->route('roles.index')->with('success', 'Rol eliminado correctamente.');
+        return response()->json([
+            'message' => 'Rol eliminado correctamente.'
+        ], 200);
     }
 
     /*
@@ -102,7 +114,9 @@ class RolController extends Controller
     {
         $roles = Rol::onlyTrashed()->paginate(5);
 
-        return view('roles.trashed', compact('roles'));
+        return response()->json([
+            'roles' => $roles
+        ], 200);
     }
 
     /*
@@ -115,7 +129,9 @@ class RolController extends Controller
         $rol = Rol::onlyTrashed()->findOrFail($id);
         $rol->restore();
 
-        return redirect()->route('roles.trashed')->with('success', 'Rol restaurado correctamente.');
+        return response()->json([
+            'message' => 'Rol restaurado correctamente.'
+        ], 200);
     }
 
     /*
@@ -129,16 +145,22 @@ class RolController extends Controller
 
         // solo se permite si ya estaba eliminado lógicamente
         if (! $rol->trashed()) {
-            return redirect()->route('roles.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
+            return response()->json([
+                'message' => 'Primero debe aplicar el borrado lógico al registro.'
+            ], 422);
         }
 
         // validación de relaciones: si otra tabla lo usa, se cancela
         if ($rol->usuarios()->count() > 0) {
-            return redirect()->route('roles.trashed')->with('error', 'No se puede eliminar: el rol tiene usuarios asignados.');
+            return response()->json([
+                'message' => 'No se puede eliminar: el rol tiene usuarios asignados.'
+            ], 422);
         }
 
         $rol->forceDelete();
 
-        return redirect()->route('roles.trashed')->with('success', 'Rol eliminado definitivamente.');
+        return response()->json([
+            'message' => 'Rol eliminado definitivamente.'
+        ], 200);
     }
 }
