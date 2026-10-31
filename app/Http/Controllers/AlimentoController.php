@@ -20,7 +20,8 @@ class AlimentoController extends Controller
         $alimentos = Alimento::with('categoria')->paginate(5);
 
         // retorna la vista index de alimentos
-        return view('alimentos.index', compact('alimentos'));
+        // return view('alimentos.index', compact('alimentos'));
+        response()->json($alimentos);
     }
 
     /*

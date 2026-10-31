@@ -1,251 +1,283 @@
 <?php
 
-use App\Http\Controllers\Api\AccionImportanteController as ApiAccionImportanteController;
-use App\Http\Controllers\Api\AlimentoController as ApiAlimentoController;
-use App\Http\Controllers\Api\CategoriaAlimentoController as ApiCategoriaAlimentoController;
-use App\Http\Controllers\Api\CuentaAccesoController as ApiCuentaAccesoController;
-use App\Http\Controllers\Api\DonacionController as ApiDonacionController;
-use App\Http\Controllers\Api\EntregaController as ApiEntregaController;
-use App\Http\Controllers\Api\RolController as ApiRolController;
-use App\Http\Controllers\Api\SolicitudController as ApiSolicitudController;
-use App\Http\Controllers\Api\UsuarioController as ApiUsuarioController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\AccionImportanteController;
+use App\Http\Controllers\AlimentoController;
+use App\Http\Controllers\AuthAdminController;
+use App\Http\Controllers\CategoriaAlimentoController;
+use App\Http\Controllers\CuentaAccesoController;
+use App\Http\Controllers\DonacionController;
+use App\Http\Controllers\EntregaController;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
 /*
 |--------------------------------------------------------------------------
-| Roles
+| Dashboard
 |--------------------------------------------------------------------------
 */
 
-Route::get('/roles', [ApiRolController::class, 'index'])->name('api.roles.index');
-
-Route::get('/roles/create', [ApiRolController::class, 'create'])->name('api.roles.create');
-
-Route::post('/roles', [ApiRolController::class, 'store'])->name('api.roles.store');
-
-Route::get('/roles/{id}/edit', [ApiRolController::class, 'edit'])->name('api.roles.edit');
-
-Route::put('/roles/{id}', [ApiRolController::class, 'update'])->name('api.roles.update');
-
-Route::get('/roles/eliminados', [ApiRolController::class, 'trashed'])->name('api.roles.trashed');
-
-Route::get('/roles/{id}', [ApiRolController::class, 'show'])->name('api.roles.show');
-
-Route::delete('/roles/{id}', [ApiRolController::class, 'destroy'])->name('api.roles.destroy');
-
-Route::patch('/roles/{id}/restore', [ApiRolController::class, 'restore'])->name('api.roles.restore');
-
-Route::delete('/roles/{id}/force', [ApiRolController::class, 'forceDestroy'])->name('api.roles.forceDestroy');
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
 
 /*
 |--------------------------------------------------------------------------
-| Usuarios
+| Autenticación administrativa
 |--------------------------------------------------------------------------
 */
 
-Route::get('/usuarios', [ApiUsuarioController::class, 'index'])->name('api.usuarios.index');
+Route::get('/admin/login', [AuthAdminController::class, 'login'])->name('admin.login');
 
-Route::get('/usuarios/create', [ApiUsuarioController::class, 'create'])->name('api.usuarios.create');
+Route::post('/admin/login', [AuthAdminController::class, 'in'])->name('admin.in');
 
-Route::post('/usuarios', [ApiUsuarioController::class, 'store'])->name('api.usuarios.store');
-
-Route::get('/usuarios/{id}/edit', [ApiUsuarioController::class, 'edit'])->name('api.usuarios.edit');
-
-Route::put('/usuarios/{id}', [ApiUsuarioController::class, 'update'])->name('api.usuarios.update');
-
-Route::get('/usuarios/eliminados', [ApiUsuarioController::class, 'trashed'])->name('api.usuarios.trashed');
-
-Route::get('/usuarios/{id}', [ApiUsuarioController::class, 'show'])->name('api.usuarios.show');
-
-Route::delete('/usuarios/{id}', [ApiUsuarioController::class, 'destroy'])->name('api.usuarios.destroy');
-
-Route::patch('/usuarios/{id}/restore', [ApiUsuarioController::class, 'restore'])->name('api.usuarios.restore');
-
-Route::delete('/usuarios/{id}/force', [ApiUsuarioController::class, 'forceDestroy'])->name('api.usuarios.forceDestroy');
+Route::post('/admin/logout', [AuthAdminController::class, 'out'])->name('admin.logout');
 
 /*
 |--------------------------------------------------------------------------
-| Cuentas de acceso
+| Panel administrativo (requiere sesión de administrador)
 |--------------------------------------------------------------------------
 */
 
-Route::get('/cuentas-acceso', [ApiCuentaAccesoController::class, 'index'])->name('api.cuentas-acceso.index');
+//Route::middleware('auth:admin')->group(function () {
 
-Route::get('/cuentas-acceso/create', [ApiCuentaAccesoController::class, 'create'])->name('api.cuentas-acceso.create');
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-Route::post('/cuentas-acceso', [ApiCuentaAccesoController::class, 'store'])->name('api.cuentas-acceso.store');
+    /*
+    |--------------------------------------------------------------------------
+    | Roles
+    |--------------------------------------------------------------------------
+    */
 
-Route::get('/cuentas-acceso/{id}/edit', [ApiCuentaAccesoController::class, 'edit'])->name('api.cuentas-acceso.edit');
+    Route::get('/roles', [RolController::class, 'index'])->name('roles.index');
 
-Route::put('/cuentas-acceso/{id}', [ApiCuentaAccesoController::class, 'update'])->name('api.cuentas-acceso.update');
+    Route::get('/roles/create', [RolController::class, 'create'])->name('roles.create');
 
-Route::get('/cuentas-acceso/eliminados', [ApiCuentaAccesoController::class, 'trashed'])->name('api.cuentas-acceso.trashed');
+    Route::post('/roles', [RolController::class, 'store'])->name('roles.store');
 
-Route::get('/cuentas-acceso/{id}', [ApiCuentaAccesoController::class, 'show'])->name('api.cuentas-acceso.show');
+    Route::get('/roles/{id}/edit', [RolController::class, 'edit'])->name('roles.edit');
 
-Route::delete('/cuentas-acceso/{id}', [ApiCuentaAccesoController::class, 'destroy'])->name('api.cuentas-acceso.destroy');
+    Route::put('/roles/{id}', [RolController::class, 'update'])->name('roles.update');
 
-Route::patch('/cuentas-acceso/{id}/restore', [ApiCuentaAccesoController::class, 'restore'])->name('api.cuentas-acceso.restore');
+    Route::get('/roles/eliminados', [RolController::class, 'trashed'])->name('roles.trashed');
 
-Route::delete('/cuentas-acceso/{id}/force', [ApiCuentaAccesoController::class, 'forceDestroy'])->name('api.cuentas-acceso.forceDestroy');
+    Route::get('/roles/{id}', [RolController::class, 'show'])->name('roles.show');
 
-/*
-|--------------------------------------------------------------------------
-| Categorías
-|--------------------------------------------------------------------------
-*/
+    Route::delete('/roles/{id}', [RolController::class, 'destroy'])->name('roles.destroy');
 
-Route::get('/categorias', [ApiCategoriaAlimentoController::class, 'index'])->name('api.categorias.index');
+    Route::patch('/roles/{id}/restore', [RolController::class, 'restore'])->name('roles.restore');
 
-Route::get('/categorias/create', [ApiCategoriaAlimentoController::class, 'create'])->name('api.categorias.create');
+    Route::delete('/roles/{id}/force', [RolController::class, 'forceDestroy'])->name('roles.forceDestroy');
 
-Route::post('/categorias', [ApiCategoriaAlimentoController::class, 'store'])->name('api.categorias.store');
+    /*
+    |--------------------------------------------------------------------------
+    | Usuarios
+    |--------------------------------------------------------------------------
+    */
 
-Route::get('/categorias/{id}/edit', [ApiCategoriaAlimentoController::class, 'edit'])->name('api.categorias.edit');
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
 
-Route::put('/categorias/{id}', [ApiCategoriaAlimentoController::class, 'update'])->name('api.categorias.update');
+    Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuarios.create');
 
-Route::get('/categorias/eliminados', [ApiCategoriaAlimentoController::class, 'trashed'])->name('api.categorias.trashed');
+    Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.store');
 
-Route::get('/categorias/{id}', [ApiCategoriaAlimentoController::class, 'show'])->name('api.categorias.show');
+    Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuarios.edit');
 
-Route::delete('/categorias/{id}', [ApiCategoriaAlimentoController::class, 'destroy'])->name('api.categorias.destroy');
+    Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
 
-Route::patch('/categorias/{id}/restore', [ApiCategoriaAlimentoController::class, 'restore'])->name('api.categorias.restore');
+    Route::get('/usuarios/eliminados', [UsuarioController::class, 'trashed'])->name('usuarios.trashed');
 
-Route::delete('/categorias/{id}/force', [ApiCategoriaAlimentoController::class, 'forceDestroy'])->name('api.categorias.forceDestroy');
+    Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
 
-/*
-|--------------------------------------------------------------------------
-| Alimentos
-|--------------------------------------------------------------------------
-*/
+    Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
 
-Route::get('/alimentos', [ApiAlimentoController::class, 'index'])->name('api.alimentos.index');
+    Route::patch('/usuarios/{id}/restore', [UsuarioController::class, 'restore'])->name('usuarios.restore');
 
-Route::get('/alimentos/create', [ApiAlimentoController::class, 'create'])->name('api.alimentos.create');
+    Route::delete('/usuarios/{id}/force', [UsuarioController::class, 'forceDestroy'])->name('usuarios.forceDestroy');
 
-Route::post('/alimentos', [ApiAlimentoController::class, 'store'])->name('api.alimentos.store');
+    /*
+    |--------------------------------------------------------------------------
+    | Cuentas de acceso
+    |--------------------------------------------------------------------------
+    */
 
-Route::get('/alimentos/{id}/edit', [ApiAlimentoController::class, 'edit'])->name('api.alimentos.edit');
+    Route::get('/cuentas-acceso', [CuentaAccesoController::class, 'index'])->name('cuentas-acceso.index');
 
-Route::put('/alimentos/{id}', [ApiAlimentoController::class, 'update'])->name('api.alimentos.update');
+    Route::get('/cuentas-acceso/create', [CuentaAccesoController::class, 'create'])->name('cuentas-acceso.create');
 
-Route::get('/alimentos/eliminados', [ApiAlimentoController::class, 'trashed'])->name('api.alimentos.trashed');
+    Route::post('/cuentas-acceso', [CuentaAccesoController::class, 'store'])->name('cuentas-acceso.store');
 
-Route::get('/alimentos/{id}', [ApiAlimentoController::class, 'show'])->name('api.alimentos.show');
+    Route::get('/cuentas-acceso/{id}/edit', [CuentaAccesoController::class, 'edit'])->name('cuentas-acceso.edit');
 
-Route::delete('/alimentos/{id}', [ApiAlimentoController::class, 'destroy'])->name('api.alimentos.destroy');
+    Route::put('/cuentas-acceso/{id}', [CuentaAccesoController::class, 'update'])->name('cuentas-acceso.update');
 
-Route::patch('/alimentos/{id}/restore', [ApiAlimentoController::class, 'restore'])->name('api.alimentos.restore');
+    Route::get('/cuentas-acceso/eliminados', [CuentaAccesoController::class, 'trashed'])->name('cuentas-acceso.trashed');
 
-Route::delete('/alimentos/{id}/force', [ApiAlimentoController::class, 'forceDestroy'])->name('api.alimentos.forceDestroy');
+    Route::get('/cuentas-acceso/{id}', [CuentaAccesoController::class, 'show'])->name('cuentas-acceso.show');
 
-/*
-|--------------------------------------------------------------------------
-| Donaciones
-|--------------------------------------------------------------------------
-*/
+    Route::delete('/cuentas-acceso/{id}', [CuentaAccesoController::class, 'destroy'])->name('cuentas-acceso.destroy');
 
-Route::get('/donaciones', [ApiDonacionController::class, 'index'])->name('api.donaciones.index');
+    Route::patch('/cuentas-acceso/{id}/restore', [CuentaAccesoController::class, 'restore'])->name('cuentas-acceso.restore');
 
-Route::get('/donaciones/create', [ApiDonacionController::class, 'create'])->name('api.donaciones.create');
+    Route::delete('/cuentas-acceso/{id}/force', [CuentaAccesoController::class, 'forceDestroy'])->name('cuentas-acceso.forceDestroy');
 
-Route::post('/donaciones', [ApiDonacionController::class, 'store'])->name('api.donaciones.store');
+    /*
+    |--------------------------------------------------------------------------
+    | Categorías
+    |--------------------------------------------------------------------------
+    */
 
-Route::get('/donaciones/{id}/edit', [ApiDonacionController::class, 'edit'])->name('api.donaciones.edit');
+    Route::get('/categorias', [CategoriaAlimentoController::class, 'index'])->name('categorias.index');
 
-Route::put('/donaciones/{id}', [ApiDonacionController::class, 'update'])->name('api.donaciones.update');
+    Route::get('/categorias/create', [CategoriaAlimentoController::class, 'create'])->name('categorias.create');
 
-Route::get('/donaciones/eliminados', [ApiDonacionController::class, 'trashed'])->name('api.donaciones.trashed');
+    Route::post('/categorias', [CategoriaAlimentoController::class, 'store'])->name('categorias.store');
 
-Route::get('/donaciones/{id}', [ApiDonacionController::class, 'show'])->name('api.donaciones.show');
+    Route::get('/categorias/{id}/edit', [CategoriaAlimentoController::class, 'edit'])->name('categorias.edit');
 
-Route::delete('/donaciones/{id}', [ApiDonacionController::class, 'destroy'])->name('api.donaciones.destroy');
+    Route::put('/categorias/{id}', [CategoriaAlimentoController::class, 'update'])->name('categorias.update');
 
-Route::patch('/donaciones/{id}/restore', [ApiDonacionController::class, 'restore'])->name('api.donaciones.restore');
+    Route::get('/categorias/eliminados', [CategoriaAlimentoController::class, 'trashed'])->name('categorias.trashed');
 
-Route::delete('/donaciones/{id}/force', [ApiDonacionController::class, 'forceDestroy'])->name('api.donaciones.forceDestroy');
+    Route::get('/categorias/{id}', [CategoriaAlimentoController::class, 'show'])->name('categorias.show');
 
-/*
-|--------------------------------------------------------------------------
-| Solicitudes
-|--------------------------------------------------------------------------
-*/
+    Route::delete('/categorias/{id}', [CategoriaAlimentoController::class, 'destroy'])->name('categorias.destroy');
 
-Route::get('/solicitudes', [ApiSolicitudController::class, 'index'])->name('api.solicitudes.index');
+    Route::patch('/categorias/{id}/restore', [CategoriaAlimentoController::class, 'restore'])->name('categorias.restore');
 
-Route::get('/solicitudes/create', [ApiSolicitudController::class, 'create'])->name('api.solicitudes.create');
+    Route::delete('/categorias/{id}/force', [CategoriaAlimentoController::class, 'forceDestroy'])->name('categorias.forceDestroy');
 
-Route::post('/solicitudes', [ApiSolicitudController::class, 'store'])->name('api.solicitudes.store');
+    /*
+    |--------------------------------------------------------------------------
+    | Alimentos
+    |--------------------------------------------------------------------------
+    */
 
-Route::get('/solicitudes/{id}/edit', [ApiSolicitudController::class, 'edit'])->name('api.solicitudes.edit');
+    Route::get('/alimentos', [AlimentoController::class, 'index'])->name('alimentos.index');
 
-Route::put('/solicitudes/{id}', [ApiSolicitudController::class, 'update'])->name('api.solicitudes.update');
+    Route::get('/alimentos/eliminados', [AlimentoController::class, 'trashed'])->name('alimentos.trashed');
 
-Route::get('/solicitudes/eliminados', [ApiSolicitudController::class, 'trashed'])->name('api.solicitudes.trashed');
+    Route::get('/alimentos/create', [AlimentoController::class, 'create'])->name('alimentos.create');
 
-Route::get('/solicitudes/{id}', [ApiSolicitudController::class, 'show'])->name('api.solicitudes.show');
+    Route::post('/alimentos', [AlimentoController::class, 'store'])->name('alimentos.store');
 
-Route::delete('/solicitudes/{id}', [ApiSolicitudController::class, 'destroy'])->name('api.solicitudes.destroy');
+    Route::get('/alimentos/{id}', [AlimentoController::class, 'show'])->name('alimentos.show');
 
-Route::patch('/solicitudes/{id}/restore', [ApiSolicitudController::class, 'restore'])->name('api.solicitudes.restore');
+    Route::get('/alimentos/{id}/edit', [AlimentoController::class, 'edit'])->name('alimentos.edit');
 
-Route::delete('/solicitudes/{id}/force', [ApiSolicitudController::class, 'forceDestroy'])->name('api.solicitudes.forceDestroy');
+    Route::put('/alimentos/{id}', [AlimentoController::class, 'update'])->name('alimentos.update');
 
-/*
-|--------------------------------------------------------------------------
-| Entregas
-|--------------------------------------------------------------------------
-*/
+    Route::delete('/alimentos/{id}', [AlimentoController::class, 'destroy'])->name('alimentos.destroy');
 
-Route::get('/entregas', [ApiEntregaController::class, 'index'])->name('api.entregas.index');
+    Route::patch('/alimentos/{id}/restore', [AlimentoController::class, 'restore'])->name('alimentos.restore');
 
-Route::get('/entregas/create', [ApiEntregaController::class, 'create'])->name('api.entregas.create');
+    Route::delete('/alimentos/{id}/force', [AlimentoController::class, 'forceDestroy'])->name('alimentos.forceDestroy');
 
-Route::post('/entregas', [ApiEntregaController::class, 'store'])->name('api.entregas.store');
+    /*
+    |--------------------------------------------------------------------------
+    | Donaciones
+    |--------------------------------------------------------------------------
+    */
 
-Route::get('/entregas/{id}/edit', [ApiEntregaController::class, 'edit'])->name('api.entregas.edit');
+    Route::get('/donaciones', [DonacionController::class, 'index'])->name('donaciones.index');
 
-Route::put('/entregas/{id}', [ApiEntregaController::class, 'update'])->name('api.entregas.update');
+    Route::get('/donaciones/create', [DonacionController::class, 'create'])->name('donaciones.create');
 
-Route::get('/entregas/eliminados', [ApiEntregaController::class, 'trashed'])->name('api.entregas.trashed');
+    Route::post('/donaciones', [DonacionController::class, 'store'])->name('donaciones.store');
 
-Route::get('/entregas/{id}', [ApiEntregaController::class, 'show'])->name('api.entregas.show');
+    Route::get('/donaciones/{id}/edit', [DonacionController::class, 'edit'])->name('donaciones.edit');
 
-Route::delete('/entregas/{id}', [ApiEntregaController::class, 'destroy'])->name('api.entregas.destroy');
+    Route::put('/donaciones/{id}', [DonacionController::class, 'update'])->name('donaciones.update');
 
-Route::patch('/entregas/{id}/restore', [ApiEntregaController::class, 'restore'])->name('api.entregas.restore');
+    Route::get('/donaciones/eliminados', [DonacionController::class, 'trashed'])->name('donaciones.trashed');
 
-Route::delete('/entregas/{id}/force', [ApiEntregaController::class, 'forceDestroy'])->name('api.entregas.forceDestroy');
+    Route::get('/donaciones/{id}', [DonacionController::class, 'show'])->name('donaciones.show');
 
-/*
-|--------------------------------------------------------------------------
-| Acciones importantes
-|--------------------------------------------------------------------------
-*/
+    Route::delete('/donaciones/{id}', [DonacionController::class, 'destroy'])->name('donaciones.destroy');
 
-Route::get('/acciones-importantes', [ApiAccionImportanteController::class, 'index'])->name('api.acciones.index');
+    Route::patch('/donaciones/{id}/restore', [DonacionController::class, 'restore'])->name('donaciones.restore');
 
-Route::get('/acciones-importantes/create', [ApiAccionImportanteController::class, 'create'])->name('api.acciones.create');
+    Route::delete('/donaciones/{id}/force', [DonacionController::class, 'forceDestroy'])->name('donaciones.forceDestroy');
 
-Route::post('/acciones-importantes', [ApiAccionImportanteController::class, 'store'])->name('api.acciones.store');
+  
 
-Route::get('/acciones-importantes/{id}/edit', [ApiAccionImportanteController::class, 'edit'])->name('api.acciones.edit');
+    /*
+    |--------------------------------------------------------------------------
+    | Solicitudes
+    |--------------------------------------------------------------------------
+    */
 
-Route::put('/acciones-importantes/{id}', [ApiAccionImportanteController::class, 'update'])->name('api.acciones.update');
+    Route::get('/solicitudes', [SolicitudController::class, 'index'])->name('solicitudes.index');
 
-Route::get('/acciones-importantes/eliminados', [ApiAccionImportanteController::class, 'trashed'])->name('api.acciones.trashed');
+    Route::get('/solicitudes/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
 
-Route::get('/acciones-importantes/{id}', [ApiAccionImportanteController::class, 'show'])->name('api.acciones.show');
+    Route::post('/solicitudes', [SolicitudController::class, 'store'])->name('solicitudes.store');
 
-Route::delete('/acciones-importantes/{id}', [ApiAccionImportanteController::class, 'destroy'])->name('api.acciones.destroy');
+    Route::get('/solicitudes/{id}/edit', [SolicitudController::class, 'edit'])->name('solicitudes.edit');
 
-Route::patch('/acciones-importantes/{id}/restore', [ApiAccionImportanteController::class, 'restore'])->name('api.acciones.restore');
+    Route::put('/solicitudes/{id}', [SolicitudController::class, 'update'])->name('solicitudes.update');
 
-Route::delete('/acciones-importantes/{id}/force', [ApiAccionImportanteController::class, 'forceDestroy'])->name('api.acciones.forceDestroy');
+    Route::get('/solicitudes/eliminados', [SolicitudController::class, 'trashed'])->name('solicitudes.trashed');
+
+    Route::get('/solicitudes/{id}', [SolicitudController::class, 'show'])->name('solicitudes.show');
+
+    Route::delete('/solicitudes/{id}', [SolicitudController::class, 'destroy'])->name('solicitudes.destroy');
+
+    Route::patch('/solicitudes/{id}/restore', [SolicitudController::class, 'restore'])->name('solicitudes.restore');
+
+    Route::delete('/solicitudes/{id}/force', [SolicitudController::class, 'forceDestroy'])->name('solicitudes.forceDestroy');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Entregas
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/entregas', [EntregaController::class, 'index'])->name('entregas.index');
+
+    Route::get('/entregas/create', [EntregaController::class, 'create'])->name('entregas.create');
+
+    Route::post('/entregas', [EntregaController::class, 'store'])->name('entregas.store');
+
+    Route::get('/entregas/{id}/edit', [EntregaController::class, 'edit'])->name('entregas.edit');
+
+    Route::put('/entregas/{id}', [EntregaController::class, 'update'])->name('entregas.update');
+
+    Route::get('/entregas/eliminados', [EntregaController::class, 'trashed'])->name('entregas.trashed');
+
+    Route::get('/entregas/{id}', [EntregaController::class, 'show'])->name('entregas.show');
+
+    Route::delete('/entregas/{id}', [EntregaController::class, 'destroy'])->name('entregas.destroy');
+
+    Route::patch('/entregas/{id}/restore', [EntregaController::class, 'restore'])->name('entregas.restore');
+
+    Route::delete('/entregas/{id}/force', [EntregaController::class, 'forceDestroy'])->name('entregas.forceDestroy');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Acciones importantes
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/acciones-importantes', [AccionImportanteController::class, 'index'])->name('acciones.index');
+
+    Route::get('/acciones-importantes/create', [AccionImportanteController::class, 'create'])->name('acciones.create');
+
+    Route::post('/acciones-importantes', [AccionImportanteController::class, 'store'])->name('acciones.store');
+
+    Route::get('/acciones-importantes/{id}/edit', [AccionImportanteController::class, 'edit'])->name('acciones.edit');
+
+    Route::put('/acciones-importantes/{id}', [AccionImportanteController::class, 'update'])->name('acciones.update');
+
+    Route::get('/acciones-importantes/eliminados', [AccionImportanteController::class, 'trashed'])->name('acciones.trashed');
+
+    Route::get('/acciones-importantes/{id}', [AccionImportanteController::class, 'show'])->name('acciones.show');
+
+    Route::delete('/acciones-importantes/{id}', [AccionImportanteController::class, 'destroy'])->name('acciones.destroy');
+
+    Route::patch('/acciones-importantes/{id}/restore', [AccionImportanteController::class, 'restore'])->name('acciones.restore');
+
+    Route::delete('/acciones-importantes/{id}/force', [AccionImportanteController::class, 'forceDestroy'])->name('acciones.forceDestroy');
+
+//}); // fin auth:admin

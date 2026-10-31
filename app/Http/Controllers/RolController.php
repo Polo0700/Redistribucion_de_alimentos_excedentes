@@ -12,7 +12,8 @@ class RolController extends Controller
     {
         $roles = Rol::paginate(5);
 
-        return view('roles.index', compact('roles'));
+        //return view('roles.index', compact('roles'));
+        response()->json($roles);
     }
 
     // genera un formulario en blanco para la pagina
