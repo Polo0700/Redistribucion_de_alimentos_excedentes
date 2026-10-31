@@ -1,0 +1,22 @@
+$kind: http-request
+name: 'Eliminar administrador definitivamente'
+method: DELETE
+url: '{{baseUrl}}/administradores/:id/force'
+order: 10000
+pathVariables:
+  - key: id
+    value: '{{idAdministrador}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      // 200 si el registro ya estaba en la papelera; 422 si falta el borrado logico.
+      pm.test("200 con message, o 422 pidiendo el borrado logico", function () {
+          var body = pm.response.json();
+          if (pm.response.code === 200) {
+              pm.expect(body).to.have.property("message");
+          } else {
+              pm.response.to.have.status(422);
+              pm.expect(body).to.have.property("message");
+          }
+      });

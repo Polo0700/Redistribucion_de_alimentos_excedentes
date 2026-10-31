@@ -1,0 +1,40 @@
+$kind: http-request
+name: 'Crear administrador'
+method: POST
+url: '{{baseUrl}}/administradores'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+        "nombre_completo": "Administrador de Prueba",
+        "username": "admin.prueba.{{$timestamp}}",
+        "password": "password123",
+        "activo": true,
+        "nivel": 2
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message y data", function () {
+          var body = pm.response.json();
+          pm.expect(body).to.have.property("message");
+          pm.expect(body).to.have.property("data");
+      });
+      pm.test("Guarda el id creado en idAdministrador", function () {
+          var body = pm.response.json();
+          if (body.data && body.data.id) {
+              pm.collectionVariables.set("idAdministrador", body.data.id);
+          }
+          pm.expect(body.data).to.have.property("id");
+      });
+      pm.test("No expone la contrasena", function () {
+          pm.expect(pm.response.text()).to.not.include("password");
+      });

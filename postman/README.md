@@ -159,3 +159,45 @@ con el `workspace`, como está ahora.
 Quedan fuera de la API, por decisión del dominio actual: carritos, listas de
 deseos y sus detalles. Siguen existiendo como tablas, pero no tienen rutas,
 controladores ni requests.
+
+---
+
+## 9. Colección `administrador`
+
+Colección aparte, solo del CRUD de la tabla `administradores`:
+
+| Qué | Dónde |
+| --- | --- |
+| 10 requests en 1 carpeta (`Administradores`) | `collections/administrador/` |
+| Ambiente `Local` | `environments/local.environment.yaml` |
+
+```bash
+postman collection run postman/collections/administrador \
+  --environment postman/environments/local.environment.yaml
+```
+
+| Request | Endpoint |
+| --- | --- |
+| Listar administradores | `GET /api/administradores` |
+| Obtener administrador por id | `GET /api/administradores/{id}` |
+| Datos para el formulario de creación | `GET /api/administradores/create` |
+| Crear administrador | `POST /api/administradores` |
+| Datos para el formulario de edición | `GET /api/administradores/{id}/edit` |
+| Actualizar administrador | `PUT /api/administradores/{id}` |
+| Eliminar administrador | `DELETE /api/administradores/{id}` |
+| Listar administradores eliminados (papelera) | `GET /api/administradores/eliminados` |
+| Restaurar administrador | `PATCH /api/administradores/{id}/restore` |
+| Eliminar administrador definitivamente | `DELETE /api/administradores/{id}/force` |
+
+Notas:
+
+- La colección usa la variable `idAdministrador` (por defecto `1`); el request
+  **Crear administrador** la actualiza con el id que acaba de crear, así que el
+  resto del flujo se puede correr en orden.
+- El `username` de prueba lleva `{{$timestamp}}`, para poder repetir el run sin
+  chocar con el índice único.
+- Antes de usarla hay que correr `php artisan migrate`: el CRUD necesita las
+  columnas `foto`, `nivel` y `deleted_at` de `administradores`.
+- Lint: `postman collection lint postman/collections/administrador`
+  (debe decir `No issues found`, 10 requests escaneados).
+

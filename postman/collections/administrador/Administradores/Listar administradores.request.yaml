@@ -1,0 +1,15 @@
+$kind: http-request
+name: 'Listar administradores'
+method: GET
+url: '{{baseUrl}}/administradores'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve la lista paginada en 'administradores'", function () {
+          pm.expect(pm.response.json()).to.have.property('administradores');
+      });

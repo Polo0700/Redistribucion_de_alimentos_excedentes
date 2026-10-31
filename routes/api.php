@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccionImportanteController;
+use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AlimentoController;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\CategoriaAlimentoController;
@@ -43,6 +44,32 @@ Route::post('/admin/logout', [AuthAdminController::class, 'out'])->name('admin.l
 //Route::middleware('auth:admin')->group(function () {
 
     Route::view('/dashboard', 'dashboard')->name('dashboard');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Administradores
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/administradores', [AdministradorController::class, 'index'])->name('administradores.index');
+
+    Route::get('/administradores/create', [AdministradorController::class, 'create'])->name('administradores.create');
+
+    Route::post('/administradores', [AdministradorController::class, 'store'])->name('administradores.store');
+
+    Route::get('/administradores/eliminados', [AdministradorController::class, 'trashed'])->name('administradores.trashed');
+
+    Route::get('/administradores/{id}/edit', [AdministradorController::class, 'edit'])->name('administradores.edit');
+
+    Route::put('/administradores/{id}', [AdministradorController::class, 'update'])->name('administradores.update');
+
+    Route::patch('/administradores/{id}/restore', [AdministradorController::class, 'restore'])->name('administradores.restore');
+
+    Route::delete('/administradores/{id}/force', [AdministradorController::class, 'forceDestroy'])->name('administradores.forceDestroy');
+
+    Route::get('/administradores/{id}', [AdministradorController::class, 'show'])->name('administradores.show');
+
+    Route::delete('/administradores/{id}', [AdministradorController::class, 'destroy'])->name('administradores.destroy');
 
     /*
     |--------------------------------------------------------------------------

@@ -1,0 +1,38 @@
+$kind: http-request
+name: 'Actualizar administrador'
+method: PUT
+url: '{{baseUrl}}/administradores/:id'
+order: 6000
+pathVariables:
+  - key: id
+    value: '{{idAdministrador}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+        "nombre_completo": "Administrador Editado",
+        "username": "admin.editado.{{$timestamp}}",
+        "password": "password456",
+        "activo": true,
+        "nivel": 3
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message y data", function () {
+          var body = pm.response.json();
+          pm.expect(body).to.have.property("message");
+          pm.expect(body).to.have.property("data");
+      });
+      pm.test("Aplica los cambios enviados", function () {
+          var body = pm.response.json();
+          pm.expect(body.data.nombre_completo).to.eql("Administrador Editado");
+          pm.expect(body.data.nivel).to.eql(3);
+      });

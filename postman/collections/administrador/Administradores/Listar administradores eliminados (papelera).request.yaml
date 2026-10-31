@@ -1,0 +1,15 @@
+$kind: http-request
+name: 'Listar administradores eliminados (papelera)'
+method: GET
+url: '{{baseUrl}}/administradores/eliminados'
+order: 8000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve la papelera en 'administradores'", function () {
+          pm.expect(pm.response.json()).to.have.property('administradores');
+      });

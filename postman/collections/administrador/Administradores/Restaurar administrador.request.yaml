@@ -1,0 +1,18 @@
+$kind: http-request
+name: 'Restaurar administrador'
+method: PATCH
+url: '{{baseUrl}}/administradores/:id/restore'
+order: 9000
+pathVariables:
+  - key: id
+    value: '{{idAdministrador}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

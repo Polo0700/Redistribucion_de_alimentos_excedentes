@@ -1,0 +1,33 @@
+$kind: collection
+name: 'Administrador API'
+description: 'CRUD de la tabla administradores (listar, ver, crear, editar, eliminar, papelera, restaurar y borrado fisico). Todos los endpoints responden JSON en /api/administradores.'
+variables:
+  - key: baseUrl
+    value: 'http://127.0.0.1:8000/api'
+    description: 'Base URL del servidor local (php artisan serve)'
+  - key: idAdministrador
+    value: '1'
+    description: 'Id del administrador con el que trabajan show, edit, update, delete, restore y force. El request Crear administrador la actualiza con el id que crea.'
+scripts:
+  - type: http:beforeRequest
+    language: text/javascript
+    code: |-
+      // Todo cliente de esta API debe pedir JSON: sin esto, Laravel devuelve
+      // las paginas de error en HTML y las validaciones como redirect 302.
+      if (!pm.request.headers.has("Accept")) {
+          pm.request.headers.add({ key: "Accept", value: "application/json" });
+      }
+  - type: http:afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Sin errores de servidor (no 5xx)", function () {
+          pm.expect(pm.response.code).to.be.below(500);
+      });
+      pm.test("La respuesta es JSON", function () {
+          pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
+      });
+      // 3000 ms y no 2000: con `php artisan serve` la primera peticion
+      // (arranque en frio) pasaba de 2000 y marcaba falso negativo.
+      pm.test("Responde en menos de 3000 ms", function () {
+          pm.expect(pm.response.responseTime).to.be.below(3000);
+      });

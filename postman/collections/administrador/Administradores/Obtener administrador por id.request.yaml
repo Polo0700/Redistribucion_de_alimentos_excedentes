@@ -1,0 +1,21 @@
+$kind: http-request
+name: 'Obtener administrador por id'
+method: GET
+url: '{{baseUrl}}/administradores/:id'
+order: 2000
+pathVariables:
+  - key: id
+    value: '{{idAdministrador}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("200 con el registro en 'administrador', o 404 con message", function () {
+          var body = pm.response.json();
+          if (pm.response.code === 200) {
+              pm.expect(body).to.have.property('administrador');
+          } else {
+              pm.response.to.have.status(404);
+              pm.expect(body).to.have.property('message');
+          }
+      });

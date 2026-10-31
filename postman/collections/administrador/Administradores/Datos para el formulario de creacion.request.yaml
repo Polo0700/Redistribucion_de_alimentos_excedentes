@@ -1,0 +1,15 @@
+$kind: http-request
+name: 'Datos para el formulario de creacion'
+method: GET
+url: '{{baseUrl}}/administradores/create'
+order: 3000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve los niveles permitidos en 'niveles'", function () {
+          pm.expect(pm.response.json()).to.have.property('niveles');
+      });
