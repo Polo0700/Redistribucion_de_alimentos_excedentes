@@ -6,7 +6,7 @@
 
 <div class="max-w-4xl mx-auto">
 
-    {{-- Encabezado --}}
+    {{-- encabezado --}}
     <div class="flex justify-between items-center mb-6">
 
         <div>
@@ -29,7 +29,7 @@
     </div>
 
 
-    {{-- Errores --}}
+    {{-- errores --}}
     @if ($errors->any())
 
         <div class="mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
@@ -55,7 +55,7 @@
     @endif
 
 
-    {{-- Formulario --}}
+    {{-- formulario --}}
     <div class="bg-white rounded-lg shadow p-6">
 
         <form
@@ -69,7 +69,7 @@
             @method('PUT')
 
 
-            {{-- Categoría --}}
+            {{-- categoria --}}
             <div class="mb-5">
 
                 <label
@@ -110,7 +110,7 @@
             </div>
 
 
-            {{-- Nombre --}}
+            {{-- nombre --}}
             <div class="mb-5">
 
                 <label
@@ -141,7 +141,7 @@
             </div>
 
 
-            {{-- Descripción --}}
+            {{-- descripcion --}}
             <div class="mb-5">
 
                 <label
@@ -171,7 +171,7 @@
             </div>
 
 
-            {{-- Estado --}}
+            {{-- estado --}}
             <div class="mb-5">
 
                 <label
@@ -215,7 +215,7 @@
             </div>
 
 
-            {{-- Imagen actual --}}
+            {{-- imagen actual --}}
             <div class="mb-5">
 
                 <label class="block mb-2 text-sm font-medium text-gray-900">
@@ -253,7 +253,7 @@
             </div>
 
 
-            {{-- Nueva imagen --}}
+            {{-- nueva imagen --}}
             <div class="mb-6">
 
                 <label
@@ -289,7 +289,7 @@
             </div>
 
 
-            {{-- Botones --}}
+            {{-- botones --}}
             <div class="flex justify-end gap-3">
 
                 <a

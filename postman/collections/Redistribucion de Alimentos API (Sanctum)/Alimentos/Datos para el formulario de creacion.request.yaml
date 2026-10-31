@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{baseUrl}}/alimentos/create"
+method: GET
+order: 9000

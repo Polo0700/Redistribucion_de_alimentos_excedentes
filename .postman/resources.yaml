@@ -1,3 +1,9 @@
 workspace:
   id: 1c41b625-8b4a-44fd-8252-a7649fb04d20
-  name: Polo0700/Redistribucion_de_alimentos_excedentes
+cloudResources:
+  collections:
+    ../postman/collections/Redistribucion de Alimentos API: 58799318-ad51aeff-4cd7-4fdd-873c-02821e34e8a9
+  environments:
+    ../postman/environments/Local.environment.yaml: 58799318-4595820f-59fa-4796-b6a0-66d4cf605c37
+  globals:
+    ../postman/globals/workspace.globals.yaml: 0a9e1cc1-eb6e-4c7d-836e-a3c2c77ecb6e

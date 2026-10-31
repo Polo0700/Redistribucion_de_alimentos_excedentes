@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{baseUrl}}/roles/create"
+method: GET
+order: 9000

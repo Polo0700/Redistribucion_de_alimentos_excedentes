@@ -6,15 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Administrador extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * Niveles de administrador permitidos en el sistema.
-     * 1 = solo consulta, 2 = consulta + crear + editar, 3 = acceso total.
-     */
     public const NIVELES_PERMITIDOS = [1, 2, 3];
 
     // modelo administrador
@@ -41,9 +38,7 @@ class Administrador extends Authenticatable
         'nivel' => 'integer',
     ];
 
-    /**
-     * Comprueba si el administrador tiene un nivel específico.
-     */
+    // dice si el admin es de cierto nivel
     public function esNivel(int $nivel): bool
     {
         return (int) $this->nivel === $nivel;

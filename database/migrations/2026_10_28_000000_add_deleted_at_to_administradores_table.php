@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     * Borrado lógico para administradores (papelera), igual que el resto de entidades.
-     */
+    // agrega la columna deleted_at para la papelera
     public function up(): void
     {
         Schema::table('administradores', function (Blueprint $table) {

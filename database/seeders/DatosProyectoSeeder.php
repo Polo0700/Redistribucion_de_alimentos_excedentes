@@ -9,11 +9,7 @@ class DatosProyectoSeeder extends Seeder
 {
     public function run(): void
     {
-        /*
-        |--------------------------------------------------------------------------
-        | 1. ROLES
-        |--------------------------------------------------------------------------
-        */
+        // roles
 
         DB::table('roles')->insert([
             [
@@ -30,11 +26,7 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 2. CATEGORÍAS DE ALIMENTOS
-        |--------------------------------------------------------------------------
-        */
+        // categorias de alimentos
 
         DB::table('categorias_alimento')->insert([
             [
@@ -99,11 +91,7 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 3. USUARIOS
-        |--------------------------------------------------------------------------
-        */
+        // usuarios
 
         DB::table('usuarios')->insert([
             [
@@ -218,11 +206,7 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 4. CUENTAS DE ACCESO
-        |--------------------------------------------------------------------------
-        */
+        // cuentas de acceso
 
         DB::table('cuentas_acceso')->insert([
             [
@@ -307,11 +291,7 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 5. ALIMENTOS
-        |--------------------------------------------------------------------------
-        */
+        // alimentos
 
         DB::table('alimentos')->insert([
             [
@@ -386,11 +366,7 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 6. DONACIONES
-        |--------------------------------------------------------------------------
-        */
+        // donaciones de ejemplo
 
         DB::table('donaciones')->insert([
             [
@@ -485,11 +461,7 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 7. DETALLE DE DONACIONES
-        |--------------------------------------------------------------------------
-        */
+        // detalle de donaciones
 
         DB::table('detalle_donacion')->insert([
             [
@@ -570,11 +542,7 @@ class DatosProyectoSeeder extends Seeder
 
         
 
-        /*
-        |--------------------------------------------------------------------------
-        | 12. SOLICITUDES
-        |--------------------------------------------------------------------------
-        */
+        // solicitudes
 
         DB::table('solicitudes')->insert([
             [
@@ -659,11 +627,7 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 13. DETALLE DE SOLICITUDES
-        |--------------------------------------------------------------------------
-        */
+        // detalle de solicitudes
 
         DB::table('detalle_solicitud')->insert([
             [
@@ -738,11 +702,7 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 14. ENTREGAS
-        |--------------------------------------------------------------------------
-        */
+        // entregas
 
         DB::table('entregas')->insert([
             [
@@ -827,11 +787,7 @@ class DatosProyectoSeeder extends Seeder
             ],
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | 15. ACCIONES IMPORTANTES
-        |--------------------------------------------------------------------------
-        */
+        // acciones importantes
 
         DB::table('acciones_importantes')->insert([
             [

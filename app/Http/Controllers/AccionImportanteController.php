@@ -9,18 +9,28 @@ use Illuminate\Http\Request;
 class AccionImportanteController extends Controller
 {
     // trae las acciones importantes de la base de datos con su usuario de 5 en 5
-    public function index()
+    public function index(Request $request)
     {
         $acciones = AccionImportante::with('usuario')->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['acciones' => $acciones], 200);
+        }
 
         // retorna la pagina del index de acciones
         return view('acciones-importantes.index', compact('acciones'));
     }
 
     // obtiene los usuarios y los ordena por nombre y los mete a usuarios
-    public function create()
+    public function create(Request $request)
     {
         $usuarios = Usuario::orderBy('nombre')->get();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['usuarios' => $usuarios], 200);
+        }
 
         // retorna la vista de creacion de acciones
         return view('acciones-importantes.create', compact('usuarios'));
@@ -41,15 +51,25 @@ class AccionImportanteController extends Controller
         // crea una accion importante
         AccionImportante::create($validado);
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Accion importante creada correctamente'], 201);
+        }
+
         // redirige al index y un mensaje de correcto
         return redirect()->route('acciones.index')->with('success', 'Accion importante creada correctamente');
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $accion = AccionImportante::findOrFail($id);
 
         $usuarios = Usuario::where('estado', true)->get();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['accion' => $accion, 'usuarios' => $usuarios], 200);
+        }
 
         return view(
             'acciones-importantes.edit',
@@ -79,77 +99,92 @@ class AccionImportanteController extends Controller
             'ip_origen' => $request->ip_origen,
         ]);
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Acción actualizada correctamente.'], 200);
+        }
+
         return redirect()
             ->route('acciones.index')
             ->with('success', 'Acción actualizada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | MOSTRAR (consulta individual, solo lectura)
-    |--------------------------------------------------------------------------
-    */
-    public function show($id)
+    // retorna la vista show de la accion
+    public function show(Request $request, $id)
     {
         $accion = AccionImportante::with('usuario')->findOrFail($id);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['accion' => $accion], 200);
+        }
 
         return view('acciones-importantes.show', compact('accion'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO LÓGICO
-    |--------------------------------------------------------------------------
-    */
-    public function destroy($id)
+    // borra la accion importante logicamente
+    public function destroy(Request $request, $id)
     {
         $accion = AccionImportante::findOrFail($id);
         $accion->delete();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Acción importante eliminada correctamente.'], 200);
+        }
+
         return redirect()->route('acciones.index')->with('success', 'Acción importante eliminada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | LISTADO DE REGISTROS ELIMINADOS (papelera)
-    |--------------------------------------------------------------------------
-    */
-    public function trashed()
+    // trae los eliminados logicamente de 5 en 5
+    public function trashed(Request $request)
     {
         $acciones = AccionImportante::onlyTrashed()->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['acciones' => $acciones], 200);
+        }
 
         return view('acciones-importantes.trashed', compact('acciones'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RESTAURAR REGISTRO
-    |--------------------------------------------------------------------------
-    */
-    public function restore($id)
+    // regresa la accion a la tabla
+    public function restore(Request $request, $id)
     {
         $accion = AccionImportante::onlyTrashed()->findOrFail($id);
         $accion->restore();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Acción importante restaurada correctamente.'], 200);
+        }
+
         return redirect()->route('acciones.trashed')->with('success', 'Acción importante restaurada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
-    |--------------------------------------------------------------------------
-    */
-    public function forceDestroy($id)
+    // borra el registro de la tabla por completo
+    public function forceDestroy(Request $request, $id)
     {
         $accion = AccionImportante::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
         if (! $accion->trashed()) {
+            // en api devuelve json
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
+            }
+
             return redirect()->route('acciones.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 
         // sin tablas dependientes: se elimina directamente
         $accion->forceDelete();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Acción importante eliminada definitivamente.'], 200);
+        }
 
         return redirect()->route('acciones.trashed')->with('success', 'Acción importante eliminada definitivamente.');
     }

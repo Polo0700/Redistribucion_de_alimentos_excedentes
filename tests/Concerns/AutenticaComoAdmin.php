@@ -6,10 +6,7 @@ use App\Models\Administrador;
 
 trait AutenticaComoAdmin
 {
-    /**
-     * Crea un administrador (nivel 3) y autentica el request con el guard 'admin'.
-     * La autorización se evalúa sobre el modelo Administrador, no sobre CuentaAcceso.
-     */
+    // crea un admin nivel 3 y lo autentica con el guard admin
     protected function actingAsAdmin(int $nivel = 3): Administrador
     {
         $administrador = Administrador::create([

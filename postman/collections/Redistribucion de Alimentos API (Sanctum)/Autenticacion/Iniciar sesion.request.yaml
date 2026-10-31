@@ -1,0 +1,28 @@
+$kind: http-request
+name: 'Iniciar sesion (obtener token)'
+method: POST
+url: '{{baseUrl}}/auth/login'
+order: 1000
+auth:
+  type: noauth
+body:
+  type: json
+  content: |-
+    {
+      "username": "admin1",
+      "password": "admin123"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 200 y trae el token", function () {
+          pm.expect(pm.response.code).to.eql(200);
+          const json = pm.response.json();
+          pm.expect(json).to.have.property("token");
+          pm.expect(json.token).to.be.a("string").and.not.empty;
+      });
+      pm.test("Guarda el token en la variable {{token}}", function () {
+          pm.collectionVariables.set("token", pm.response.json().token);
+          pm.expect(pm.collectionVariables.get("token")).to.eql(pm.response.json().token);
+      });
+    language: text/javascript

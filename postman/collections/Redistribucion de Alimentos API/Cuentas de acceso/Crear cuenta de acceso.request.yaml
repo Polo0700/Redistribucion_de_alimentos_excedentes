@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/cuentas-acceso"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "proveedor": "local",
+      "contrasena": "secreto123",
+      "id_usuario": "1",
+      "fecha_ultimo_acceso": "2026-01-15",
+      "identificador_externo": "prueba@example.com"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 3000

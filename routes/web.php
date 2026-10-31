@@ -13,44 +13,26 @@ use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Dashboard
-|--------------------------------------------------------------------------
-*/
+// redirige al dashboard
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Autenticación administrativa
-|--------------------------------------------------------------------------
-*/
+// login y logout del admin
 
 Route::get('/admin/login', [AuthAdminController::class, 'login'])->name('admin.login');
 Route::post('/admin/login', [AuthAdminController::class, 'in'])->name('admin.in');
 Route::post('/admin/logout', [AuthAdminController::class, 'out'])->name('admin.logout');
 
-/*
-|--------------------------------------------------------------------------
-| Panel administrativo (requiere sesión de administrador con auth:admin)
-| Restricciones por nivel centralizadas mediante middleware 'can:<habilidad>'
-|--------------------------------------------------------------------------
-*/
+// rutas del panel del admin con permisos por nivel
 
 Route::middleware('auth:admin')->group(function () {
 
-    // Dashboard general (Niveles 1, 2 y 3)
+    // dashboard general (niveles 1, 2 y 3)
     Route::view('/dashboard', 'dashboard')->name('dashboard')->middleware('can:consultar');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Administradores (gestión de cuentas - Exclusivo Nivel 3)
-    | Todas las operaciones exigen además la habilidad específica del Gate
-    |--------------------------------------------------------------------------
-    */
+    // cuentas de administradores (solo nivel 3)
     Route::middleware('can:administrar-administradores')->group(function () {
 
         Route::get('/administradores', [AdministradorController::class, 'index'])->name('administradores.index')->middleware('can:consultar');
@@ -69,11 +51,7 @@ Route::middleware('auth:admin')->group(function () {
         Route::delete('/administradores/{id}/force', [AdministradorController::class, 'forceDestroy'])->name('administradores.forceDestroy')->middleware('can:eliminar')->whereNumber('id');
     });
 
-    /*
-    |--------------------------------------------------------------------------
-    | Roles
-    |--------------------------------------------------------------------------
-    */
+    // rutas de roles
     Route::get('/roles', [RolController::class, 'index'])->name('roles.index')->middleware('can:consultar');
     Route::get('/roles/eliminados', [RolController::class, 'trashed'])->name('roles.trashed')->middleware('can:consultar');
     Route::get('/roles/{id}', [RolController::class, 'show'])->name('roles.show')->middleware('can:consultar')->whereNumber('id');
@@ -88,11 +66,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::patch('/roles/{id}/restore', [RolController::class, 'restore'])->name('roles.restore')->middleware('can:eliminar')->whereNumber('id');
     Route::delete('/roles/{id}/force', [RolController::class, 'forceDestroy'])->name('roles.forceDestroy')->middleware('can:eliminar')->whereNumber('id');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Usuarios
-    |--------------------------------------------------------------------------
-    */
+    // rutas de usuarios
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index')->middleware('can:consultar');
     Route::get('/usuarios/eliminados', [UsuarioController::class, 'trashed'])->name('usuarios.trashed')->middleware('can:consultar');
     Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show')->middleware('can:consultar')->whereNumber('id');
@@ -107,11 +81,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::patch('/usuarios/{id}/restore', [UsuarioController::class, 'restore'])->name('usuarios.restore')->middleware('can:eliminar')->whereNumber('id');
     Route::delete('/usuarios/{id}/force', [UsuarioController::class, 'forceDestroy'])->name('usuarios.forceDestroy')->middleware('can:eliminar')->whereNumber('id');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Cuentas de acceso
-    |--------------------------------------------------------------------------
-    */
+    // rutas de cuentas de acceso
     Route::get('/cuentas-acceso', [CuentaAccesoController::class, 'index'])->name('cuentas-acceso.index')->middleware('can:consultar');
     Route::get('/cuentas-acceso/eliminados', [CuentaAccesoController::class, 'trashed'])->name('cuentas-acceso.trashed')->middleware('can:consultar');
     Route::get('/cuentas-acceso/{id}', [CuentaAccesoController::class, 'show'])->name('cuentas-acceso.show')->middleware('can:consultar')->whereNumber('id');
@@ -126,11 +96,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::patch('/cuentas-acceso/{id}/restore', [CuentaAccesoController::class, 'restore'])->name('cuentas-acceso.restore')->middleware('can:eliminar')->whereNumber('id');
     Route::delete('/cuentas-acceso/{id}/force', [CuentaAccesoController::class, 'forceDestroy'])->name('cuentas-acceso.forceDestroy')->middleware('can:eliminar')->whereNumber('id');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Categorías
-    |--------------------------------------------------------------------------
-    */
+    // rutas de categorias
     Route::get('/categorias', [CategoriaAlimentoController::class, 'index'])->name('categorias.index')->middleware('can:consultar');
     Route::get('/categorias/eliminados', [CategoriaAlimentoController::class, 'trashed'])->name('categorias.trashed')->middleware('can:consultar');
     Route::get('/categorias/{id}', [CategoriaAlimentoController::class, 'show'])->name('categorias.show')->middleware('can:consultar')->whereNumber('id');
@@ -145,11 +111,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::patch('/categorias/{id}/restore', [CategoriaAlimentoController::class, 'restore'])->name('categorias.restore')->middleware('can:eliminar')->whereNumber('id');
     Route::delete('/categorias/{id}/force', [CategoriaAlimentoController::class, 'forceDestroy'])->name('categorias.forceDestroy')->middleware('can:eliminar')->whereNumber('id');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Alimentos
-    |--------------------------------------------------------------------------
-    */
+    // rutas de alimentos
     Route::get('/alimentos', [AlimentoController::class, 'index'])->name('alimentos.index')->middleware('can:consultar');
     Route::get('/alimentos/eliminados', [AlimentoController::class, 'trashed'])->name('alimentos.trashed')->middleware('can:consultar');
     Route::get('/alimentos/{id}', [AlimentoController::class, 'show'])->name('alimentos.show')->middleware('can:consultar')->whereNumber('id');
@@ -164,11 +126,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::patch('/alimentos/{id}/restore', [AlimentoController::class, 'restore'])->name('alimentos.restore')->middleware('can:eliminar')->whereNumber('id');
     Route::delete('/alimentos/{id}/force', [AlimentoController::class, 'forceDestroy'])->name('alimentos.forceDestroy')->middleware('can:eliminar')->whereNumber('id');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Donaciones
-    |--------------------------------------------------------------------------
-    */
+    // rutas de donaciones
     Route::get('/donaciones', [DonacionController::class, 'index'])->name('donaciones.index')->middleware('can:consultar');
     Route::get('/donaciones/eliminados', [DonacionController::class, 'trashed'])->name('donaciones.trashed')->middleware('can:consultar');
     Route::get('/donaciones/{id}', [DonacionController::class, 'show'])->name('donaciones.show')->middleware('can:consultar')->whereNumber('id');
@@ -183,11 +141,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::patch('/donaciones/{id}/restore', [DonacionController::class, 'restore'])->name('donaciones.restore')->middleware('can:eliminar')->whereNumber('id');
     Route::delete('/donaciones/{id}/force', [DonacionController::class, 'forceDestroy'])->name('donaciones.forceDestroy')->middleware('can:eliminar')->whereNumber('id');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Solicitudes
-    |--------------------------------------------------------------------------
-    */
+    // rutas de solicitudes
     Route::get('/solicitudes', [SolicitudController::class, 'index'])->name('solicitudes.index')->middleware('can:consultar');
     Route::get('/solicitudes/eliminados', [SolicitudController::class, 'trashed'])->name('solicitudes.trashed')->middleware('can:consultar');
     Route::get('/solicitudes/{id}', [SolicitudController::class, 'show'])->name('solicitudes.show')->middleware('can:consultar')->whereNumber('id');
@@ -202,11 +156,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::patch('/solicitudes/{id}/restore', [SolicitudController::class, 'restore'])->name('solicitudes.restore')->middleware('can:eliminar')->whereNumber('id');
     Route::delete('/solicitudes/{id}/force', [SolicitudController::class, 'forceDestroy'])->name('solicitudes.forceDestroy')->middleware('can:eliminar')->whereNumber('id');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Entregas
-    |--------------------------------------------------------------------------
-    */
+    // rutas de entregas
     Route::get('/entregas', [EntregaController::class, 'index'])->name('entregas.index')->middleware('can:consultar');
     Route::get('/entregas/eliminados', [EntregaController::class, 'trashed'])->name('entregas.trashed')->middleware('can:consultar');
     Route::get('/entregas/{id}', [EntregaController::class, 'show'])->name('entregas.show')->middleware('can:consultar')->whereNumber('id');
@@ -221,11 +171,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::patch('/entregas/{id}/restore', [EntregaController::class, 'restore'])->name('entregas.restore')->middleware('can:eliminar')->whereNumber('id');
     Route::delete('/entregas/{id}/force', [EntregaController::class, 'forceDestroy'])->name('entregas.forceDestroy')->middleware('can:eliminar')->whereNumber('id');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Acciones importantes
-    |--------------------------------------------------------------------------
-    */
+    // rutas de acciones importantes
     Route::get('/acciones-importantes', [AccionImportanteController::class, 'index'])->name('acciones.index')->middleware('can:consultar');
     Route::get('/acciones-importantes/eliminados', [AccionImportanteController::class, 'trashed'])->name('acciones.trashed')->middleware('can:consultar');
     Route::get('/acciones-importantes/{id}', [AccionImportanteController::class, 'show'])->name('acciones.show')->middleware('can:consultar')->whereNumber('id');

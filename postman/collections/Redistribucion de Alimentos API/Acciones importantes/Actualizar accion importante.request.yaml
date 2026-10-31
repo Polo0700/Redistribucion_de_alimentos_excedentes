@@ -1,0 +1,29 @@
+$kind: http-request
+url: "{{baseUrl}}/acciones-importantes/:id"
+method: PUT
+headers:
+  Content-Type: application/json
+pathVariables:
+  id: "{{idPrueba}}"
+body:
+  type: json
+  content: |-
+    {
+      "ip_origen": "127.0.0.1",
+      "id_usuario": "1",
+      "accion": "prueba",
+      "fecha_hora": "2026-01-15 10:00:00",
+      "tabla_afectada": "roles",
+      "descripcion": "Creada por la coleccion de pruebas"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 4000

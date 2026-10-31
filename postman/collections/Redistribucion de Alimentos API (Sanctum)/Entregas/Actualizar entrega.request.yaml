@@ -1,0 +1,28 @@
+$kind: http-request
+url: "{{baseUrl}}/entregas/:id"
+method: PUT
+headers:
+  Content-Type: application/json
+pathVariables:
+  id: "{{idPrueba}}"
+body:
+  type: json
+  content: |-
+    {
+      "fecha_entrega": "2026-01-20",
+      "estado": "programada",
+      "responsable": "Repartidor de prueba",
+      "observaciones": "Creada por la coleccion de pruebas",
+      "id_solicitud": "1"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 4000

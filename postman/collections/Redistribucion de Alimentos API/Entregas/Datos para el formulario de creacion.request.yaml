@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{baseUrl}}/entregas/create"
+method: GET
+order: 9000

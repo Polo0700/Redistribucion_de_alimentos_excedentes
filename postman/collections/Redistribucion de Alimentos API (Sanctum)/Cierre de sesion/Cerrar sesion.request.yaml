@@ -1,0 +1,16 @@
+$kind: http-request
+name: 'Cerrar sesion (revocar token)'
+method: DELETE
+url: '{{baseUrl}}/auth/logout'
+order: 2000
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Revoca el token (200 o 204)", function () {
+          pm.expect([200, 204]).to.include(pm.response.code);
+      });
+      pm.test("Limpia la variable {{token}}", function () {
+          pm.collectionVariables.unset("token");
+          pm.expect(pm.collectionVariables.get("token") || "").to.eql("");
+      });
+    language: text/javascript

@@ -9,9 +9,7 @@ use Illuminate\View\View;
 
 class AuthAdminController extends Controller
 {
-    /**
-     * Muestra el formulario de ingreso al área administrativa.
-     */
+    // muestra el formulario de login
     public function login(): View|RedirectResponse
     {
         if (Auth::guard('admin')->check()) {
@@ -21,9 +19,7 @@ class AuthAdminController extends Controller
         return view('admin.login');
     }
 
-    /**
-     * Autentica contra la tabla administradores y valida que la cuenta este activa.
-     */
+    // checa usuario y contraseña y que la cuenta este activa
     public function in(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
@@ -53,9 +49,7 @@ class AuthAdminController extends Controller
             ->with('exito', 'Inicio de sesión exitoso');
     }
 
-    /**
-     * Cierra la sesión del guard admin.
-     */
+    // cierra la sesion del admin
     public function out(Request $request): RedirectResponse
     {
         Auth::guard('admin')->logout();

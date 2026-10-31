@@ -21,11 +21,7 @@ class AutorizacionNivelesTest extends TestCase
         ]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | NIVEL 1: solo consulta
-    |--------------------------------------------------------------------------
-    */
+    // nivel 1: solo consulta
     public function test_nivel_1_puede_consultar(): void
     {
         $this->actingAsAdmin(1);
@@ -92,11 +88,7 @@ class AutorizacionNivelesTest extends TestCase
         $this->assertDatabaseMissing('administradores', ['username' => 'nuevo-admin']);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | NIVEL 2: consulta, crear y editar (no eliminar ni administrar admins)
-    |--------------------------------------------------------------------------
-    */
+    // nivel 2: consulta, crear y editar (no eliminar ni administrar admins)
     public function test_nivel_2_puede_crear(): void
     {
         $this->actingAsAdmin(2);
@@ -146,11 +138,7 @@ class AutorizacionNivelesTest extends TestCase
         $this->get(route('administradores.create'))->assertForbidden();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | NIVEL 3: acceso total
-    |--------------------------------------------------------------------------
-    */
+    // nivel 3: acceso total
     public function test_nivel_3_puede_eliminar(): void
     {
         $rol = $this->crearRol();
@@ -170,11 +158,7 @@ class AutorizacionNivelesTest extends TestCase
         $this->get(route('administradores.create'))->assertOk();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | El nivel proviene del registro de la BD, no del formulario
-    |--------------------------------------------------------------------------
-    */
+    // el nivel proviene del registro de la BD, no del formulario
     public function test_store_valida_que_el_nivel_sea_1_2_o_3(): void
     {
         $this->actingAsAdmin(3);

@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{baseUrl}}/acciones-importantes/create"
+method: GET
+order: 9000

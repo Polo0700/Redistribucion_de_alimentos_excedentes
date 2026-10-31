@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{baseUrl}}/usuarios/:id/force"
+method: DELETE
+pathVariables:
+  id: "{{idPrueba}}"
+order: 8000

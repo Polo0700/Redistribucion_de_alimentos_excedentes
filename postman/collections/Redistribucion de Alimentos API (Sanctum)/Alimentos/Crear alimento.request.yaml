@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{baseUrl}}/alimentos"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Manzana de prueba",
+      "id_categoria": "1",
+      "descripcion": "Alimento creado por la coleccion de pruebas",
+      "estado": "1"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 3000

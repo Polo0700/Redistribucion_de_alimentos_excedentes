@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{baseUrl}}/listas-deseos/create"
+method: GET
+order: 9000

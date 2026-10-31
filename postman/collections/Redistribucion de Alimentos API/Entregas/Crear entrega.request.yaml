@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/entregas"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "fecha_entrega": "2026-01-20",
+      "estado": "programada",
+      "responsable": "Repartidor de prueba",
+      "observaciones": "Creada por la coleccion de pruebas",
+      "id_solicitud": "1"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 3000

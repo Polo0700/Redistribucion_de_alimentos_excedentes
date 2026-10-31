@@ -1,0 +1,29 @@
+$kind: http-request
+url: "{{baseUrl}}/usuarios"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "direccion": "Calle Falsa 123",
+      "telefono": "5512345678",
+      "correo": "juan.perez@example.com",
+      "estado": "1",
+      "apellido": "Perez",
+      "fecha_registro": "2026-01-15",
+      "id_rol": "1",
+      "nombre": "Juan"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 3000

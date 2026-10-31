@@ -1,0 +1,28 @@
+$kind: http-request
+url: "{{baseUrl}}/solicitudes/:id"
+method: PUT
+headers:
+  Content-Type: application/json
+pathVariables:
+  id: "{{idPrueba}}"
+body:
+  type: json
+  content: |-
+    {
+      "fecha_solicitud": "2026-01-15",
+      "observaciones": "Creada por la coleccion de pruebas",
+      "estado": "pendiente",
+      "id_usuario": "1",
+      "direccion_entrega": "Calle Falsa 123"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 4000

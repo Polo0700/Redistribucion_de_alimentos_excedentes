@@ -1,0 +1,40 @@
+$kind: collection
+name: 'Redistribucion de Alimentos API (Sanctum)'
+description: >
+  API REST del panel de redistribucion de alimentos, autenticada con tokens de
+  Laravel Sanctum. Primero "Iniciar sesion" guarda el token en la variable
+  {{token}}; todos los demas recursos lo mandan como Bearer. Solo recursos que
+  existen en la rama apiv2_experimental (sin carritos ni listas de deseos).
+variables:
+  - key: baseUrl
+    value: http://127.0.0.1:8000/api
+    description: Servidor local de Laravel (php artisan serve)
+  - key: token
+    value: ''
+    description: Token de Sanctum. Se llena al ejecutar "Iniciar sesion". Vacio por seguridad.
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{token}}'
+scripts:
+  - type: http:beforeRequest
+    code: |-
+      // Todo cliente de esta API debe pedir JSON: sin esto, Laravel devuelve
+      // las paginas de error en HTML y las validaciones como redirect 302.
+      if (!pm.request.headers.has("Accept")) {
+          pm.request.headers.add({ key: "Accept", value: "application/json" });
+      }
+    language: text/javascript
+  - type: http:afterResponse
+    code: |-
+      pm.test("Sin errores de servidor (no 5xx)", function () {
+          pm.expect(pm.response.code).to.be.below(500);
+      });
+      pm.test("La respuesta es JSON", function () {
+          pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
+      });
+      pm.test("Responde en menos de 2000 ms", function () {
+          pm.expect(pm.response.responseTime).to.be.below(2000);
+      });
+    language: text/javascript

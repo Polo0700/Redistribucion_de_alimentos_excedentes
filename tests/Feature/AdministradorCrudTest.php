@@ -19,9 +19,7 @@ class AdministradorCrudTest extends TestCase
         $this->actingAsAdmin(3);
     }
 
-    /**
-     * Datos tal como se envían desde un formulario (contraseña en texto plano).
-     */
+    // datos como se mandan del formulario (contraseña en texto plano)
     private function datosFormulario(string $username = 'nuevo-admin', int $nivel = 2, string $password = 'secret123'): array
     {
         return [
@@ -33,9 +31,7 @@ class AdministradorCrudTest extends TestCase
         ];
     }
 
-    /**
-     * Crea el registro directamente en la BD (contraseña ya hasheada).
-     */
+    // crea el registro directo en la BD (contraseña ya hasheada)
     private function crearAdminBD(string $username = 'admin-bd', string $password = 'secret123'): Administrador
     {
         $datos = $this->datosFormulario($username, 2, $password);

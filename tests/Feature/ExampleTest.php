@@ -14,7 +14,7 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        // la raíz redirige al dashboard
+        // la raiz redirige al dashboard
         $response->assertRedirect(route('dashboard'));
     }
 }

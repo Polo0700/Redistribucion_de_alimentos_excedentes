@@ -9,18 +9,28 @@ use Illuminate\Http\Request;
 class EntregaController extends Controller
 {
     // trae las entregas de la base de datos con su solicitud de 5 en 5
-    public function index()
+    public function index(Request $request)
     {
         $entregas = Entrega::with('solicitud')->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['entregas' => $entregas], 200);
+        }
 
         // retorna la pagina del index de entregas
         return view('entregas.index', compact('entregas'));
     }
 
     // obtiene las solicitudes y las organiza por id y las mete a solicitudes
-    public function create()
+    public function create(Request $request)
     {
         $solicitudes = Solicitud::orderBy('id_solicitud')->get();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['solicitudes' => $solicitudes], 200);
+        }
 
         // retorna la vista de creacion de entregas
         return view('entregas.create', compact('solicitudes'));
@@ -40,15 +50,25 @@ class EntregaController extends Controller
         // crea una entrega
         Entrega::create($validado);
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Entrega creada correctamente'], 201);
+        }
+
         // redirige al index y un mensaje de correcto
         return redirect()->route('entregas.index')->with('success', 'Entrega creada correctamente');
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $entrega = Entrega::findOrFail($id);
 
         $solicitudes = Solicitud::with('usuario')->get();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['entrega' => $entrega, 'solicitudes' => $solicitudes], 200);
+        }
 
         return view(
             'entregas.edit',
@@ -76,77 +96,92 @@ class EntregaController extends Controller
             'observaciones' => $request->observaciones,
         ]);
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Entrega actualizada correctamente.'], 200);
+        }
+
         return redirect()
             ->route('entregas.index')
             ->with('success', 'Entrega actualizada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | MOSTRAR (consulta individual, solo lectura)
-    |--------------------------------------------------------------------------
-    */
-    public function show($id)
+    // retorna la vista show de la entrega
+    public function show(Request $request, $id)
     {
         $entrega = Entrega::with('solicitud')->findOrFail($id);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['entrega' => $entrega], 200);
+        }
 
         return view('entregas.show', compact('entrega'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO LÓGICO
-    |--------------------------------------------------------------------------
-    */
-    public function destroy($id)
+    // borra la entrega logicamente
+    public function destroy(Request $request, $id)
     {
         $entrega = Entrega::findOrFail($id);
         $entrega->delete();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Entrega eliminada correctamente.'], 200);
+        }
+
         return redirect()->route('entregas.index')->with('success', 'Entrega eliminada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | LISTADO DE REGISTROS ELIMINADOS (papelera)
-    |--------------------------------------------------------------------------
-    */
-    public function trashed()
+    // trae los eliminados logicamente de 5 en 5
+    public function trashed(Request $request)
     {
         $entregas = Entrega::onlyTrashed()->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['entregas' => $entregas], 200);
+        }
 
         return view('entregas.trashed', compact('entregas'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RESTAURAR REGISTRO
-    |--------------------------------------------------------------------------
-    */
-    public function restore($id)
+    // regresa la entrega a la tabla
+    public function restore(Request $request, $id)
     {
         $entrega = Entrega::onlyTrashed()->findOrFail($id);
         $entrega->restore();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Entrega restaurada correctamente.'], 200);
+        }
+
         return redirect()->route('entregas.trashed')->with('success', 'Entrega restaurada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
-    |--------------------------------------------------------------------------
-    */
-    public function forceDestroy($id)
+    // borra el registro de la tabla por completo
+    public function forceDestroy(Request $request, $id)
     {
         $entrega = Entrega::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
         if (! $entrega->trashed()) {
+            // en api responde 409
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
+            }
+
             return redirect()->route('entregas.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 
         // sin tablas dependientes: se elimina directamente
         $entrega->forceDelete();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Entrega eliminada definitivamente.'], 200);
+        }
 
         return redirect()->route('entregas.trashed')->with('success', 'Entrega eliminada definitivamente.');
     }

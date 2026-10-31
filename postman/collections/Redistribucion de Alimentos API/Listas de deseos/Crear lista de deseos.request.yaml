@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{baseUrl}}/listas-deseos"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Lista de prueba",
+      "id_usuario": "1",
+      "fecha_creacion": "2026-01-15"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 3000

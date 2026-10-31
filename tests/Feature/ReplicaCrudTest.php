@@ -27,11 +27,7 @@ class ReplicaCrudTest extends TestCase
         $this->actingAsAdmin();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Helpers de datos
-    |--------------------------------------------------------------------------
-    */
+    // helpers de datos
 
     private function crearRol(): Rol
     {
@@ -76,11 +72,7 @@ class ReplicaCrudTest extends TestCase
         ]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Categorías
-    |--------------------------------------------------------------------------
-    */
+    // categorias
     public function test_flujo_completo_categoria(): void
     {
         $categoria = $this->crearCategoria();
@@ -116,11 +108,7 @@ class ReplicaCrudTest extends TestCase
         $this->assertDatabaseHas('categorias_alimento', ['id_categoria' => $categoria->id_categoria]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Roles
-    |--------------------------------------------------------------------------
-    */
+    // roles
     public function test_flujo_completo_rol(): void
     {
         $rol = $this->crearRol();
@@ -154,11 +142,7 @@ class ReplicaCrudTest extends TestCase
         $this->assertDatabaseHas('roles', ['id' => $rol->id]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Usuarios
-    |--------------------------------------------------------------------------
-    */
+    // usuarios
     public function test_flujo_completo_usuario(): void
     {
         $rol = $this->crearRol();
@@ -201,11 +185,7 @@ class ReplicaCrudTest extends TestCase
         $this->assertDatabaseHas('usuarios', ['id' => $usuario->id]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Cuentas de acceso
-    |--------------------------------------------------------------------------
-    */
+    // cuentas de acceso
     public function test_flujo_completo_cuenta_acceso(): void
     {
         $rol = $this->crearRol();
@@ -259,11 +239,7 @@ class ReplicaCrudTest extends TestCase
 
 
     
-    /*
-    |--------------------------------------------------------------------------
-    | Solicitudes
-    |--------------------------------------------------------------------------
-    */
+    // solicitudes
     public function test_flujo_completo_solicitud(): void
     {
         $rol = $this->crearRol();
@@ -292,11 +268,7 @@ class ReplicaCrudTest extends TestCase
         $this->assertFalse(Solicitud::withTrashed()->findOrFail($solicitud->id_solicitud)->trashed());
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Donaciones
-    |--------------------------------------------------------------------------
-    */
+    // donaciones
     public function test_flujo_completo_donacion(): void
     {
         $rol = $this->crearRol();
@@ -355,11 +327,7 @@ class ReplicaCrudTest extends TestCase
         $this->assertDatabaseHas('donaciones', ['id_donacion' => $donacion->id_donacion]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Entregas
-    |--------------------------------------------------------------------------
-    */
+    // entregas
     public function test_flujo_completo_entrega(): void
     {
         $rol = $this->crearRol();
@@ -395,11 +363,7 @@ class ReplicaCrudTest extends TestCase
         $this->assertFalse(Entrega::withTrashed()->findOrFail($entrega->id_entrega)->trashed());
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Acciones importantes
-    |--------------------------------------------------------------------------
-    */
+    // acciones importantes
     public function test_flujo_completo_accion_importante(): void
     {
         $rol = $this->crearRol();

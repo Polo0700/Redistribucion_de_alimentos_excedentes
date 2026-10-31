@@ -9,19 +9,29 @@ use Illuminate\Support\Facades\Hash;
 
 class CuentaAccesoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // toma las cuentas que quiere acceso del tipo usuario en la DB
         $cuentas = CuentaAcceso::with('usuario')->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['cuentas' => $cuentas], 200);
+        }
 
         // retorna la pagina del index
         return view('cuentas-acceso.index', compact('cuentas'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         // obtiene los usuarios y los ordena por nombre y los mete a usuarios
         $usuarios = Usuario::orderBy('nombre')->get();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['usuarios' => $usuarios], 200);
+        }
 
         // retorna la vista de creacion de cuentas
         return view('cuentas-acceso.create', compact('usuarios'));
@@ -44,15 +54,25 @@ class CuentaAccesoController extends Controller
         // crea una cuenta
         CuentaAcceso::create($validado);
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Cuenta de acceso creada correctamente'], 201);
+        }
+
         // redirige al index y un mensaje de correcto
         return redirect()->route('cuentas-acceso.index')->with('success', 'Cuenta de acceso creada correctamente');
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $cuenta = CuentaAcceso::findOrFail($id);
 
         $usuarios = Usuario::where('estado', true)->get();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['cuenta' => $cuenta, 'usuarios' => $usuarios], 200);
+        }
 
         return view(
             'cuentas-acceso.edit',
@@ -80,77 +100,92 @@ class CuentaAccesoController extends Controller
             'fecha_ultimo_acceso' => $request->fecha_ultimo_acceso,
         ]);
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Cuenta de acceso actualizada correctamente.'], 200);
+        }
+
         return redirect()
             ->route('cuentas-acceso.index')
             ->with('success', 'Cuenta de acceso actualizada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | MOSTRAR (consulta individual, solo lectura)
-    |--------------------------------------------------------------------------
-    */
-    public function show($id)
+    // retorna la vista show de la cuenta
+    public function show(Request $request, $id)
     {
         $cuenta = CuentaAcceso::with('usuario')->findOrFail($id);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['cuenta' => $cuenta], 200);
+        }
 
         return view('cuentas-acceso.show', compact('cuenta'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO LÓGICO
-    |--------------------------------------------------------------------------
-    */
-    public function destroy($id)
+    // borra la cuenta de acceso logicamente
+    public function destroy(Request $request, $id)
     {
         $cuenta = CuentaAcceso::findOrFail($id);
         $cuenta->delete();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Cuenta de acceso eliminada correctamente.'], 200);
+        }
+
         return redirect()->route('cuentas-acceso.index')->with('success', 'Cuenta de acceso eliminada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | LISTADO DE REGISTROS ELIMINADOS (papelera)
-    |--------------------------------------------------------------------------
-    */
-    public function trashed()
+    // trae los eliminados logicamente de 5 en 5
+    public function trashed(Request $request)
     {
         $cuentas = CuentaAcceso::onlyTrashed()->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['cuentas' => $cuentas], 200);
+        }
 
         return view('cuentas-acceso.trashed', compact('cuentas'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RESTAURAR REGISTRO
-    |--------------------------------------------------------------------------
-    */
-    public function restore($id)
+    // regresa la cuenta a la tabla
+    public function restore(Request $request, $id)
     {
         $cuenta = CuentaAcceso::onlyTrashed()->findOrFail($id);
         $cuenta->restore();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Cuenta de acceso restaurada correctamente.'], 200);
+        }
+
         return redirect()->route('cuentas-acceso.trashed')->with('success', 'Cuenta de acceso restaurada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
-    |--------------------------------------------------------------------------
-    */
-    public function forceDestroy($id)
+    // borra el registro de la tabla por completo
+    public function forceDestroy(Request $request, $id)
     {
         $cuenta = CuentaAcceso::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
         if (! $cuenta->trashed()) {
+            // en api devuelve json
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
+            }
+
             return redirect()->route('cuentas-acceso.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 
         // sin tablas dependientes: se elimina directamente
         $cuenta->forceDelete();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Cuenta de acceso eliminada definitivamente.'], 200);
+        }
 
         return redirect()->route('cuentas-acceso.trashed')->with('success', 'Cuenta de acceso eliminada definitivamente.');
     }

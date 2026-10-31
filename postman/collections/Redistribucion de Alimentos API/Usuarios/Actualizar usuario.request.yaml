@@ -1,0 +1,31 @@
+$kind: http-request
+url: "{{baseUrl}}/usuarios/:id"
+method: PUT
+headers:
+  Content-Type: application/json
+pathVariables:
+  id: "{{idPrueba}}"
+body:
+  type: json
+  content: |-
+    {
+      "direccion": "Calle Falsa 123",
+      "telefono": "5512345678",
+      "correo": "juan.perez@example.com",
+      "estado": "1",
+      "apellido": "Perez",
+      "fecha_registro": "2026-01-15",
+      "id_rol": "1",
+      "nombre": "Juan"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 4000

@@ -1,0 +1,8 @@
+name: Local
+values:
+  - key: baseUrl
+    value: http://127.0.0.1:8000/api
+    description: Servidor local de Laravel (php artisan serve)
+  - key: idPrueba
+    value: ""
+    description: "Id de un registro de prueba. Vacio por seguridad: los requests de actualizacion, borrado y restauracion no tocan nada hasta que pongas aqui un id real que puedas sacrificar."

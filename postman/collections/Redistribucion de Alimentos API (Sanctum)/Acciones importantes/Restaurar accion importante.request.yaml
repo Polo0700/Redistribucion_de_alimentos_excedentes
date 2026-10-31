@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/acciones-importantes/:id/restore"
+method: PATCH
+pathVariables:
+  id: "{{idPrueba}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 7000

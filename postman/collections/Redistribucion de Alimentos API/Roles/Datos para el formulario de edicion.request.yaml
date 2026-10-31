@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{baseUrl}}/roles/:id/edit"
+method: GET
+pathVariables:
+  id: "1"
+order: 10000

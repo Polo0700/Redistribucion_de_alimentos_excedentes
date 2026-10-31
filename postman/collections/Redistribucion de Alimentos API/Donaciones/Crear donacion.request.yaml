@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{baseUrl}}/donaciones"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "fecha_limite": "2026-01-20",
+      "id_usuario": "1",
+      "fecha_donacion": "2026-01-10",
+      "estado": "pendiente",
+      "ubicacion": "Bodega central",
+      "observaciones": "Creada por la coleccion de pruebas"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Devuelve message", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+    language: text/javascript
+order: 3000

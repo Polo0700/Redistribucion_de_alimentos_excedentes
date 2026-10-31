@@ -9,42 +9,40 @@ use Illuminate\Support\Facades\Storage;
 
 class AlimentoController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | LISTADO
-    |--------------------------------------------------------------------------
-    */
-    public function index()
+    // listado de alimentos
+    public function index(Request $request)
     {
-        // trae los alimentos de la base de datos con su categoría de 5 en 5
+        // trae los alimentos de la base de datos con su categoria de 5 en 5
         $alimentos = Alimento::with('categoria')->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['alimentos' => $alimentos], 200);
+        }
 
         // retorna la vista index de alimentos
         return view('alimentos.index', compact('alimentos'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | FORMULARIO DE CREACIÓN
-    |--------------------------------------------------------------------------
-    */
-    public function create()
+    // formulario para crear un alimento
+    public function create(Request $request)
     {
-        // obtiene las categorías ordenadas por nombre
+        // obtiene las categorias ordenadas por nombre
         $categorias = CategoriaAlimento::orderBy('nombre')->get();
 
-        // retorna la vista de creación de alimentos
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['categorias' => $categorias], 200);
+        }
+
+        // retorna la vista de creacion de alimentos
         return view('alimentos.create', compact('categorias'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | GUARDAR NUEVO ALIMENTO
-    |--------------------------------------------------------------------------
-    */
+    // guarda el alimento nuevo
     public function store(Request $request)
     {
-        // validación
+        // validacion
         $validado = $request->validate([
             'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
             'nombre' => 'required|string|max:80',
@@ -64,33 +62,35 @@ class AlimentoController extends Controller
             $alimento->update(['imagen' => $ruta]);
         }
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Alimento creado correctamente.'], 201);
+        }
+
         return redirect()->route('alimentos.index')->with('success', 'Alimento creado correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | FORMULARIO DE EDICIÓN
-    |--------------------------------------------------------------------------
-    */
-    public function edit($id)
+    // formulario para editar un alimento
+    public function edit(Request $request, $id)
     {
         $alimento = Alimento::findOrFail($id);
         $categorias = CategoriaAlimento::orderBy('nombre')->get();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['alimento' => $alimento, 'categorias' => $categorias], 200);
+        }
+
         return view('alimentos.edit', compact('alimento', 'categorias'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | ACTUALIZAR ALIMENTO
-    |--------------------------------------------------------------------------
-    */
+    // actualiza el alimento
     public function update(Request $request, $id)
     {
         $alimento = Alimento::findOrFail($id);
         $imagenAnterior = $alimento->imagen;
 
-        // validación
+        // validacion
         $validado = $request->validate([
             'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
             'nombre' => 'required|string|max:80',
@@ -121,75 +121,90 @@ class AlimentoController extends Controller
             }
         }
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Alimento actualizado correctamente.'], 200);
+        }
+
         return redirect()->route('alimentos.index')->with('success', 'Alimento actualizado correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | MOSTRAR (consulta individual, solo lectura)
-    |--------------------------------------------------------------------------
-    */
-    public function show($id)
+    // retorna la vista show del alimento
+    public function show(Request $request, $id)
     {
         $alimento = Alimento::with('categoria')->findOrFail($id);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['alimento' => $alimento], 200);
+        }
 
         return view('alimentos.show', compact('alimento'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO LÓGICO
-    |--------------------------------------------------------------------------
-    */
-    public function destroy($id)
+    // borra el alimento logicamente
+    public function destroy(Request $request, $id)
     {
         $alimento = Alimento::findOrFail($id);
         $alimento->delete();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Alimento eliminado correctamente.'], 200);
+        }
+
         return redirect()->route('alimentos.index')->with('success', 'Alimento eliminado correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | LISTADO DE REGISTROS ELIMINADOS (papelera)
-    |--------------------------------------------------------------------------
-    */
-    public function trashed()
+    // trae los eliminados logicamente de 5 en 5
+    public function trashed(Request $request)
     {
         $alimentos = Alimento::onlyTrashed()->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['alimentos' => $alimentos], 200);
+        }
 
         return view('alimentos.trashed', compact('alimentos'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RESTAURAR REGISTRO
-    |--------------------------------------------------------------------------
-    */
-    public function restore($id)
+    // regresa el alimento a la tabla
+    public function restore(Request $request, $id)
     {
         $alimento = Alimento::onlyTrashed()->findOrFail($id);
         $alimento->restore();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Alimento restaurado correctamente.'], 200);
+        }
+
         return redirect()->route('alimentos.trashed')->with('success', 'Alimento restaurado correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
-    |--------------------------------------------------------------------------
-    */
-    public function forceDestroy($id)
+    // borra el registro de la tabla por completo
+    public function forceDestroy(Request $request, $id)
     {
         $alimento = Alimento::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminado lógicamente
         if (! $alimento->trashed()) {
+            // en api devuelve json
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
+            }
+
             return redirect()->route('alimentos.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 
-        // validación de relaciones: si otra tabla lo usa, se cancela
+        // validacion de relaciones: si otra tabla lo usa, se cancela
         if ($alimento->detallesDonacion()->count() > 0) {
+            // en api devuelve json
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'No se puede eliminar: el alimento está registrado en Detalles de Donación.'], 409);
+            }
+
             return redirect()->route('alimentos.trashed')->with('error', 'No se puede eliminar: el alimento está registrado en Detalles de Donación.');
         }
 
@@ -203,6 +218,11 @@ class AlimentoController extends Controller
 
         // eliminar el registro de la base de datos
         $alimento->forceDelete();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Alimento eliminado físicamente junto con su imagen.'], 200);
+        }
 
         return redirect()->route('alimentos.trashed')->with('success', 'Alimento eliminado físicamente junto con su imagen.');
     }

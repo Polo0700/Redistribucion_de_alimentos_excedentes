@@ -9,18 +9,28 @@ use Illuminate\Http\Request;
 class DonacionController extends Controller
 {
     // trae las donaciones de la base de datos con su usuario de 5 en 5
-    public function index()
+    public function index(Request $request)
     {
         $donaciones = Donacion::with('usuario')->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['donaciones' => $donaciones], 200);
+        }
 
         // retorna la pagina del index de donaciones
         return view('donaciones.index', compact('donaciones'));
     }
 
     // obtiene los usuarios y los ordena por nombre y los mete a usuarios
-    public function create()
+    public function create(Request $request)
     {
         $usuarios = Usuario::orderBy('nombre')->get();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['usuarios' => $usuarios], 200);
+        }
 
         // retorna la vista de creacion de donaciones
         return view('donaciones.create', compact('usuarios'));
@@ -41,15 +51,25 @@ class DonacionController extends Controller
         // crea una donacion
         Donacion::create($validado);
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Donacion creada correctamente'], 201);
+        }
+
         // redirige al index y un mensaje de correcto
         return redirect()->route('donaciones.index')->with('success', 'Donacion creada correctamente');
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $donacion = Donacion::findOrFail($id);
 
         $usuarios = Usuario::where('estado', true)->get();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['donacion' => $donacion, 'usuarios' => $usuarios], 200);
+        }
 
         return view(
             'donaciones.edit',
@@ -79,81 +99,101 @@ class DonacionController extends Controller
             'observaciones' => $request->observaciones,
         ]);
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Donación actualizada correctamente.'], 200);
+        }
+
         return redirect()
             ->route('donaciones.index')
             ->with('success', 'Donación actualizada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | MOSTRAR (consulta individual, solo lectura)
-    |--------------------------------------------------------------------------
-    */
-    public function show($id)
+    // retorna la vista show de la donacion
+    public function show(Request $request, $id)
     {
         $donacion = Donacion::with('usuario')->findOrFail($id);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['donacion' => $donacion], 200);
+        }
 
         return view('donaciones.show', compact('donacion'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO LÓGICO
-    |--------------------------------------------------------------------------
-    */
-    public function destroy($id)
+    // borra la donacion logicamente
+    public function destroy(Request $request, $id)
     {
         $donacion = Donacion::findOrFail($id);
         $donacion->delete();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Donación eliminada correctamente.'], 200);
+        }
+
         return redirect()->route('donaciones.index')->with('success', 'Donación eliminada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | LISTADO DE REGISTROS ELIMINADOS (papelera)
-    |--------------------------------------------------------------------------
-    */
-    public function trashed()
+    // trae los eliminados logicamente de 5 en 5
+    public function trashed(Request $request)
     {
         $donaciones = Donacion::onlyTrashed()->paginate(5);
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['donaciones' => $donaciones], 200);
+        }
 
         return view('donaciones.trashed', compact('donaciones'));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RESTAURAR REGISTRO
-    |--------------------------------------------------------------------------
-    */
-    public function restore($id)
+    // regresa la donacion a la tabla
+    public function restore(Request $request, $id)
     {
         $donacion = Donacion::onlyTrashed()->findOrFail($id);
         $donacion->restore();
 
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Donación restaurada correctamente.'], 200);
+        }
+
         return redirect()->route('donaciones.trashed')->with('success', 'Donación restaurada correctamente.');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | BORRADO FÍSICO (solo para registros lógicamente eliminados)
-    |--------------------------------------------------------------------------
-    */
-    public function forceDestroy($id)
+    // borra el registro de la tabla por completo
+    public function forceDestroy(Request $request, $id)
     {
         $donacion = Donacion::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
         if (! $donacion->trashed()) {
+            // en api responde 409
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Primero debe aplicar el borrado lógico al registro.'], 409);
+            }
+
             return redirect()->route('donaciones.trashed')->with('error', 'Primero debe aplicar el borrado lógico al registro.');
         }
 
-        // validación de relaciones: si otra tabla la usa, se cancela
+        // validacion de relaciones: si otra tabla la usa, se cancela
         if ($donacion->detalles()->count() > 0) {
+            // en api responde 409
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'No se puede eliminar: la donación tiene detalles registrados.'], 409);
+            }
+
             return redirect()->route('donaciones.trashed')->with('error', 'No se puede eliminar: la donación tiene detalles registrados.');
         }
 
         $donacion->forceDelete();
+
+        // en api devuelve json
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Donación eliminada definitivamente.'], 200);
+        }
 
         return redirect()->route('donaciones.trashed')->with('success', 'Donación eliminada definitivamente.');
     }

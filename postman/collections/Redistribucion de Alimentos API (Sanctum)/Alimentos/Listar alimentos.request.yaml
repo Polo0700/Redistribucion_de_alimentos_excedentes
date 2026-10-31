@@ -1,0 +1,11 @@
+$kind: http-request
+url: "{{baseUrl}}/alimentos"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Devuelve la lista paginada en 'alimentos'", function () {
+          pm.expect(pm.response.json()).to.have.property('alimentos');
+      });
+    language: text/javascript
+order: 1000

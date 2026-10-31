@@ -13,7 +13,7 @@ class AdministradorSeeder extends Seeder
      */
     public function run(): void
     {
-        // Administrador Principal histórico (Nivel 3)
+        // admin principal historico (nivel 3)
         Administrador::updateOrCreate(
             ['username' => 'admin'],
             [
@@ -24,7 +24,7 @@ class AdministradorSeeder extends Seeder
             ]
         );
 
-        // Nivel 1: Solo consulta (No crea, no edita, no elimina)
+        // nivel 1: solo consulta
         Administrador::updateOrCreate(
             ['username' => 'admin1'],
             [
@@ -35,7 +35,7 @@ class AdministradorSeeder extends Seeder
             ]
         );
 
-        // Nivel 2: Consulta, Crear y Editar (No elimina, no administra cuentas)
+        // nivel 2: consulta, crear y editar
         Administrador::updateOrCreate(
             ['username' => 'admin2'],
             [
@@ -46,7 +46,7 @@ class AdministradorSeeder extends Seeder
             ]
         );
 
-        // Nivel 3: Acceso total (Consulta, Crear, Editar, Eliminar y Gestión de Admins)
+        // nivel 3: acceso total
         Administrador::updateOrCreate(
             ['username' => 'admin3'],
             [
@@ -57,7 +57,7 @@ class AdministradorSeeder extends Seeder
             ]
         );
 
-        // Cuenta inactiva para pruebas de estado
+        // cuenta inactiva para pruebas
         Administrador::updateOrCreate(
             ['username' => 'inactivo'],
             [

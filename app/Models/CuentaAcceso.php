@@ -33,9 +33,7 @@ class CuentaAcceso extends Authenticatable
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
-    /**
-     * Columna que guarda el hash de la contraseña (esquema del proyecto).
-     */
+    // aqui va la contraseña hasheada
     public function getAuthPasswordName(): string
     {
         return 'contrasena_hash';

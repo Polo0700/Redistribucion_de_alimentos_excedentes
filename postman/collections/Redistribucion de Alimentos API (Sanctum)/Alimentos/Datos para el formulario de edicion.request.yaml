@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{baseUrl}}/alimentos/:id/edit"
+method: GET
+pathVariables:
+  id: "5"
+order: 10000
