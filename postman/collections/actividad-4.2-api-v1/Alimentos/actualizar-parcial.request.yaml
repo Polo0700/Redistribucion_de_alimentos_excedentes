@@ -1,0 +1,29 @@
+$kind: http-request
+name: 'Actualizar alimento (PATCH)'
+method: PATCH
+url: '{{baseUrlV1}}/alimentos/:id'
+order: 6000
+pathVariables:
+  - key: id
+    value: '{{alimentoId}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "descripcion": "Solo se cambio la descripcion del alimento"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Conserva los campos no enviados", function () {
+          var body = pm.response.json();
+          pm.expect(body.data.nombre).to.eql("Alimento de prueba 4.2 actualizado");
+          pm.expect(body.data.descripcion).to.eql("Solo se cambio la descripcion del alimento");
+      });

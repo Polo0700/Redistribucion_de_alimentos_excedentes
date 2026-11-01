@@ -1,0 +1,30 @@
+$kind: http-request
+name: 'Validacion de categoria'
+method: POST
+url: '{{baseUrlV1}}/categorias'
+order: 7000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "",
+      "descripcion": "",
+      "estado": "no-es-booleano"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 422 Unprocessable Content", function () {
+          pm.response.to.have.status(422);
+      });
+      pm.test("Devuelve los errores por campo", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(false);
+          pm.expect(body.errors).to.have.property("nombre");
+          pm.expect(body.errors).to.have.property("descripcion");
+          pm.expect(body.errors).to.have.property("estado");
+      });

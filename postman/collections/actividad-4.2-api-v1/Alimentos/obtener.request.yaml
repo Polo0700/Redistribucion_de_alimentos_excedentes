@@ -1,0 +1,20 @@
+$kind: http-request
+name: 'Obtener alimento por id'
+method: GET
+url: '{{baseUrlV1}}/alimentos/:id'
+order: 3000
+pathVariables:
+  - key: id
+    value: '{{alimentoId}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Incluye categoria e imagen", function () {
+          var body = pm.response.json();
+          pm.expect(body.data.categoria).to.be.an("object");
+          pm.expect(body.data.imagen_url).to.be.a("string");
+      });
