@@ -23,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         );
 
         $exceptions->render(function (Throwable $e, Request $request) {
-            if (! $request->is('api/v1/*')) {
+            if (! $request->is('api/v1', 'api/v1/*')) {
                 return null;
             }
 
