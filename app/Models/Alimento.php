@@ -25,6 +25,20 @@ class Alimento extends Model
         'imagen',
     ];
 
+    protected $appends = [
+        'imagen_url',
+    ];
+
+    protected $casts = [
+        'id_categoria' => 'integer',
+        'estado' => 'boolean',
+    ];
+
+    public function getImagenUrlAttribute(): ?string
+    {
+        return $this->imagen ? url('storage/'.$this->imagen) : null;
+    }
+
     public function categoria(): BelongsTo
     {
         return $this->belongsTo(
@@ -42,7 +56,4 @@ class Alimento extends Model
             'id_alimento'
         );
     }
-
-   
-    
 }

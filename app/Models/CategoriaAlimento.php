@@ -22,6 +22,10 @@ class CategoriaAlimento extends Model
         'estado',
     ];
 
+    protected $casts = [
+        'estado' => 'boolean',
+    ];
+
     public function alimentos(): HasMany
     {
         return $this->hasMany(
