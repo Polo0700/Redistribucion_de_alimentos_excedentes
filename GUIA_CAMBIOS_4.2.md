@@ -17,7 +17,7 @@ No es un resumen: es el procedimiento de replicación con el código completo de
 | Prefijo de la API | `/api/v1` |
 | Recursos | Categorías y Alimentos |
 | Autenticación | Ninguna en esta actividad |
-| Resultado de pruebas | 21 requests, 21 test-scripts y 84 aserciones aprobadas |
+| Resultado de pruebas | 28 requests, 28 test-scripts y 224 aserciones aprobadas |
 
 ### 0.1 Cómo leer los números de línea
 
@@ -51,7 +51,7 @@ No es un resumen: es el procedimiento de replicación con el código completo de
 | 5 | CREAR | `app/Http/Controllers/Api/V1/AlimentoController.php` | Carpeta nueva `Api/V1` | Archivo de 287 líneas |
 | 6 | MODIFICAR | `routes/api.php` | Insertar 2 imports después de la línea 5 original; insertar bloque después de la línea 16 original | Archivo final de 357 líneas |
 | 7 | EJECUTAR | `public/storage` | Raíz del proyecto | Enlace simbólico público |
-| 8 | CREAR | `postman/collections/actividad-4.2-api-v1/` | Carpeta `postman/collections` | 21 requests y 2 archivos de prueba |
+| 8 | CREAR | `postman/collections/actividad-4.2-api-v1/` | Carpeta `postman/collections` | 28 requests y 3 archivos de prueba |
 | 9 | CREAR | `GUIA_CAMBIOS_4.2.md` y `CONTRATO_DISEÑO_API_4.1.md` | Raíz del proyecto | Documentación |
 
 ### 1.1 Lo que se elimina
@@ -315,7 +315,7 @@ Insertar el siguiente bloque **después de la línea 26 original** (`    ];` que
 
     public function getImagenUrlAttribute(): ?string
     {
-        return $this->imagen ? url('storage/'.$this->imagen) : null;
+        return $this->imagen ? asset('storage/'.$this->imagen) : null;
     }
 ```
 
@@ -362,7 +362,7 @@ class Alimento extends Model
 
     public function getImagenUrlAttribute(): ?string
     {
-        return $this->imagen ? url('storage/'.$this->imagen) : null;
+        return $this->imagen ? asset('storage/'.$this->imagen) : null;
     }
 
     public function categoria(): BelongsTo
@@ -412,7 +412,7 @@ No se elimina ninguna propiedad, relación ni método.
 | --- | --- |
 | `$appends = ['imagen_url']` | Hace que `imagen_url` aparezca automáticamente en todas las respuestas JSON del modelo, sin agregarlo manualmente en cada controlador |
 | `getImagenUrlAttribute()` | Convierte la ruta relativa `imagen` en una URL pública absoluta |
-| `url('storage/'.$this->imagen)` | Usa el host real de la petición; funciona en local y en producción sin fijar `APP_URL` |
+| `asset('storage/'.$this->imagen)` | Genera la URL pública completa a partir de la app y el enlace `public/storage`; funciona en local y en producción sin fijar manualmente el host |
 | `?string` | Devuelve `null` cuando el alimento no tiene imagen |
 | Cast `id_categoria => integer` | Evita que el id de categoría se devuelva como texto |
 | Cast `estado => boolean` | Devuelve `true` o `false`, no `1` o `0` |
@@ -529,7 +529,7 @@ GET http://127.0.0.1:8000/api/v1/categorias/1
 **Tipo:** archivo nuevo  
 **Carpeta:** `app/Http/Controllers/Api/V1/` (no existía; crearla)  
 **Namespace:** `App\Http\Controllers\Api\V1`  
-**Total:** 160 líneas.
+**Total:** 159 líneas.
 
 El código completo está en el **Anexo A** de esta guía. Copiarlo tal cual.
 
@@ -537,25 +537,23 @@ El código completo está en el **Anexo A** de esta guía. Copiarlo tal cual.
 
 | Método | Líneas | Verbo y ruta | Respuesta |
 | --- | --- | --- | --- |
-| Cabecera, imports y clase | 1-11 | — | — |
-| `index(Request $request)` | 12-32 | `GET /categorias` | 200 con paginación |
-| `show($id)` | 34-53 | `GET /categorias/{id}` | 200 o 404 |
-| `store(Request $request)` | 55-80 | `POST /categorias` | 201 o 422 |
-| `update(Request $request, $id)` | 82-122 | `PUT` o `PATCH /categorias/{id}` | 200, 404 o 422 |
-| `destroy($id)` | 124-145 | `DELETE /categorias/{id}` | 200 o 404 |
-| `mensajes()` | 147-159 | — | Arreglo de mensajes |
-| Cierre de clase | 160 | — | — |
+| Cabecera, imports y clase | 1-12 | — | — |
+| `index(Request $request)` | 13-31 | `GET /categorias` | 200 con colección completa |
+| `show($id)` | 33-52 | `GET /categorias/{id}` | 200 o 404 |
+| `store(Request $request)` | 54-79 | `POST /categorias` | 201 o 422 |
+| `update(Request $request, $id)` | 81-121 | `PUT` o `PATCH /categorias/{id}` | 200, 404 o 422 |
+| `destroy($id)` | 123-144 | `DELETE /categorias/{id}` | 200 o 404 |
+| `mensajes()` | 146-157 | — | Arreglo de mensajes |
+| Cierre de clase | 159 | — | — |
 
-### 6.2 `index` — líneas 12 a 32
+### 6.2 `index` — líneas 13 a 31
 
 Qué hace:
 
-1. Lee `por_pagina` de la query string.
-2. Lo limita entre 1 y 50 con `max(1, min((int) ..., 50))`.
-3. Aplica filtro `buscar` sobre `nombre` con `LIKE`.
-4. Aplica filtro `estado` cuando viene en la query.
-5. Ordena por `id_categoria`.
-6. Devuelve `paginate($porPagina)` dentro de `data`.
+1. Aplica filtro `buscar` sobre `nombre` con `LIKE`.
+2. Aplica filtro `estado` cuando viene en la query.
+3. Ordena por `id_categoria`.
+4. Devuelve la colección completa con `get()`, sin paginar, dentro de `data`.
 
 La respuesta 200 tiene esta forma:
 
@@ -563,24 +561,27 @@ La respuesta 200 tiene esta forma:
 {
   "success": true,
   "message": "Categorías consultadas correctamente",
-  "data": {
-    "current_page": 1,
-    "data": [],
-    "last_page": 1,
-    "total": 0
-  },
+  "data": [
+    {
+      "id_categoria": 1,
+      "nombre": "Frutas",
+      "descripcion": "frutas de buena calidad",
+      "estado": true,
+      "deleted_at": null
+    }
+  ],
   "errors": null
 }
 ```
 
-### 6.3 `show` — líneas 34 a 53
+### 6.3 `show` — líneas 33 a 52
 
 Regla obligatoria de la actividad:
 
 ```php
-$categoria = CategoriaAlimento::find($id);
-
-if (! $categoria) {
+try {
+    $categoria = CategoriaAlimento::findOrFail($id);
+} catch (ModelNotFoundException $e) {
     return response()->json([
         'success' => false,
         'message' => 'La categoría solicitada no existe',
@@ -590,9 +591,9 @@ if (! $categoria) {
 }
 ```
 
-No se usa `findOrFail()` ni `firstOrFail()`.
+Se usa `findOrFail()` dentro de `try-catch` con `Illuminate\Database\Eloquent\ModelNotFoundException`; el JSON 404 lo emite el controlador, nunca una página de error de Laravel.
 
-### 6.4 `store` — líneas 55 a 80
+### 6.4 `store` — líneas 54 a 79
 
 Validación con `Validator::make()`:
 
@@ -604,9 +605,9 @@ Validación con `Validator::make()`:
 
 Si falla, responde 422 con `errors`. Si pasa, usa `$validator->validated()` para crear y responde 201.
 
-### 6.5 `update` — líneas 82 a 122
+### 6.5 `update` — líneas 81 a 121
 
-1. Busca con `find($id)` y responde 404 si es `null`.
+1. Busca con `findOrFail($id)` dentro de `try-catch` con `ModelNotFoundException`; si no existe, responde 404 con las cuatro llaves.
 2. Detecta el método con `$request->isMethod('patch')`.
 3. En `PUT` exige todos los campos.
 4. En `PATCH` usa `sometimes|required` para cada campo.
@@ -622,15 +623,15 @@ Reglas exactas:
 | `descripcion` | `required|string|max:200` | `sometimes|required|string|max:200` |
 | `estado` | `required|boolean` | `sometimes|required|boolean` |
 
-### 6.6 `destroy` — líneas 124 a 145
+### 6.6 `destroy` — líneas 123 a 144
 
-1. Busca con `find($id)` y responde 404 si no existe.
+1. Busca con `findOrFail($id)` dentro de `try-catch` con `ModelNotFoundException`; si no existe, responde 404 con las cuatro llaves.
 2. Ejecuta `$categoria->delete()`.
 3. Responde 200 con `data: null`.
 
 El modelo usa `SoftDeletes`, por lo que el registro queda con `deleted_at` y no se borra físicamente.
 
-### 6.7 `mensajes` — líneas 147 a 159
+### 6.7 `mensajes` — líneas 146 a 157
 
 Devuelve mensajes en español para cada regla. Se pasa como tercer argumento a `Validator::make()`.
 
@@ -647,7 +648,7 @@ php -l app/Http/Controllers/Api/V1/CategoriaController.php
 **Ruta exacta:** `app/Http/Controllers/Api/V1/AlimentoController.php`  
 **Tipo:** archivo nuevo  
 **Namespace:** `App\Http\Controllers\Api\V1`  
-**Total:** 287 líneas.
+**Total:** 286 líneas.
 
 El código completo está en el **Anexo B**. Copiarlo tal cual.
 
@@ -655,35 +656,34 @@ El código completo está en el **Anexo B**. Copiarlo tal cual.
 
 | Método | Líneas | Verbo y ruta | Respuesta |
 | --- | --- | --- | --- |
-| Cabecera, imports y clase | 1-12 | — | — |
-| `index(Request $request)` | 14-37 | `GET /alimentos` | 200 con paginación |
-| `show($id)` | 39-58 | `GET /alimentos/{id}` | 200 o 404 |
-| `store(Request $request)` | 60-99 | `POST /alimentos` | 201 o 422 |
-| `update(Request $request, $id)` | 101-161 | `PUT` o `PATCH /alimentos/{id}` | 200, 404 o 422 |
-| `destroy($id)` | 163-188 | `DELETE /alimentos/{id}` | 200 o 404 |
-| `storeImagen(Request $request, $id)` | 190-231 | `POST /alimentos/{id}/imagen` | 200, 404 o 422 |
-| `destroyImagen($id)` | 233-264 | `DELETE /alimentos/{id}/imagen` | 200 o 404 |
-| `mensajes()` | 266-286 | — | Arreglo de mensajes |
-| Cierre de clase | 287 | — | — |
+| Cabecera, imports y clase | 1-14 | — | — |
+| `index(Request $request)` | 15-36 | `GET /alimentos` | 200 con colección completa |
+| `show($id)` | 38-57 | `GET /alimentos/{id}` | 200 o 404 |
+| `store(Request $request)` | 59-98 | `POST /alimentos` | 201 o 422 |
+| `update(Request $request, $id)` | 100-160 | `PUT` o `PATCH /alimentos/{id}` | 200, 404 o 422 |
+| `destroy($id)` | 162-187 | `DELETE /alimentos/{id}` | 200 o 404 |
+| `storeImagen(Request $request, $id)` | 189-230 | `POST /alimentos/{id}/imagen` | 200, 404 o 422 |
+| `destroyImagen($id)` | 232-263 | `DELETE /alimentos/{id}/imagen` | 200 o 404 |
+| `mensajes()` | 265-284 | — | Arreglo de mensajes |
+| Cierre de clase | 286 | — | — |
 
-### 7.2 `index` — líneas 14 a 37
+### 7.2 `index` — líneas 15 a 36
 
-1. Limita `por_pagina` entre 1 y 50.
-2. Carga la relación `categoria` con `with('categoria')`.
-3. Filtra por `buscar` sobre `nombre`.
-4. Filtra por `id_categoria`.
-5. Filtra por `estado`.
-6. Ordena por `id_alimento`.
-7. Pagina y responde 200.
+1. Carga la relación `categoria` con `with('categoria')`.
+2. Filtra por `buscar` sobre `nombre`.
+3. Filtra por `id_categoria`.
+4. Filtra por `estado`.
+5. Ordena por `id_alimento`.
+6. Devuelve la colección completa con `get()`, sin paginar, dentro de `data`.
 
 Cada alimento incluye su categoría y, por el accesor del modelo, también `imagen_url`.
 
-### 7.3 `show` — líneas 39 a 58
+### 7.3 `show` — líneas 38 a 57
 
 ```php
-$alimento = Alimento::with('categoria')->find($id);
-
-if (! $alimento) {
+try {
+    $alimento = Alimento::with('categoria')->findOrFail($id);
+} catch (ModelNotFoundException $e) {
     return response()->json([
         'success' => false,
         'message' => 'El alimento solicitado no existe',
@@ -693,7 +693,7 @@ if (! $alimento) {
 }
 ```
 
-### 7.4 `store` — líneas 60 a 99
+### 7.4 `store` — líneas 59 a 98
 
 Validación:
 
@@ -717,9 +717,9 @@ Flujo:
 
 La regla `exists` con `whereNull('deleted_at')` impide asociar una categoría eliminada lógicamente.
 
-### 7.5 `update` — líneas 101 a 161
+### 7.5 `update` — líneas 100 a 160
 
-1. Busca con `find($id)` y responde 404 si no existe.
+1. Busca con `findOrFail($id)` dentro de `try-catch` con `ModelNotFoundException`; si no existe, responde 404 con las cuatro llaves.
 2. Detecta `PATCH` con `$request->isMethod('patch')`.
 3. En `PUT` exige `id_categoria`, `nombre`, `descripcion` y `estado`.
 4. En `PATCH` usa `sometimes` en `id_categoria` y `sometimes|required` en los campos de texto.
@@ -732,14 +732,14 @@ La regla `exists` con `whereNull('deleted_at')` impide asociar una categoría el
    - elimina el archivo anterior con `Storage::disk('public')->delete($imagenAnterior)`.
 8. Responde 200 con `$alimento->fresh()->load('categoria')`.
 
-### 7.6 `destroy` — líneas 163 a 188
+### 7.6 `destroy` — líneas 162 a 187
 
-1. Busca con `find($id)` y responde 404 si no existe.
+1. Busca con `findOrFail($id)` dentro de `try-catch` con `ModelNotFoundException`; si no existe, responde 404 con las cuatro llaves.
 2. Si tiene imagen, elimina el archivo con `Storage::disk('public')->delete(...)`.
 3. Ejecuta `$alimento->delete()` (borrado lógico).
 4. Responde 200 con `data: null`.
 
-### 7.7 `storeImagen` — líneas 190 a 231
+### 7.7 `storeImagen` — líneas 189 a 230
 
 Este endpoint existe porque **PHP no procesa archivos en solicitudes PUT**. Para reemplazar una imagen se usa siempre `POST /alimentos/{id}/imagen`.
 
@@ -753,7 +753,7 @@ Flujo:
 6. Elimina el archivo anterior si existía.
 7. Responde 200 con `$alimento->fresh()`.
 
-### 7.8 `destroyImagen` — líneas 233 a 264
+### 7.8 `destroyImagen` — líneas 232 a 263
 
 1. Busca el alimento y responde 404 si no existe.
 2. Si no tiene imagen, responde 404 con el mensaje `El alimento no tiene una imagen asociada`.
@@ -761,7 +761,7 @@ Flujo:
 4. Deja `imagen` en `null`.
 5. Responde 200 con `data: null`.
 
-### 7.9 `mensajes` — líneas 266 a 286
+### 7.9 `mensajes` — líneas 265 a 284
 
 Incluye mensajes para categoría, nombre, descripción, estado e imagen. El mensaje `imagen.uploaded` cubre el caso en que PHP rechaza la carga por tamaño.
 
@@ -939,17 +939,22 @@ postman/collections/actividad-4.2-api-v1/
 │   ├── .resources/
 │   │   └── definition.yaml
 │   ├── actualizar-parcial.request.yaml
+│   ├── actualizar-inexistente.request.yaml
 │   ├── actualizar.request.yaml
 │   ├── crear.request.yaml
+│   ├── eliminar-inexistente.request.yaml
 │   ├── eliminar.request.yaml
+│   ├── error-500.request.yaml
 │   ├── inexistente.request.yaml
 │   ├── listar.request.yaml
+│   ├── metodo-no-permitido.request.yaml
 │   ├── obtener.request.yaml
 │   └── validacion.request.yaml
 └── Alimentos/
     ├── .resources/
     │   └── definition.yaml
     ├── actualizar-imagen.request.yaml
+    ├── actualizar-inexistente.request.yaml
     ├── actualizar-parcial.request.yaml
     ├── actualizar.request.yaml
     ├── archivo-invalido.request.yaml
@@ -957,7 +962,10 @@ postman/collections/actividad-4.2-api-v1/
     ├── crear.request.yaml
     ├── eliminar-categoria-apoyo.request.yaml
     ├── eliminar-imagen.request.yaml
+    ├── eliminar-inexistente.request.yaml
     ├── eliminar.request.yaml
+    ├── imagen-grande.png
+    ├── imagen-grande.request.yaml
     ├── imagen.png
     ├── inexistente.request.yaml
     ├── listar.request.yaml
@@ -981,45 +989,56 @@ La colección también agrega automáticamente `Accept: application/json` y vali
 
 1. Que el `Content-Type` sea JSON.
 2. Que existan exactamente los campos `success`, `message`, `data` y `errors`.
+3. Que `success` sea booleano, `message` sea texto, y `data` y `errors` sean objeto, arreglo o `null`.
+
+Esas comprobaciones se ejecutan en las 28 respuestas, por eso cada request aporta 6 aserciones globales además de sus aserciones específicas.
 
 ### 10.3 Requests y orden de ejecución
 
-**Categorías — 8 requests**
+**Categorías — 12 requests**
 
 | # | Archivo | Método | Endpoint | Esperado |
 | --- | --- | --- | --- | --- |
-| 1 | `listar.request.yaml` | GET | `/categorias?por_pagina=10` | 200 |
+| 1 | `listar.request.yaml` | GET | `/categorias` | 200 |
 | 2 | `crear.request.yaml` | POST | `/categorias` | 201 y guarda `categoriaId` |
 | 3 | `obtener.request.yaml` | GET | `/categorias/{{categoriaId}}` | 200 |
 | 4 | `actualizar.request.yaml` | PUT | `/categorias/{{categoriaId}}` | 200 |
 | 5 | `actualizar-parcial.request.yaml` | PATCH | `/categorias/{{categoriaId}}` | 200 |
-| 6 | `validacion.request.yaml` | POST | `/categorias` | 422 |
+| 6 | `actualizar-inexistente.request.yaml` | PUT | `/categorias/999999` | 404 |
 | 7 | `inexistente.request.yaml` | GET | `/categorias/999999` | 404 |
-| 8 | `eliminar.request.yaml` | DELETE | `/categorias/{{categoriaId}}` | 200 |
+| 8 | `metodo-no-permitido.request.yaml` | DELETE | `/categorias` | 405 |
+| 9 | `error-500.request.yaml` | GET | `/categorias?buscar[]=x` | 500 controlado |
+| 10 | `validacion.request.yaml` | POST | `/categorias` | 422 |
+| 11 | `eliminar.request.yaml` | DELETE | `/categorias/{{categoriaId}}` | 200 |
+| 12 | `eliminar-inexistente.request.yaml` | DELETE | `/categorias/999999` | 404 |
 
-**Alimentos — 13 requests**
+**Alimentos — 16 requests**
 
 | # | Archivo | Método | Endpoint | Esperado |
 | --- | --- | --- | --- | --- |
 | 1 | `crear-categoria-apoyo.request.yaml` | POST | `/categorias` | 201 y guarda `categoriaAlimentoId` |
-| 2 | `listar.request.yaml` | GET | `/alimentos?por_pagina=10` | 200 |
+| 2 | `listar.request.yaml` | GET | `/alimentos` | 200 |
 | 3 | `crear.request.yaml` | POST | `/alimentos` con `imagen.png` | 201 y guarda `alimentoId` |
 | 4 | `obtener.request.yaml` | GET | `/alimentos/{{alimentoId}}` | 200 |
-| 5 | `actualizar.request.yaml` | PUT | `/alimentos/{{alimentoId}}` | 200 |
-| 6 | `actualizar-parcial.request.yaml` | PATCH | `/alimentos/{{alimentoId}}` | 200 |
-| 7 | `actualizar-imagen.request.yaml` | POST | `/alimentos/{{alimentoId}}/imagen` | 200 |
-| 8 | `archivo-invalido.request.yaml` | POST | `/alimentos/{{alimentoId}}/imagen` con `.txt` | 422 |
-| 9 | `eliminar-imagen.request.yaml` | DELETE | `/alimentos/{{alimentoId}}/imagen` | 200 |
-| 10 | `validacion.request.yaml` | POST | `/alimentos` inválido | 422 |
-| 11 | `inexistente.request.yaml` | GET | `/alimentos/999999` | 404 |
-| 12 | `eliminar.request.yaml` | DELETE | `/alimentos/{{alimentoId}}` | 200 |
-| 13 | `eliminar-categoria-apoyo.request.yaml` | DELETE | `/categorias/{{categoriaAlimentoId}}` | 200 |
+| 5 | `actualizar-imagen.request.yaml` | POST | `/alimentos/{{alimentoId}}/imagen` | 200 |
+| 6 | `actualizar.request.yaml` | PUT | `/alimentos/{{alimentoId}}` | 200 |
+| 7 | `actualizar-parcial.request.yaml` | PATCH | `/alimentos/{{alimentoId}}` | 200 |
+| 8 | `actualizar-inexistente.request.yaml` | PUT | `/alimentos/999999` | 404 |
+| 9 | `archivo-invalido.request.yaml` | POST | `/alimentos/{{alimentoId}}/imagen` con `.txt` | 422 |
+| 10 | `imagen-grande.request.yaml` | POST | `/alimentos/{{alimentoId}}/imagen` con `imagen-grande.png` | 422 |
+| 11 | `validacion.request.yaml` | POST | `/alimentos` inválido | 422 |
+| 12 | `eliminar-imagen.request.yaml` | DELETE | `/alimentos/{{alimentoId}}/imagen` | 200 |
+| 13 | `eliminar.request.yaml` | DELETE | `/alimentos/{{alimentoId}}` | 200 |
+| 14 | `eliminar-inexistente.request.yaml` | DELETE | `/alimentos/999999` | 404 |
+| 15 | `inexistente.request.yaml` | GET | `/alimentos/999999` | 404 |
+| 16 | `eliminar-categoria-apoyo.request.yaml` | DELETE | `/categorias/{{categoriaAlimentoId}}` | 200 |
 
 ### 10.4 Archivos de prueba
 
 | Archivo | Tipo | Uso |
 | --- | --- | --- |
 | `Alimentos/imagen.png` | Imagen PNG menor a 2 MB | Crear y reemplazar imagen |
+| `Alimentos/imagen-grande.png` | Imagen PNG de 2.171.220 bytes (2.120 KB) | Probar el 422 por tamaño |
 | `Alimentos/no-imagen.txt` | Texto | Probar el 422 por formato inválido |
 
 Se referencian con **ruta relativa a la raíz del repositorio**. Por eso el comando de ejecución debe lanzarse desde la raíz del proyecto, no desde la carpeta de la colección.
@@ -1034,10 +1053,10 @@ postman collection run postman/collections/actividad-4.2-api-v1
 Resultado esperado:
 
 ```text
-requests:          21 ejecutados / 0 fallidos
-test-scripts:      21 ejecutados / 0 fallidos
-assertions:        84 ejecutadas / 0 fallidas
-lint:              No issues found (21 requests)
+requests:          28 ejecutados / 0 fallidos
+test-scripts:      28 ejecutados / 0 fallidos
+assertions:        224 ejecutadas / 0 fallidas
+lint:              No issues found (28 requests)
 ```
 
 ### 10.6 Limpieza de datos de prueba
@@ -1178,7 +1197,7 @@ php artisan storage:link
 postman collection run postman/collections/actividad-4.2-api-v1
 ```
 
-Debe terminar con 21 requests y 84 aserciones aprobadas.
+Debe terminar con 28 requests y 224 aserciones aprobadas.
 
 ---
 
@@ -1259,10 +1278,25 @@ Ese documento contiene:
 
 ---
 
+## 16. Ajustes finales aplicados al refuerzo
+
+Estos ajustes consolidan el estado final antes de la Actividad 4.1:
+
+| Ajuste | Archivo | Detalle |
+| --- | --- | --- |
+| Colecciones limpias en `data` | `app/Http/Controllers/Api/V1/CategoriaController.php` y `AlimentoController.php` | `index()` ya no usa `paginate()` ni `por_pagina`; devuelve el arreglo completo con `get()` |
+| 404 por excepción | Ambos controladores, en `show`, `update`, `destroy`, `storeImagen` y `destroyImagen` | Se usa `findOrFail($id)` dentro de `try-catch` con `ModelNotFoundException`; el 404 con las cuatro llaves lo emite el controlador |
+| URL de imagen con `asset()` | `app/Models/Alimento.php` | El accesor `getImagenUrlAttribute()` usa `asset('storage/'.$this->imagen)` |
+| Contrato verificado en Postman | Colección `actividad-4.2-api-v1` | 28 requests y 224 aserciones aprobadas; los `listar` validan que `data` sea arreglo |
+
+El prefijo `api/v1` queda único y sin duplicación; `php artisan route:list --path=api/v1` muestra exactamente 12 rutas y `--path=api/api` no devuelve ninguna.
+
+---
+
 # Anexo A — `CategoriaController.php` completo
 
 **Archivo:** `app/Http/Controllers/Api/V1/CategoriaController.php`  
-**Líneas:** 160
+**Líneas:** 159
 
 ```php
 <?php
@@ -1271,6 +1305,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\CategoriaAlimento;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -1278,8 +1313,6 @@ class CategoriaController extends Controller
 {
     public function index(Request $request)
     {
-        $porPagina = max(1, min((int) $request->query('por_pagina', 10), 50));
-
         $categorias = CategoriaAlimento::query()
             ->when($request->filled('buscar'), function ($query) use ($request) {
                 $query->where('nombre', 'like', '%'.$request->query('buscar').'%');
@@ -1288,7 +1321,7 @@ class CategoriaController extends Controller
                 $query->where('estado', $request->query('estado'));
             })
             ->orderBy('id_categoria')
-            ->paginate($porPagina);
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -1300,9 +1333,9 @@ class CategoriaController extends Controller
 
     public function show($id)
     {
-        $categoria = CategoriaAlimento::find($id);
-
-        if (! $categoria) {
+        try {
+            $categoria = CategoriaAlimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'La categoría solicitada no existe',
@@ -1348,9 +1381,9 @@ class CategoriaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $categoria = CategoriaAlimento::find($id);
-
-        if (! $categoria) {
+        try {
+            $categoria = CategoriaAlimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'La categoría solicitada no existe',
@@ -1390,9 +1423,9 @@ class CategoriaController extends Controller
 
     public function destroy($id)
     {
-        $categoria = CategoriaAlimento::find($id);
-
-        if (! $categoria) {
+        try {
+            $categoria = CategoriaAlimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'La categoría solicitada no existe',
@@ -1432,7 +1465,7 @@ class CategoriaController extends Controller
 # Anexo B — `AlimentoController.php` completo
 
 **Archivo:** `app/Http/Controllers/Api/V1/AlimentoController.php`  
-**Líneas:** 287
+**Líneas:** 286
 
 ```php
 <?php
@@ -1441,6 +1474,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Alimento;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -1450,8 +1484,6 @@ class AlimentoController extends Controller
 {
     public function index(Request $request)
     {
-        $porPagina = max(1, min((int) $request->query('por_pagina', 10), 50));
-
         $alimentos = Alimento::with('categoria')
             ->when($request->filled('buscar'), function ($query) use ($request) {
                 $query->where('nombre', 'like', '%'.$request->query('buscar').'%');
@@ -1463,7 +1495,7 @@ class AlimentoController extends Controller
                 $query->where('estado', $request->query('estado'));
             })
             ->orderBy('id_alimento')
-            ->paginate($porPagina);
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -1475,9 +1507,9 @@ class AlimentoController extends Controller
 
     public function show($id)
     {
-        $alimento = Alimento::with('categoria')->find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::with('categoria')->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',
@@ -1537,9 +1569,9 @@ class AlimentoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $alimento = Alimento::find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',
@@ -1599,9 +1631,9 @@ class AlimentoController extends Controller
 
     public function destroy($id)
     {
-        $alimento = Alimento::find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',
@@ -1626,9 +1658,9 @@ class AlimentoController extends Controller
 
     public function storeImagen(Request $request, $id)
     {
-        $alimento = Alimento::find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',
@@ -1669,9 +1701,9 @@ class AlimentoController extends Controller
 
     public function destroyImagen($id)
     {
-        $alimento = Alimento::find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',

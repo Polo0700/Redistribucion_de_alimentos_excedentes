@@ -12,7 +12,7 @@
 
 Este documento es la referencia oficial de arquitectura para completar la Actividad 4.1 sobre la API ya construida en la Actividad 4.2.
 
-La Actividad 4.2 dejó funcionando los recursos **Categorías** y **Alimentos**, sin autenticación, con validación mediante `Validator::make()`, búsqueda con `find()` y respuestas JSON estandarizadas.
+La Actividad 4.2 dejó funcionando los recursos **Categorías** y **Alimentos**, sin autenticación, con validación mediante `Validator::make()`, búsqueda con `findOrFail()` y `try-catch` sobre `ModelNotFoundException`, y respuestas JSON estandarizadas.
 
 La Actividad 4.1 debe agregar **Sanctum**, separar el **área administrativa** del **área cliente** y aplicar autorización por identidad, sin rehacer los controladores ni cambiar el contrato JSON existente.
 
@@ -107,7 +107,7 @@ Todas las respuestas con cuerpo, exitosas o de error, conservan exactamente esto
 | --- | --- | --- |
 | 200 | Consulta, actualización o eliminación correcta | JSON estándar con `data` o `null` |
 | 201 | Recurso creado con `POST` | JSON estándar con el registro creado |
-| 404 | `find()` devuelve `null`; ruta inexistente | `success: false`, `data: null`, `errors: null` |
+| 404 | `findOrFail()` no encuentra el registro; ruta inexistente | `success: false`, `data: null`, `errors: null` |
 | 422 | `Validator::make()` falla | `success: false`, `errors` con mensajes por campo |
 | 500 | Excepción no controlada | `success: false`, mensaje genérico, sin detalles |
 | 401 | Falta token o credenciales inválidas (4.1) | JSON estándar |
@@ -117,7 +117,7 @@ Todas las respuestas con cuerpo, exitosas o de error, conservan exactamente esto
 
 El manejo global está en `bootstrap/app.php` y aplica a `/api/v1` y `/api/v1/*`.
 
-### 2.3 Ejemplo de error 404 por `find()` nulo
+### 2.3 Ejemplo de error 404 por `ModelNotFoundException`
 
 ```json
 {
@@ -179,7 +179,7 @@ Convenciones:
 | Métodos CRUD | `index`, `show`, `store`, `update`, `destroy` |
 | Métodos de imagen | `storeImagen`, `destroyImagen` |
 | Validación | `Validator::make()` dentro del controlador |
-| Búsqueda individual | `Modelo::find($id)` y `if (! $modelo)` |
+| Búsqueda individual | `Modelo::findOrFail($id)` dentro de `try-catch` con `ModelNotFoundException`; el catch responde el 404 de las cuatro llaves |
 | Respuesta | `response()->json([...], $codigo)` |
 | Lógica | En el controlador; sin DTOs ni Form Requests |
 
@@ -197,7 +197,7 @@ routes/api.php
     -> middleware (cuando se agregue en 4.1)
     -> Controlador Api\V1
         -> Validator::make()
-        -> find() / create() / update() / delete()
+        -> findOrFail() / create() / update() / delete()
         -> response()->json()
 ```
 
@@ -234,7 +234,7 @@ protected $appends = ['imagen_url'];
 
 public function getImagenUrlAttribute(): ?string
 {
-    return $this->imagen ? url('storage/'.$this->imagen) : null;
+    return $this->imagen ? asset('storage/'.$this->imagen) : null;
 }
 ```
 
@@ -248,7 +248,7 @@ Ya existen y no deben rehacerse:
 
 - Rutas CRUD de Categorías y Alimentos en `routes/api.php`.
 - Controladores `CategoriaController` y `AlimentoController` en `Api/V1`.
-- Validaciones, `find()`, respuestas JSON y manejo global de errores.
+- Validaciones, `findOrFail()` con `try-catch`, respuestas JSON y manejo global de errores.
 - Gestión de imágenes y accesor `imagen_url`.
 - Modelos `CategoriaAlimento` y `Alimento`.
 
