@@ -36,7 +36,7 @@ class Alimento extends Model
 
     public function getImagenUrlAttribute(): ?string
     {
-        return $this->imagen ? url('storage/'.$this->imagen) : null;
+        return $this->imagen ? asset('storage/'.$this->imagen) : null;
     }
 
     public function categoria(): BelongsTo

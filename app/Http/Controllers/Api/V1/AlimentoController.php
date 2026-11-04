@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Alimento;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -13,8 +14,6 @@ class AlimentoController extends Controller
 {
     public function index(Request $request)
     {
-        $porPagina = max(1, min((int) $request->query('por_pagina', 10), 50));
-
         $alimentos = Alimento::with('categoria')
             ->when($request->filled('buscar'), function ($query) use ($request) {
                 $query->where('nombre', 'like', '%'.$request->query('buscar').'%');
@@ -26,7 +25,7 @@ class AlimentoController extends Controller
                 $query->where('estado', $request->query('estado'));
             })
             ->orderBy('id_alimento')
-            ->paginate($porPagina);
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -38,9 +37,9 @@ class AlimentoController extends Controller
 
     public function show($id)
     {
-        $alimento = Alimento::with('categoria')->find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::with('categoria')->findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',
@@ -100,9 +99,9 @@ class AlimentoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $alimento = Alimento::find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',
@@ -162,9 +161,9 @@ class AlimentoController extends Controller
 
     public function destroy($id)
     {
-        $alimento = Alimento::find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',
@@ -189,9 +188,9 @@ class AlimentoController extends Controller
 
     public function storeImagen(Request $request, $id)
     {
-        $alimento = Alimento::find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',
@@ -232,9 +231,9 @@ class AlimentoController extends Controller
 
     public function destroyImagen($id)
     {
-        $alimento = Alimento::find($id);
-
-        if (! $alimento) {
+        try {
+            $alimento = Alimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'El alimento solicitado no existe',

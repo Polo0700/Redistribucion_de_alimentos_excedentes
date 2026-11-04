@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\CategoriaAlimento;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,8 +12,6 @@ class CategoriaController extends Controller
 {
     public function index(Request $request)
     {
-        $porPagina = max(1, min((int) $request->query('por_pagina', 10), 50));
-
         $categorias = CategoriaAlimento::query()
             ->when($request->filled('buscar'), function ($query) use ($request) {
                 $query->where('nombre', 'like', '%'.$request->query('buscar').'%');
@@ -21,7 +20,7 @@ class CategoriaController extends Controller
                 $query->where('estado', $request->query('estado'));
             })
             ->orderBy('id_categoria')
-            ->paginate($porPagina);
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -33,9 +32,9 @@ class CategoriaController extends Controller
 
     public function show($id)
     {
-        $categoria = CategoriaAlimento::find($id);
-
-        if (! $categoria) {
+        try {
+            $categoria = CategoriaAlimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'La categoría solicitada no existe',
@@ -81,9 +80,9 @@ class CategoriaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $categoria = CategoriaAlimento::find($id);
-
-        if (! $categoria) {
+        try {
+            $categoria = CategoriaAlimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'La categoría solicitada no existe',
@@ -123,9 +122,9 @@ class CategoriaController extends Controller
 
     public function destroy($id)
     {
-        $categoria = CategoriaAlimento::find($id);
-
-        if (! $categoria) {
+        try {
+            $categoria = CategoriaAlimento::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'La categoría solicitada no existe',
