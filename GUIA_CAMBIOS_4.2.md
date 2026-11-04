@@ -1214,6 +1214,10 @@ Los commits originales, en orden, fueron:
 | `e6ec51f` | `test: agregar coleccion postman de la api v1` | Colección Postman |
 | `64f1d3b` | `fix: cubrir la raiz de la api v1 en el manejo json` | Ajuste de `api/v1` sin barra final |
 | `9e1d337` | `docs: agregar guia de cambios de la actividad 4.2` | Esta guía |
+| `925583b` | `docs: detallar guia 4.2 y agregar contrato de la 4.1` | Guía replicable y `CONTRATO_DISEÑO_API_4.1.md` |
+| `bf266c0` | `refactor: colecciones limpias y 404 por excepcion en api v1` | `index()` sin paginación, `findOrFail()`, accesor con `asset()` |
+| `f350db7` | `test: ampliar coleccion postman de la api v1` | Requests de 404, 405, 500, imagen grande y validación del contrato |
+| `f4a355e` | `docs: documentar ajustes finales de api v1` | Esta sección y el ajuste del contrato |
 
 Si se replica desde cero, se pueden agrupar así:
 
