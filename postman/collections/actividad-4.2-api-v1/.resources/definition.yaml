@@ -27,3 +27,17 @@ scripts:
           var body = pm.response.json();
           pm.expect(body).to.have.all.keys("success", "message", "data", "errors");
       });
+      pm.test("success es booleano", function () {
+          pm.expect(pm.response.json().success).to.be.a("boolean");
+      });
+      pm.test("message es texto", function () {
+          pm.expect(pm.response.json().message).to.be.a("string");
+      });
+      pm.test("data es objeto, arreglo o null", function () {
+          var data = pm.response.json().data;
+          pm.expect(data === null || typeof data === "object").to.eql(true);
+      });
+      pm.test("errors es objeto, arreglo o null", function () {
+          var errors = pm.response.json().errors;
+          pm.expect(errors === null || typeof errors === "object").to.eql(true);
+      });

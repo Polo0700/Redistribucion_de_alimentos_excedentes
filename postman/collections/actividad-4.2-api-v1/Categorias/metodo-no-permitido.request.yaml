@@ -1,0 +1,18 @@
+$kind: http-request
+name: 'Metodo no permitido en categorias'
+method: DELETE
+url: '{{baseUrlV1}}/categorias'
+order: 6500
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 405 Method Not Allowed", function () {
+          pm.response.to.have.status(405);
+      });
+      pm.test("Devuelve el error estandarizado", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(false);
+          pm.expect(body.data).to.eql(null);
+          pm.expect(body.errors).to.eql(null);
+      });
