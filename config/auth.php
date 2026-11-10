@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Administrador;
+use App\Models\CuentaAcceso;
 use App\Models\User;
 
 // configuracion de autenticacion del proyecto
@@ -28,6 +29,10 @@ return [
             'driver' => 'session',
             'provider' => 'administradores',
         ],
+        'cliente' => [
+            'driver' => 'session',
+            'provider' => 'cuentas_acceso',
+        ],
     ],
 
     // providers = de donde saca los usuarios para verificarlos
@@ -41,6 +46,10 @@ return [
         'administradores' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_ADMIN_MODEL', Administrador::class),
+        ],
+        'cuentas_acceso' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_CLIENTE_MODEL', CuentaAcceso::class),
         ],
     ],
 

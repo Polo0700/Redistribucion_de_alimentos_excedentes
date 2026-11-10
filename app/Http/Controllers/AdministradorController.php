@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Administrador;
+use App\Http\Requests\AdminResourceRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use App\Http\Resources\AdministradorResource;
 
 class AdministradorController extends Controller
 {
@@ -20,9 +22,7 @@ class AdministradorController extends Controller
         // trae los administradores de 5 en 5
         $administradores = Administrador::orderBy('id')->paginate(5);
 
-        return response()->json([
-            'administradores' => $administradores,
-        ], 200);
+        return AdministradorResource::collection($administradores);
     }
 
     /*
@@ -43,19 +43,11 @@ class AdministradorController extends Controller
     | GUARDAR NUEVO ADMINISTRADOR
     |--------------------------------------------------------------------------
     */
-    public function store(Request $request)
+    // se usa el AdminResourceRequest para validar los datos de entrada
+    public function store(AdminResourceRequest $request)
     {
         // validación: el nivel siempre se valida contra los valores permitidos
-        $validado = $request->validate([
-            'nombre_completo' => 'required|string|max:50',
-            'username' => 'required|string|max:30|unique:administradores,username',
-            'password' => 'required|string|min:8|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'activo' => 'nullable|boolean',
-            'nivel' => 'required|integer|in:'.implode(',', Administrador::NIVELES_PERMITIDOS),
-        ], [
-            'nivel.in' => 'El nivel debe ser 1, 2 o 3.',
-        ]);
+        $validado = $request->validated();
 
         // la contraseña se guarda cifrada y activo arranca en true si no lo envían
         $validado['password'] = Hash::make($validado['password']);
@@ -73,11 +65,11 @@ class AdministradorController extends Controller
             $administrador->update(['foto' => $ruta]);
         }
 
-        return response()->json([
-            'message' => 'Administrador creado correctamente.',
-            'data' => $administrador,
-        ], 201);
-    }
+        return (new AdministradorResource($administrador))
+            ->additional(['message'=> 'Administrador creado correctamente.'])
+            ->response()
+            ->setStatusCode(201);
+        }
 
     /*
     |--------------------------------------------------------------------------
@@ -88,9 +80,7 @@ class AdministradorController extends Controller
     {
         $administrador = Administrador::findOrFail($id);
 
-        return response()->json([
-            'administrador' => $administrador,
-        ], 200);
+        return new AdministradorResource($administrador);
     }
 
     /*
@@ -113,22 +103,13 @@ class AdministradorController extends Controller
     | ACTUALIZAR ADMINISTRADOR
     |--------------------------------------------------------------------------
     */
-    public function update(Request $request, $id)
+    public function update(AdminResourceRequest $request, $id)
     {
         $administrador = Administrador::findOrFail($id);
         $fotoAnterior = $administrador->foto;
 
-        // validación (el username no puede repetirse, pero se ignora el propio)
-        $validado = $request->validate([
-            'nombre_completo' => 'required|string|max:50',
-            'username' => ['required', 'string', 'max:30', Rule::unique('administradores', 'username')->ignore($administrador->id)],
-            'password' => 'nullable|string|min:8|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'activo' => 'nullable|boolean',
-            'nivel' => 'required|integer|in:'.implode(',', Administrador::NIVELES_PERMITIDOS),
-        ], [
-            'nivel.in' => 'El nivel debe ser 1, 2 o 3.',
-        ]);
+        // validación ya hecha por AdminResourceRequest (rules() con ignore del propio id)
+        $validado = $request->validated();
 
         $datos = [
             'nombre_completo' => $validado['nombre_completo'],
@@ -157,10 +138,9 @@ class AdministradorController extends Controller
             }
         }
 
-        return response()->json([
-            'message' => 'Administrador actualizado correctamente.',
-            'data' => $administrador,
-        ], 200);
+        return (new AdministradorResource($administrador))
+            ->additional(['message'=> 'Administrador actualizado correctamente.'])
+            ->response();
     }
 
     /*

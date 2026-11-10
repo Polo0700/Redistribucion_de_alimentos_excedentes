@@ -2,29 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 
 class AuthAdminController extends Controller
 {
-    /**
-     * Muestra el formulario de ingreso al área administrativa.
-     */
-    public function login(): View|RedirectResponse
+    public function login(): JsonResponse
     {
-        if (Auth::guard('admin')->check()) {
-            return redirect()->route('dashboard');
-        }
-
-        return view('admin.login');
+        return response()->json([
+            'message' => 'Método no permitido. Use POST /api/v1/admin/login',
+        ], 405);
     }
 
-    /**
-     * Autentica contra la tabla administradores y valida que la cuenta este activa.
-     */
-    public function in(Request $request): RedirectResponse
+    public function in(Request $request): JsonResponse
     {
         $credentials = $request->validate([
             'username' => ['required', 'string', 'max:30'],
@@ -32,38 +23,37 @@ class AuthAdminController extends Controller
         ]);
 
         if (! Auth::guard('admin')->attempt($credentials)) {
-            return back()
-                ->with('aviso', 'Usuario o contraseña incorrectos')
-                ->onlyInput('username');
+            return response()->json(['message' => 'Credenciales incorrectas'], 401);
         }
 
-        $cuenta = Auth::guard('admin')->user();
+        $admin = Auth::guard('admin')->user();
 
-        if (! $cuenta->activo) {
+        if (! $admin->activo) {
             Auth::guard('admin')->logout();
 
-            return back()
-                ->with('aviso', 'La cuenta está deshabilitada')
-                ->onlyInput('username');
+            return response()->json(['message' => 'Cuenta deshabilitada'], 403);
         }
 
-        $request->session()->regenerate();
+        $token = $admin->createToken('api-admin')->plainTextToken;
 
-        return redirect()->intended(route('dashboard'))
-            ->with('exito', 'Inicio de sesión exitoso');
+        return response()->json([
+            'token' => $token,
+            'admin' => [
+                'id' => $admin->id,
+                'username' => $admin->username,
+                'nivel' => $admin->nivel,
+            ],
+        ], 200);
     }
 
-    /**
-     * Cierra la sesión del guard admin.
-     */
-    public function out(Request $request): RedirectResponse
+    public function out(Request $request): JsonResponse
     {
-        Auth::guard('admin')->logout();
+        $token = $request->user()->currentAccessToken();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        if ($token) {
+            $token->delete();
+        }
 
-        return redirect()->route('admin.login')
-            ->with('exito', 'Cierre de sesión exitoso');
+        return response()->json(['message' => 'Sesión cerrada'], 200);
     }
 }

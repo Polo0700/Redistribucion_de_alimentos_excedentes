@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
 class CuentaAcceso extends Authenticatable
 {
-    use SoftDeletes;
+    use HasApiTokens, SoftDeletes;
 
     protected $table = 'cuentas_acceso';
 

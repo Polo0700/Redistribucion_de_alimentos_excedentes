@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="Electron" modified="2026-11-09T13:00:00.000Z" agent="Mozilla/5.0" version="24.7.7" type="device">
+
+  <diagram id="cadena-auth" name="1. Cadena de autenticación">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t1title" value="🔌 CADENA COMPLETA: de la petición HTTP al modelo de base de datos" style="text;html=1;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="45" y="15" width="1070" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1req" value="🌐 PETICIÓN HTTP&#10;POST /login  →  devuelve token&#10;GET /algo  →  Header: Authorization: Bearer {token}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="420" y="65" width="360" height="56" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1router" value="routes/api.php  (177 líneas)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="155" width="360" height="36" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1pa" value="Route::prefix('v1/admin')  (línea 25)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="245" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="t1pc" value="Route::prefix('v1/cliente')  (línea 150)&#10;⚠️ la 4.4 exige /api/v1/client/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="800" y="245" width="320" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1sa" value="middleware auth:sanctum&#10;valida el token Bearer — sin token → 401" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="335" width="300" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t1sc" value="middleware auth:sanctum&#10;valida el token Bearer — sin token → 401" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="800" y="335" width="320" height="48" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1ea" value="EnsureEsAdmin  (app/Http/Middleware)&#10;$request->user() instanceof Administrador&#10;si no → 403 JSON" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="433" width="300" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t1ec" value="EnsureEsCliente  (app/Http/Middleware)&#10;$request->user() instanceof CuentaAcceso&#10;si no → 403 JSON" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="800" y="433" width="320" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1ca" value="10 CONTROLADORES admin&#10;Administrador · Rol · Usuario · CuentaAcceso&#10;CategoriaAlimento · Alimento · Donacion&#10;Solicitud · Entrega · AccionImportante" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="543" width="300" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="t1cc" value="4 CONTROLADORES cliente&#10;AuthClienteController&#10;ClienteSolicitudController&#10;ClienteDonacionController (+ AlimentoController)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="800" y="543" width="320" height="76" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1ma" value="MODELOS Eloquent → MySQL&#10;(con paginate(5))" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="669" width="300" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t1mc" value="MODELOS Eloquent → MySQL&#10;filtrados por id_usuario = token" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="800" y="669" width="320" height="48" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1ja" value="JSON 200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="767" width="300" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t1jc" value="JSON 200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="800" y="767" width="320" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1guards" value="🔒 config/auth.php — GUARDS (sesión, NO token)&#10;guard 'admin'     → provider 'administradores'  →  App\Models\Administrador&#10;guard 'cliente'  → provider 'cuentas_acceso'   →  App\Models\CuentaAcceso&#10;guard 'web'       → provider 'users'                  →  App\Models\User  (default)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="845" width="700" height="84" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1tokens" value="🎫 TOKENS creados con createToken()&#10;AuthAdminController::in      → createToken('api-admin')     ⚠️ la 4.3 pide 'admin-token'&#10;AuthClienteController::in   → createToken('api-cliente')   ⚠️ la 4.4 pide 'client-token'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="945" width="700" height="64" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1req" target="t1router">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.25;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1router" target="t1pa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.75;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1router" target="t1pc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1pa" target="t1sa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1pc" target="t1sc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1sa" target="t1ea">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1sc" target="t1ec">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1ea" target="t1ca">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1ec" target="t1cc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1ca" target="t1ma">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1cc" target="t1mc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1ma" target="t1ja">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1mc" target="t1jc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t1e14" value="compara instanceof&#10;contra estos modelos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;fontColor=#82b366;" edge="1" parent="1" source="t1guards" target="t1ea">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e15" value="compara instanceof" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;dashed=1;exitX=1;exitY=0.25;entryX=0;entryY=0.75;fontSize=10;fontColor=#82b366;" edge="1" parent="1" source="t1guards" target="t1ec">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1e16" value="se usa en el login" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;dashed=1;exitX=0.5;exitY=0;entryX=0.25;entryY=1;fontSize=10;fontColor=#b8860b;" edge="1" parent="1" source="t1tokens" target="t1pa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="rutas-admin" name="2. Rutas admin → Controladores → Modelos">
+    <mxGraphModel dx="1400" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1010" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t2title" value="🗄️ ÁREA ADMIN: cada ruta → su controlador → su modelo (como llaves foráneas)" style="text;html=1;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="15" width="930" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t2h1" value="RUTAS  routes/api.php" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#6c8ebf;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="58" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="t2h2" value="CONTROLADORES  app/Http/Controllers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d79b00;strokeColor=#d79b00;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="370" y="58" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="t2h3" value="MODELOS  app/Models → MySQL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#82b366;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="700" y="58" width="260" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t2r1" value="GET POST PUT DELETE&#10;/v1/admin/administradores" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="280" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2r2" value="GET POST PUT DELETE&#10;/v1/admin/roles" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="170" width="280" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2r3" value="GET POST PUT DELETE&#10;/v1/admin/usuarios" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="240" width="280" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2r4" value="GET POST PUT DELETE&#10;/v1/admin/cuentas-acceso" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="310" width="280" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2r5" value="GET POST PUT DELETE&#10;/v1/admin/categorias" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="280" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2r6" value="GET POST PUT DELETE&#10;/v1/admin/alimentos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="450" width="280" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2r7" value="GET POST PUT DELETE&#10;/v1/admin/donaciones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="520" width="280" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2r8" value="GET POST PUT DELETE&#10;/v1/admin/solicitudes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="590" width="280" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2r9" value="GET POST PUT DELETE&#10;/v1/admin/entregas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="280" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2r10" value="GET POST PUT DELETE&#10;/v1/admin/acciones-importantes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="730" width="280" height="54" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t2c1" value="AdministradorController&#10;index store show edit update&#10;destroy restore forceDestroy trashed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="100" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2c2" value="RolController&#10;index store show edit update destroy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="170" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2c3" value="UsuarioController&#10;usa Rol + Usuario" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="240" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2c4" value="CuentaAccesoController&#10;usa CuentaAcceso + Usuario" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="310" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2c5" value="CategoriaAlimentoController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="380" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2c6" value="AlimentoController&#10;usa Alimento + CategoriaAlimento&#10;⚠️ TAMBIÉN lo usa el área cliente" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="450" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2c7" value="DonacionController&#10;usa Donacion + Usuario" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="520" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2c8" value="SolicitudController&#10;usa Solicitud + Usuario" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="590" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2c9" value="EntregaController&#10;usa Entrega + Solicitud" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="660" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2c10" value="AccionImportanteController&#10;usa AccionImportante + Usuario" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="370" y="730" width="260" height="54" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t2m1" value="Administrador&#10;(tabla administradores)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="100" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2m2" value="Rol&#10;(tabla roles)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="170" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2m3" value="Usuario  ⭐ HUB&#10;lo usan 5 controladores" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="240" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2m4" value="CuentaAcceso&#10;(tabla cuentas_acceso)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="310" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2m5" value="CategoriaAlimento" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="380" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2m6" value="Alimento" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="450" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2m7" value="Donacion" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="520" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2m8" value="Solicitud" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="590" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2m9" value="Entrega" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="660" width="260" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t2m10" value="AccionImportante" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="700" y="730" width="260" height="54" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t2e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r1" target="t2c1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r2" target="t2c2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r3" target="t2c3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r4" target="t2c4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r5" target="t2c5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r6" target="t2c6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r7" target="t2c7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r8" target="t2c8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r9" target="t2c9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2r10" target="t2c10"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="t2f1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c1" target="t2m1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c2" target="t2m2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f3a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c3" target="t2m2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f3b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.65;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c3" target="t2m3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f4a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c4" target="t2m4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f4b" value="foránea" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.65;entryX=0;entryY=0.85;fontSize=9;fontColor=#82b366;" edge="1" parent="1" source="t2c4" target="t2m3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c5" target="t2m5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f6a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c6" target="t2m6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f6b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.65;entryX=0;entryY=0.85;" edge="1" parent="1" source="t2c6" target="t2m5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f7a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c7" target="t2m7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f7b" value="foránea" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.65;entryX=0;entryY=0.9;fontSize=9;fontColor=#82b366;" edge="1" parent="1" source="t2c7" target="t2m3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f8a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c8" target="t2m8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f8b" value="foránea" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.65;entryX=0;entryY=0.95;fontSize=9;fontColor=#82b366;" edge="1" parent="1" source="t2c8" target="t2m3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f9a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c9" target="t2m9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f9b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.65;entryX=0;entryY=0.6;" edge="1" parent="1" source="t2c9" target="t2m8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f10a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2c10" target="t2m10"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t2f10b" value="foránea" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.65;entryX=0;entryY=1;fontSize=9;fontColor=#82b366;" edge="1" parent="1" source="t2c10" target="t2m3"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="t2x1" value="❌ ROTA: GET /v1/admin/dashboard → Route::view('dashboard')&#10;la vista resources/views/dashboard.blade.php NO existe en esta rama → error 500" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="815" width="600" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t2x2" value="👻 9 CONTROLADORES HUÉRFANOS en app/Http/Controllers/Api/&#10;NINGUNO tiene ruta en routes/api.php — duplican a los de arriba (borrarlos)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="875" width="600" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t2x3" value="❌ FALTAN y valen 40 PTS:  FormRequest (validación → 422)  y  JsonResource (respuesta JSON)&#10;ninguno de los 10 controladores los usa — todos responden con toArray() o with() a mano" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="935" width="920" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="t2x4" value="❌ NO EXISTE:  PATCH /v1/admin/usuarios/{id}/estado   (lo pide la 4.3 para activar/desactivar)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="660" y="815" width="300" height="48" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="rutas-cliente" name="3. Rutas cliente → Controladores → Modelos">
+    <mxGraphModel dx="1400" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1010" pageHeight="1160" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t3title" value="🗄️ ÁREA CLIENTE: rutas → controladores → modelos (con data ownership)" style="text;html=1;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="15" width="930" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3h1" value="RUTAS  (hoy: v1/cliente)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#6c8ebf;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="58" width="300" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="t3h2" value="CONTROLADORES" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d79b00;strokeColor=#d79b00;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="390" y="58" width="270" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="t3h3" value="MODELOS + FILTRO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#82b366;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="710" y="58" width="260" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3r1" value="GET POST&#10;/v1/cliente/login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3r2" value="POST&#10;/v1/cliente/logout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="158" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3r3" value="GET PATCH&#10;/v1/cliente/perfil" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="216" width="300" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3c1" value="AuthClienteController&#10;login · in · out&#10;perfil · actualizarPerfil" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="390" y="100" width="270" height="162" as="geometry" />
+        </mxCell>
+        <mxCell id="t3m1" value="CuentaAcceso&#10;createToken('api-cliente')&#10;⚠️ debe ser 'client-token'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="710" y="100" width="260" height="162" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3r4" value="GET&#10;/v1/cliente/alimentos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="296" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3r5" value="GET&#10;/v1/cliente/alimentos/{id}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="354" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3c2" value="AlimentoController&#10;index · show&#10;⚠️ MISMO controlador&#10;que usa el área admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="390" y="296" width="270" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="t3m2" value="Alimento + CategoriaAlimento&#10;(sin filtro de usuario:&#10;es catálogo compartido)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="710" y="296" width="260" height="104" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3r6" value="GET&#10;/v1/cliente/solicitudes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="428" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3r7" value="POST&#10;/v1/cliente/solicitudes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="486" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3c3" value="ClienteSolicitudController&#10;index · store" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="390" y="428" width="270" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="t3m3" value="Solicitud&#10;🔒 where('id_usuario',&#10;    $request->user()->id)&#10;store: id_usuario desde el TOKEN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="710" y="428" width="260" height="104" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3r8" value="GET&#10;/v1/cliente/donaciones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="558" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3r9" value="POST&#10;/v1/cliente/donaciones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="616" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3c4" value="ClienteDonacionController&#10;index · store" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="390" y="558" width="270" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="t3m4" value="Donacion&#10;🔒 where('id_usuario',&#10;    $request->user()->id)&#10;store: id_usuario desde el TOKEN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="710" y="558" width="260" height="104" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" edge="1" parent="1" source="t3r1" target="t3c1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3r2" target="t3c1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" edge="1" parent="1" source="t3r3" target="t3c1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" edge="1" parent="1" source="t3r4" target="t3c2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" edge="1" parent="1" source="t3r5" target="t3c2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" edge="1" parent="1" source="t3r6" target="t3c3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" edge="1" parent="1" source="t3r7" target="t3c3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" edge="1" parent="1" source="t3r8" target="t3c4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" edge="1" parent="1" source="t3r9" target="t3c4"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="t3g1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3c1" target="t3m1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3g2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3c2" target="t3m2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3g3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3c3" target="t3m3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3g4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3c4" target="t3m4"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="t3sep" value="⬇️  ESTAS NO EXISTEN TODAVÍA — son las que hay que crear para la 4.4 (100 PTS)" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=5;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="700" width="930" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3r10" value="POST&#10;/client/register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="740" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3c10" value="❌ AuthClienteController::register&#10;NO existe el método ni la ruta" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="390" y="740" width="270" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3m10" value="CuentaAcceso&#10;(alta pública, sin token)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="710" y="740" width="260" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3r11" value="GET&#10;/client/catalogo   (PÚBLICO, sin token)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="798" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3c11" value="❌ fuera de auth:sanctum&#10;para la 5.3 (front público)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="390" y="798" width="270" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3m11" value="Alimento + CategoriaAlimento" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="710" y="798" width="260" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3r12" value="GET&#10;/client/mis-registros/{id}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="856" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3c12" value="❌ sin esto NO se puede grabar&#10;el video del 403 (token A → datos de B)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="390" y="856" width="270" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3m12" value="Solicitud | Donacion&#10;🔒 pertenencia al dueño" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="710" y="856" width="260" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3r13" value="DELETE&#10;/client/mis-registros/{id}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="914" width="300" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3c13" value="❌ borrado SOLO del dueño&#10;(si no es tuyo → 403)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="390" y="914" width="270" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="t3m13" value="Solicitud | Donacion" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="710" y="914" width="260" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t3h10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3r10" target="t3c10"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3h11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3r11" target="t3c11"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3h12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3r12" target="t3c12"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3h13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3r13" target="t3c13"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3h10b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3c10" target="t3m10"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3h11b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3c11" target="t3m11"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3h12b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3c12" target="t3m12"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="t3h13b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t3c13" target="t3m13"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="t3note" value="🔀 OJO: hoy NO existe el prefijo /client — todo cuelga de /v1/cliente (línea 150 de routes/api.php).&#10;La 4.4 (línea 1160), la 5.3 y la 5.4 exigen literalmente /api/v1/client/ — hay que renombrar." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="985" width="930" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="t3note2" value="🔒 DATA OWNERSHIP (40 PTS de la 4.4): los filtros where('id_usuario', ...) SÍ están en index/store de solicitudes y donaciones.&#10;Lo que falta es el control por PERTENENCIA en GET/DELETE de un registro individual → eso va en una Policy (que no existe en ninguna rama)." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1047" width="930" height="52" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="ramas" name="4. Ramas git → actividades">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="760" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t4title" value="🌿 RAMAS GIT: qué actividad se hizo en CADA rama (por eso faltaban cosas)" style="text;html=1;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="45" y="15" width="1070" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4main" value="main  (ed90991)&#10;TODAS las vistas Blade:&#10;admin/login · dashboard · layouts/app&#10;CRUD de 10 recursos en Blade&#10;(incluye carritos y listas-deseos)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="45" y="70" width="330" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4exp" value="apiv2_experimental  (2918c03)&#10;⭐ LOS GATES de la 3.4:&#10;Gate::before + consultar + crear&#10;editar + eliminar + administrar-administradores&#10;vista administradores/niveles&#10;AutorizacionNivelesTest · PLAN_AUTORIZACION" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="45" y="210" width="330" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4san" value="sanctum = apiv2  (9e631b6)  ★ RAMA ACTUAL&#10;API completa: 10 CRUD en /v1/admin/&#10;área cliente en /v1/cliente/&#10;EnsureEsAdmin + EnsureEsCliente&#10;commit 232a581: BORRÓ todas las vistas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="45" y="370" width="330" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4api" value="origin/api  (c986352)&#10;solo limpia la colección Postman&#10;no tiene código del proyecto" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="45" y="520" width="330" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4a33" value="3.3 — Guardias&#10;✅ ENTREGADA en Moodle&#10;guard admin + @auth/@guest + login admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="540" y="70" width="300" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4a34" value="3.4 — Autorización con Gates&#10;✅ ENTREGADA en Moodle&#10;5 Gates + niveles 1/2/3 + test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="540" y="210" width="300" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4a4" value="4.2 ✅ entregada · 4.3 ⚠️ incompleta · 4.4 ❌ pendiente&#10;lo que SÍ está: CRUD, rutas, middlewares, ownership en index/store&#10;lo que FALTA: FormRequest, JsonResource, Policy, /client/register,&#10;catalogo público, mis-registros/{id}, estado, prefijo /client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="540" y="370" width="570" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4api2" value="sin actividades&#10;(solo Postman)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="520" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4e1" value="3.3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;strokeWidth=2;exitX=1;exitY=0.35;entryX=0;entryY=0.5;fontSize=12;fontStyle=1;fontColor=#6c8ebf;" edge="1" parent="1" source="t4main" target="t4a33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t4e2" value="3.4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;strokeWidth=2;exitX=1;exitY=0.35;entryX=0;entryY=0.5;fontSize=12;fontStyle=1;fontColor=#82b366;" edge="1" parent="1" source="t4exp" target="t4a34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t4e3" value="Unidad 4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=3;exitX=1;exitY=0.4;entryX=0;entryY=0.4;fontSize=12;fontStyle=1;fontColor=#d79b00;" edge="1" parent="1" source="t4san" target="t4a4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t4e4" value="—" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=12;fontColor=#999999;" edge="1" parent="1" source="t4api" target="t4api2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4e5" value="¿mergear Gates + vistas&#10;a la rama actual?" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=11;fontStyle=1;fontColor=#b85450;" edge="1" parent="1" source="t4exp" target="t4san">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4missing" value="❌ EN NINGUNA RAMA EXISTE (hay que hacerlo desde cero):&#10;FormRequest (40 PTS) · JsonResource (40 PTS) · Policy de pertenencia (40 PTS) · POST /client/register · GET /client/catalogo · GET-DELETE /client/mis-registros/{id} · PATCH /admin/usuarios/{id}/estado · prefijo /client · nombre de tokens admin-token / client-token" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="640" width="1065" height="76" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t4legend" value="🟢 verde = rama con trabajo entregado  ·  🟠 naranja = rama actual (la que se programa ahora)  ·  🔵 azul = base original  ·  ⬜ gris = sin código relevante  ·  🔴 rojo = falta en TODAS" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="45" y="730" width="1065" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="ramas-archivos" name="5. Archivos por rama (🟢🟡🔴)">
+    <mxGraphModel dx="1400" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1640" pageHeight="1900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t5title" value="🌿📁 QUÉ ARCHIVO TIENE CADA COSA, POR RAMA   ·   🟢 existe · 🟡 existe pero raro · 🔴 no existe" style="text;html=1;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="8" width="1560" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="t5legend" value="Cada renglón = un archivo/ruta REAL del repo. Los colores dicen si lo tienes, si está mal, o si hay que crearlo." style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="38" width="1560" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- ================= SANCTUM ================= -->
+        <mxCell id="t5san" value="★ SANCTUM = APIV2  (9e631b6) — RAMA ACTUAL, LA QUE SE PROGRAMA AHORA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;strokeWidth=3;verticalAlign=top;align=left;spacingLeft=10;spacingTop=6;fontSize=14;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="760" height="1180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t5san_gh" value="🟢 SÍ EXISTE (13)" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#2d7d2d;" vertex="1" parent="t5san">
+          <mxGeometry x="15" y="46" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5san_g1" value="routes/api.php — 177 líneas · prefijo /v1/admin (L25) y /v1/cliente (L150)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="74" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g2" value="app/Http/Middleware/EnsureEsAdmin.php — instanceof Administrador → 403" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="110" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g3" value="app/Http/Middleware/EnsureEsCliente.php — instanceof CuentaAcceso → 403" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="146" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g4" value="config/auth.php — guards admin + cliente + providers (3.3 ✅)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="182" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g5" value="app/Http/Controllers/AuthAdminController.php — login/logout del admin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="218" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g6" value="app/Http/Controllers/AuthClienteController.php — login/logout/perfil" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="254" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g7" value="app/Http/Controllers/ClienteSolicitudController.php — where id_usuario (ownership ✅)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="290" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g8" value="app/Http/Controllers/ClienteDonacionController.php — where id_usuario (ownership ✅)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="326" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g9" value="app/Http/Controllers/ — los 10 CRUD: Administrador, Rol, Usuario, CuentaAcceso, Categoria, Alimento, Donacion, Solicitud, Entrega, AccionImportante" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="362" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g10" value="database/migrations/2026_10_30_000000_add_crud_fields_to_administradores_table.php — agrega nivel/foto/deleted_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="398" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g11" value="resources/views/cliente/login.blade.php + cliente/panel.blade.php — las ÚNICAS 2 vistas" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="434" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g12" value="tests/Feature/ — AdminAuthTest, AdministradorCrudTest, ClienteAuthTest, ClientePedidosTest" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="470" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_g13" value="formatos_intercambio_datos/XML/ — 12 archivos (1.7 ✅) · CATALOGO_ENDPOINTS.md · A3_4_REQUISITOS.md" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="506" width="730" height="32" as="geometry" /></mxCell>
+
+        <mxCell id="t5san_yh" value="🟡 RARO (6) — existe pero está mal, duplicado o incompleto" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#b8860b;" vertex="1" parent="t5san">
+          <mxGeometry x="15" y="550" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5san_y1" value="app/Http/Controllers/Api/*.php — 9 huérfanos: AccionImportante, Alimento, Categoria, CuentaAcceso, Donacion, Entrega, Rol, Solicitud, Usuario → NINGUNO tiene ruta" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="578" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_y2" value="resources/views/ — solo 2 archivos: faltan dashboard, layouts/app, admin/login, errors/403" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="614" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_y3" value="storage/framework/views/7f95ee9c*.php — caché compilada de un dashboard que YA NO existe en disco" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="650" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_y4" value="Git: 8 archivos modificados (M) + 20 sin trackear (??) SIN COMMIT — ahí vive todo el área cliente" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="686" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_y5" value="AuthAdminController.php Línea createToken('api-admin') — la 4.3 exige que se llame 'admin-token'" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="722" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_y6" value="AuthClienteController.php createToken('api-cliente') + prefijo 'v1/cliente' — la 4.4 exige 'client-token' y /v1/client" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="758" width="730" height="32" as="geometry" /></mxCell>
+
+        <mxCell id="t5san_rh" value="🔴 NO EXISTE (9) — hay que crearlo en esta rama" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#b85450;" vertex="1" parent="t5san">
+          <mxGeometry x="15" y="802" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5san_r1" value="app/Http/Requests/ — FormRequest: 20 PTS en 4.3 + 20 PTS en 4.4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;fontStyle=1;" vertex="1" parent="t5san"><mxGeometry x="15" y="830" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_r2" value="app/Http/Resources/ — JsonResource: 20 PTS en 4.3 + 20 PTS en 4.4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;fontStyle=1;" vertex="1" parent="t5san"><mxGeometry x="15" y="866" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_r3" value="app/Policies/ — Policy de pertenencia: 40 PTS data ownership (4.4)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;fontStyle=1;" vertex="1" parent="t5san"><mxGeometry x="15" y="902" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_r4" value="app/Providers/AppServiceProvider.php — boot() VACÍO, sin Gates (3.4)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="938" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_r5" value="resources/views/dashboard.blade.php — la pide GET /v1/admin/dashboard → error 500" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="974" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_r6" value="resources/views/layouts/app.blade.php — contenedor de todas las vistas admin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="1010" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_r7" value="resources/views/admin/login.blade.php + resources/views/errors/403.blade.php (los pide 3.3/3.4)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="1046" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_r8" value="routes/api.php — faltan: POST /client/register · GET /client/catalogo · GET|DELETE /client/mis-registros/{id}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="1082" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5san_r9" value="routes/api.php — falta: PATCH /admin/usuarios/{id}/estado (activar/desactivar, 4.3)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5san"><mxGeometry x="15" y="1118" width="730" height="32" as="geometry" /></mxCell>
+
+        <!-- ================= EXPERIMENTAL ================= -->
+        <mxCell id="t5exp" value="APIV2_EXPERIMENTAL  (2918c03) — aquí se hizo la 3.4, NUNCA se mergeó" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=3;verticalAlign=top;align=left;spacingLeft=10;spacingTop=6;fontSize=14;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="840" y="70" width="760" height="750" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t5exp_gh" value="🟢 SÍ EXISTE (9) — y NO están en la rama actual" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#2d7d2d;" vertex="1" parent="t5exp">
+          <mxGeometry x="15" y="46" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5exp_g1" value="app/Providers/AppServiceProvider.php — Gate::before + 5 Gates: consultar, crear, editar, eliminar, administrar-administradores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;fontStyle=1;" vertex="1" parent="t5exp"><mxGeometry x="15" y="74" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_g2" value="resources/views/dashboard.blade.php" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="110" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_g3" value="resources/views/admin/login.blade.php" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="146" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_g4" value="resources/views/layouts/app.blade.php" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="182" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_g5" value="resources/views/errors/403.blade.php" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="218" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_g6" value="resources/views/administradores/niveles.blade.php — pantalla de niveles 1/2/3" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="254" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_g7" value="tests/Feature/AutorizacionNivelesTest.php — prueba los 5 Gates" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="290" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_g8" value="PLAN_AUTORIZACION.md — documentación de la 3.4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="326" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_g9" value="resources/views/ — las otras 48 vistas CRUD en Blade (acciones, alimentos, categorias, donaciones, entregas, roles, solicitudes, usuarios...)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="362" width="730" height="32" as="geometry" /></mxCell>
+
+        <mxCell id="t5exp_yh" value="🟡 RARO (3)" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#b8860b;" vertex="1" parent="t5exp">
+          <mxGeometry x="15" y="406" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5exp_y1" value="database/migrations/2026_10_27_120000_add_nivel_to_administradores_table.php — nombre DISTINTO al de sanctum (add_crud_fields) → conflicto de migraciones" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="434" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_y2" value="routes/api.php — sin prefijo /v1 y SIN área cliente (rutas viejas: /roles, /usuarios, /auth/login)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="470" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_y3" value="Controladores refactorizados — 405 archivos difieren de sanctum (diff gigante, cuidado al mergear)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="506" width="730" height="32" as="geometry" /></mxCell>
+
+        <mxCell id="t5exp_rh" value="🔴 NO EXISTE (4)" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#b85450;" vertex="1" parent="t5exp">
+          <mxGeometry x="15" y="550" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5exp_r1" value="app/Http/Requests/ + app/Http/Resources/ + app/Policies/ — tampoco existen aquí" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="578" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_r2" value="Rutas /client/register, /client/catalogo, /client/mis-registros — no las tiene" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="614" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_r3" value="Área cliente completa (controladores ClienteSolicitud/ClienteDonacion/AuthCliente + tests) — no la tiene" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="650" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5exp_r4" value="Middleware EnsureEsAdmin/EnsureEsCliente — no los tiene (aquí todo es por sesión Blade)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5exp"><mxGeometry x="15" y="686" width="730" height="32" as="geometry" /></mxCell>
+
+        <!-- ================= MAIN ================= -->
+        <mxCell id="t5main" value="MAIN  (ed90991) — la base original con vistas, sin API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=3;verticalAlign=top;align=left;spacingLeft=10;spacingTop=6;fontSize=14;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="840" y="860" width="760" height="570" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t5main_gh" value="🟢 SÍ EXISTE (4)" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#2d7d2d;" vertex="1" parent="t5main">
+          <mxGeometry x="15" y="46" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5main_g1" value="resources/views/ — TODAS las vistas CRUD Blade (base original del proyecto)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="74" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5main_g2" value="resources/views/dashboard.blade.php + admin/login.blade.php + layouts/app.blade.php" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="110" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5main_g3" value="routes/web.php + routes/console.php — las ÚNICAS rutas de esta rama" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="146" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5main_g4" value="Commits A3_3: 4210ecf, 9bb2c94, a27d5ab, d227db5 — guardia admin, seeder, @auth/@guest (3.3 entregada)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="182" width="730" height="32" as="geometry" /></mxCell>
+
+        <mxCell id="t5main_yh" value="🟡 RARO (3)" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#b8860b;" vertex="1" parent="t5main">
+          <mxGeometry x="15" y="226" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5main_y1" value="resources/views/carritos/ + listas-deseos/ — vistas de tablas que YA SE BORRARON del modelo de datos (f995627, bb739e7)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="254" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5main_y2" value="resources/views/administradores.blade.php — vista plana única (experimental la dividió en index/create/edit/show/trashed)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="290" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5main_y3" value="resources/views/cliente.blade.php — vista cliente antigua, distinta de cliente/panel.blade.php de sanctum" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="326" width="730" height="32" as="geometry" /></mxCell>
+
+        <mxCell id="t5main_rh" value="🔴 NO EXISTE (4)" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#b85450;" vertex="1" parent="t5main">
+          <mxGeometry x="15" y="370" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5main_r1" value="routes/api.php — NO EXISTE en esta rama (proyecto era Blade puro)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="398" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5main_r2" value="app/Providers/AppServiceProvider.php — sin Gates (verificado con git show)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="434" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5main_r3" value="app/Http/Middleware/EnsureEs* + controladores API + AuthAdmin/AuthCliente — no existen" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="470" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5main_r4" value="app/Http/Requests/ + Resources/ + Policies/ — tampoco" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5main"><mxGeometry x="15" y="506" width="730" height="32" as="geometry" /></mxCell>
+
+        <!-- ================= ORIGIN/API ================= -->
+        <mxCell id="t5api" value="ORIGIN/API  (c986352) — solo Postman, sin código" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;strokeWidth=3;verticalAlign=top;align=left;spacingLeft=10;spacingTop=6;fontSize=14;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1290" width="760" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="t5api_gh" value="🟢 SÍ EXISTE (2)" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#2d7d2d;" vertex="1" parent="t5api">
+          <mxGeometry x="15" y="46" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5api_g1" value="postman/collections/redistribucion-alimentos-api/ — colección con 13 carpetas (.resources/definition.yaml)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5api"><mxGeometry x="15" y="74" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5api_g2" value=".postman/resources.yaml + Entregas/Diseno_API/API_REST_Diseno.md (renombrado de 'query => ...')" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5api"><mxGeometry x="15" y="110" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5api_rh" value="🔴 NO EXISTE (2)" style="text;html=1;align=left;fontSize=12;fontStyle=1;fontColor=#b85450;" vertex="1" parent="t5api">
+          <mxGeometry x="15" y="154" width="730" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t5api_r1" value="Controladores, rutas, modelos, vistas — nada de código del proyecto" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5api"><mxGeometry x="15" y="182" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5api_r2" value="app/Http/Requests/ + Resources/ + Policies/ — tampoco" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="t5api"><mxGeometry x="15" y="218" width="730" height="32" as="geometry" /></mxCell>
+        <mxCell id="t5api_n" value="Sirve solo para clonar la colección Postman limpia." style="text;html=1;align=left;fontSize=10;fontStyle=2;" vertex="1" parent="t5api">
+          <mxGeometry x="15" y="258" width="730" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- ================= EN NINGUNA ================= -->
+        <mxCell id="t5ning" value="🔴 EN NINGUNA RAMA — crear desde cero (~160 PTS en juego)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff5f5;strokeColor=#b85450;strokeWidth=3;verticalAlign=top;align=left;spacingLeft=10;spacingTop=6;fontSize=14;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="840" y="1470" width="760" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="t5ning_r1" value="app/Http/Requests/ — FormRequest: 20 PTS (4.3) + 20 PTS (4.4)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="t5ning"><mxGeometry x="15" y="50" width="730" height="34" as="geometry" /></mxCell>
+        <mxCell id="t5ning_r2" value="app/Http/Resources/ — JsonResource: 20 PTS (4.3) + 20 PTS (4.4)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="t5ning"><mxGeometry x="15" y="88" width="730" height="34" as="geometry" /></mxCell>
+        <mxCell id="t5ning_r3" value="app/Policies/SolicitudPolicy.php + DonacionPolicy.php — 40 PTS data ownership (4.4)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="t5ning"><mxGeometry x="15" y="126" width="730" height="34" as="geometry" /></mxCell>
+        <mxCell id="t5ning_r4" value="routes/api.php → POST /api/v1/client/register — 4.4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="t5ning"><mxGeometry x="15" y="164" width="730" height="34" as="geometry" /></mxCell>
+        <mxCell id="t5ning_r5" value="routes/api.php → GET /api/v1/client/catalogo (y /{id}) — 4.4 y 5.3, FUERA de auth:sanctum" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="t5ning"><mxGeometry x="15" y="202" width="730" height="34" as="geometry" /></mxCell>
+        <mxCell id="t5ning_r6" value="routes/api.php → GET|DELETE /api/v1/client/mis-registros/{id} — 4.4 (sin esto no se graba el video del 403)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="t5ning"><mxGeometry x="15" y="240" width="730" height="34" as="geometry" /></mxCell>
+        <mxCell id="t5ning_r7" value="routes/api.php → PATCH /api/v1/admin/usuarios/{id}/estado — 4.3" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="t5ning"><mxGeometry x="15" y="278" width="730" height="34" as="geometry" /></mxCell>
+        <mxCell id="t5ning_r8" value="Renombrar: prefijo v1/cliente → v1/client · token api-admin → admin-token · api-cliente → client-token" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="t5ning"><mxGeometry x="15" y="316" width="730" height="34" as="geometry" /></mxCell>
+        <mxCell id="t5ning_r9" value="Archivos a tocar: routes/api.php · AuthAdminController.php · AuthClienteController.php · AlimentoController.php" style="text;html=1;align=left;fontSize=10;fontStyle=2;" vertex="1" parent="t5ning">
+          <mxGeometry x="15" y="354" width="730" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+</mxfile>

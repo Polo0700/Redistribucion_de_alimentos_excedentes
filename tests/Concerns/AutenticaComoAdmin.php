@@ -2,6 +2,7 @@
 
 namespace Tests\Concerns;
 
+use App\Models\Administrador;
 use App\Models\CuentaAcceso;
 use App\Models\Rol;
 use App\Models\Usuario;
@@ -39,6 +40,16 @@ trait AutenticaComoAdmin
         ]);
 
         $this->actingAs($cuenta, 'admin');
+
+        $administrador = Administrador::create([
+            'nombre_completo' => 'Admin API',
+            'username' => 'admin.api',
+            'password' => bcrypt('12345678'),
+            'activo' => true,
+            'nivel' => 1,
+        ]);
+
+        $this->withToken($administrador->createToken('test')->plainTextToken);
 
         return $cuenta;
     }

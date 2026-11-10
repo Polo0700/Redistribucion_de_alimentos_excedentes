@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="Electron" modified="2026-11-09T15:00:00.000Z" agent="Mozilla/5.0" version="24.7.7" type="device">
+
+  <diagram id="sanctum" name="1. sanctum (actual)">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1560" pageHeight="1260" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="sTitle" value="🔗 SANCTUM (rama actual) — CADA CAJA = UN ARCHIVO · CADA LÍNEA = UNA CONEXIÓN REAL (import / llamada / relación Eloquent) · 【】= actividad" style="text;html=1;align=left;verticalAlign=middle;fontSize=17;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="10" width="1500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ===== COLUMNA 1: base + config + vistas + faltantes ===== -->
+        <mxCell id="sAuth" value="config/auth.php&#10;guards admin/cliente/web&#10;【3.3 Guardias】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="70" width="230" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sBoot" value="bootstrap/app.php&#10;withRouting → rutas&#10;redirectGuestsTo → admin.login&#10;【base Laravel】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="330" width="230" height="76" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sConsole" value="routes/console.php&#10;(comandos artisan)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="440" width="230" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sVLogin" value="resources/views/cliente/login.blade.php&#10;【1.6 Vistas + 5.4 front】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="700" width="230" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sVPanel" value="resources/views/cliente/panel.blade.php&#10;【1.6 Vistas + 5.4 front】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="760" width="230" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sCss1" value="public/css/cliente.css" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="825" width="230" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="sCss2" value="public/css/cliente-panel.css" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="867" width="230" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sXml" value="formatos_intercambio_datos/XML/*.xml (12)&#10;⚠️ nada en PHP los lee — están estáticos&#10;【1.7 XML/JSON】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="540" width="230" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sMissReq" value="app/Http/Requests/  ❌ NO EXISTE&#10;FormRequest: validación → 422&#10;【4.3 + 4.4 · 40 PTS】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="960" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sMissRes" value="app/Http/Resources/  ❌ NO EXISTE&#10;JsonResource: forma del JSON&#10;【4.3 + 4.4 · 40 PTS】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1030" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sMissPol" value="app/Policies/  ❌ NO EXISTE&#10;Policy de pertenencia (dueño del registro)&#10;【4.4 · 40 PTS】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1100" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sMissGate" value="app/Providers/AppServiceProvider.php&#10;boot() VACÍO — sin Gates&#10;【3.4 Autorización · ❌ los Gates están en experimental】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1170" width="230" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="sDash" value="resources/views/dashboard.blade.php&#10;❌ NO EXISTE en esta rama (solo caché)&#10;【1.6 — la ruta la pide → 500】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="630" width="230" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== COLUMNA 2: rutas ===== -->
+        <mxCell id="sApi" value="routes/api.php  (177 líneas)&#10;prefijos /v1/admin y /v1/cliente&#10;【4.2 API REST · 4.3 · 4.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="330" y="300" width="230" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="sWeb" value="routes/web.php&#10;/cliente y /cliente/panel → vistas&#10;【1.6 Vistas】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="330" y="440" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sPostman" value="CATALOGO_ENDPOINTS.md + A3_4_REQUISITOS.md&#10;documentan las rutas de routes/api.php&#10;【4.1 Diseño API — PDF EquipoN_A3_4 pendiente】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="330" y="60" width="230" height="76" as="geometry" />
+        </mxCell>
+
+        <!-- ===== COLUMNA 3: middlewares + auth ===== -->
+        <mxCell id="sEnsA" value="EnsureEsAdmin.php&#10;instanceof Administrador → 403&#10;【4.3 · Opción C】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="60" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sEnsC" value="EnsureEsCliente.php&#10;instanceof CuentaAcceso → 403&#10;【4.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="132" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sAuthA" value="AuthAdminController.php&#10;Auth::guard('admin')->attempt&#10;+ createToken('api-admin') ⚠️&#10;【3.3 Guardias · 4.3】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="300" width="250" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="sAuthC" value="AuthClienteController.php&#10;Hash::check + createToken('api-cliente') ⚠️&#10;【4.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="390" width="250" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="sSanctum" value="vendor: laravel/sanctum&#10;PersonalAccessToken (tabla) — guarda los tokens&#10;【4.3 + 4.4 · middleware auth:sanctum】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="60" width="270" height="66" as="geometry" />
+        </mxCell>
+
+        <!-- ===== COLUMNA 3b: 12 controladores ===== -->
+        <mxCell id="sC1" value="AdministradorController  【2.3 CRUD · 4.2 · 4.3】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="480" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC2" value="RolController  【2.3 CRUD · 4.2】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="526" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC3" value="UsuarioController  【2.3 CRUD · 4.2】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="572" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC4" value="CuentaAccesoController  【2.3 CRUD · 4.2】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="618" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC5" value="CategoriaAlimentoController  【2.4 CRUD · 4.2】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="664" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC6" value="AlimentoController  【2.4 CRUD · 4.2 · lo usan admin Y cliente】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="710" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC7" value="DonacionController  【2.5 CRUD · 4.2】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="756" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC8" value="SolicitudController  【2.5 CRUD · 4.2】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="802" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC9" value="EntregaController  【2.6 CRUD · 4.2】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="848" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC10" value="AccionImportanteController  【2.6 CRUD · 4.2】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="894" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC11" value="ClienteSolicitudController  【4.4 · where id_usuario = token】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="950" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sC12" value="ClienteDonacionController  【4.4 · where id_usuario = token】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="640" y="996" width="250" height="38" as="geometry" />
+        </mxCell>
+
+        <!-- ===== COLUMNA 4: modelos ===== -->
+        <mxCell id="sM1" value="Administrador  【1.5 · 3.3 · 3.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="480" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM2" value="Rol  【1.5】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="526" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM3" value="Usuario  【1.5 · HUB de relaciones】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="572" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM4" value="CuentaAcceso  【1.5 · 4.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="618" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM5" value="CategoriaAlimento  【1.5】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="664" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM6" value="Alimento  【1.5】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="710" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM7" value="Donacion  【1.5 · 4.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="756" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM8" value="Solicitud  【1.5 · 4.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="802" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM9" value="Entrega  【1.5】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="848" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM10" value="AccionImportante  【1.5】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="894" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM11" value="DetalleSolicitud  【1.5】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="950" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM12" value="DetalleDonacion  【1.5】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="996" width="220" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="sM13" value="User  (default Laravel, sin usar en el proyecto)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="970" y="1050" width="220" height="38" as="geometry" />
+        </mxCell>
+
+        <!-- ===== COLUMNA 5: seeders + tests ===== -->
+        <mxCell id="sSd0" value="database/seeders/DatabaseSeeder.php&#10;llama a AdministradorSeeder + crea User&#10;【3.3】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="480" width="270" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="sSd1" value="AdministradorSeeder.php — crea admin123 / inactivo&#10;【3.3 · cuentas de prueba】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="546" width="270" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="sSd2" value="RegistrosBaseSeeder.php — roles, categorías, usuario demo&#10;【base】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="600" width="270" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="sSd3" value="DatosProyectoSeeder.php — DB::table directo en 11 tablas&#10;⚠️ sin modelos (insert crudo) — ¿actividad?&#10;【base】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="654" width="270" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="sFac" value="database/factories/UserFactory.php&#10;【base Laravel — solo User】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="720" width="270" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sT0" value="tests/Concerns/AutenticaComoAdmin.php (trait)&#10;【4.3 — loguea como admin en tests】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="790" width="270" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="sT1" value="AdminAuthTest.php — prueba /api/v1/admin/login y logout&#10;【4.3】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="844" width="270" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="sT2" value="AdministradorCrudTest.php — CRUD /api/v1/admin/administradores&#10;【4.3】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="898" width="270" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="sT3" value="ClienteAuthTest.php — login/perfil/logout + 401 y 403&#10;【4.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="952" width="270" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="sT4" value="ClientePedidosTest.php — solicitudes/donaciones del cliente&#10;【4.4 · data ownership】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1006" width="270" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="sT5" value="AlimentoCrudTest.php — CRUD alimentos (usa trait admin)&#10;【2.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1060" width="270" height="44" as="geometry" />
+        </mxCell>
+
+        <!-- ================= ARISTAS ================= -->
+        <!-- bootstrap → rutas -->
+        <mxCell id="e1" value="withRouting" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.3;entryX=0;entryY=0.3;fontSize=9;" edge="1" parent="1" source="sBoot" target="sApi"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=1;exitY=0.6;entryX=0;entryY=0.4;fontSize=9;" edge="1" parent="1" source="sBoot" target="sWeb"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="sBoot" target="sConsole"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- rutas → middlewares -->
+        <mxCell id="e4" value="middleware" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=1;exitY=0.15;entryX=0;entryY=0.5;fontSize=9;fontColor=#9673a6;" edge="1" parent="1" source="sApi" target="sEnsA"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" value="middleware" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=9;fontColor=#9673a6;" edge="1" parent="1" source="sApi" target="sEnsC"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- rutas → auth controllers -->
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;exitX=1;exitY=0.5;entryX=0;entryY=0.4;fontSize=9;" edge="1" parent="1" source="sApi" target="sAuthA"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;exitX=1;exitY=0.7;entryX=0;entryY=0.4;fontSize=9;" edge="1" parent="1" source="sApi" target="sAuthC"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- rutas → 12 controladores -->
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=1;exitY=0.85;entryX=0;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sApi" target="sC1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=1;exitY=0.87;entryX=0;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sApi" target="sC2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=1;exitY=0.89;entryX=0;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sApi" target="sC3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=1;exitY=0.91;entryX=0;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sApi" target="sC4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=1;exitY=0.93;entryX=0;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sApi" target="sC5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=1;exitY=0.95;entryX=0;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sApi" target="sC6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=1;exitY=0.97;entryX=0;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sApi" target="sC7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=0.85;exitY=1;entryX=0.5;entryY=0;fontSize=9;" edge="1" parent="1" source="sApi" target="sC8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=0.7;exitY=1;entryX=0.5;entryY=0;fontSize=9;" edge="1" parent="1" source="sApi" target="sC9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=0.55;exitY=1;entryX=0.5;entryY=0;fontSize=9;" edge="1" parent="1" source="sApi" target="sC10"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=0.4;exitY=1;entryX=0.5;entryY=0;fontSize=9;" edge="1" parent="1" source="sApi" target="sC11"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=0.25;exitY=1;entryX=0.5;entryY=0;fontSize=9;" edge="1" parent="1" source="sApi" target="sC12"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- rutas → vista dashboard (rota) -->
+        <mxCell id="e20" value="Route::view&#10;❌ 500" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=0.2;exitY=1;entryX=1;entryY=0.5;fontSize=9;fontColor=#b85450;" edge="1" parent="1" source="sApi" target="sDash"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- rutas web → vistas -->
+        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;exitX=0;exitY=0.7;entryX=1;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sWeb" target="sVLogin"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;exitX=0;exitY=0.85;entryX=1;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sWeb" target="sVPanel"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- vistas → css -->
+        <mxCell id="e23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="sVLogin" target="sCss1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=0.6;exitY=1;entryX=0.5;entryY=0;fontSize=9;" edge="1" parent="1" source="sVLogin" target="sCss2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=0.4;exitY=1;entryX=0.5;entryY=1;fontSize=9;" edge="1" parent="1" source="sVPanel" target="sCss1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=0.7;exitY=1;entryX=0.6;entryY=1;fontSize=9;" edge="1" parent="1" source="sVPanel" target="sCss2"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- auth admin → config/auth (guard) + sanctum -->
+        <mxCell id="e27" value="Auth::guard('admin')&#10;lee el guard" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;strokeWidth=2;exitX=0;exitY=0.3;entryX=1;entryY=0.5;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sAuthA" target="sAuth"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e28" value="createToken" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontSize=9;fontColor=#9673a6;" edge="1" parent="1" source="sAuthA" target="sSanctum"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e29" value="createToken" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=1;exitY=0.7;entryX=0;entryY=0.8;fontSize=9;fontColor=#9673a6;" edge="1" parent="1" source="sAuthC" target="sSanctum"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- guards → modelos (providers) -->
+        <mxCell id="e30" value="provider → modelo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;strokeWidth=2;exitX=1;exitY=0.35;entryX=0;entryY=0.5;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sAuth" target="sM1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e31" value="provider → modelo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;strokeWidth=2;exitX=1;exitY=0.65;entryX=0;entryY=0.5;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sAuth" target="sM4"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- middlewares → modelos (instanceof) -->
+        <mxCell id="e32" value="instanceof" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.3;fontSize=9;fontColor=#9673a6;" edge="1" parent="1" source="sEnsA" target="sM1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e33" value="instanceof" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.7;fontSize=9;fontColor=#9673a6;" edge="1" parent="1" source="sEnsC" target="sM4"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- auth cliente → modelo -->
+        <mxCell id="e34" value="use CuentaAcceso" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;exitX=1;exitY=0.6;entryX=0;entryY=0.9;fontSize=9;" edge="1" parent="1" source="sAuthC" target="sM4"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- 12 controladores → modelos -->
+        <mxCell id="e35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sC1" target="sM1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sC2" target="sM2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e37" value="+ Rol" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.4;entryX=0;entryY=0.4;fontSize=9;" edge="1" parent="1" source="sC3" target="sM3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sC4" target="sM4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sC5" target="sM5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e40" value="+ Categoria" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.4;entryX=0;entryY=0.4;fontSize=9;" edge="1" parent="1" source="sC6" target="sM6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sC7" target="sM7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sC8" target="sM8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sC9" target="sM9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="sC10" target="sM10"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e45" value="+ CuentaAcceso" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.4;entryX=0;entryY=0.4;fontSize=9;" edge="1" parent="1" source="sC11" target="sM8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e46" value="+ CuentaAcceso" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=1;exitY=0.4;entryX=0;entryY=0.4;fontSize=9;" edge="1" parent="1" source="sC12" target="sM7"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- modelos → modelos (relaciones Eloquent) -->
+        <mxCell id="e50" value="belongsTo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.3;entryX=1;entryY=0.7;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM4" target="sM3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e51" value="hasMany" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.5;entryX=1;entryY=0.3;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM3" target="sM2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e52" value="belongsTo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=0;exitY=0.3;entryX=0;entryY=0.5;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM3" target="sM2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e53" value="hasMany" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.3;entryX=1;entryY=0.5;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM3" target="sM7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e54" value="belongsTo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.4;entryX=1;entryY=0.8;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM7" target="sM3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e55" value="hasMany" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.5;entryX=1;entryY=0.3;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM3" target="sM10"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e56" value="belongsTo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.4;entryX=1;entryY=0.7;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM10" target="sM3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e57" value="belongsTo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.3;entryX=1;entryY=0.8;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM8" target="sM3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e58" value="hasOne entrega" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.5;entryX=1;entryY=0.4;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM8" target="sM9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e59" value="hasMany detalles" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.7;entryX=1;entryY=0.3;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM8" target="sM11"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e60" value="belongsTo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.3;entryX=1;entryY=0.6;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM11" target="sM8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e61" value="belongsTo alimento" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.5;entryX=1;entryY=0.4;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM11" target="sM6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e62" value="belongsTo categoria" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=0;exitY=0.3;entryX=0;entryY=0.5;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM6" target="sM5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e63" value="hasMany" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=0;exitY=0.5;entryX=0;entryY=0.3;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM5" target="sM6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e64" value="hasMany detalles" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.7;entryX=1;entryY=0.3;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM7" target="sM12"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e65" value="belongsTo alimento" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=1;exitY=0.5;entryX=1;entryY=0.7;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM12" target="sM6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e66" value="belongsTo solicitud" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;dashed=1;exitX=0;exitY=0.3;entryX=0;entryY=0.5;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="sM9" target="sM8"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- seeders → modelos -->
+        <mxCell id="e70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="sSd0" target="sSd1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e71" value="Administrador::create" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=0;exitY=0.5;entryX=1;entryY=0.3;fontSize=9;" edge="1" parent="1" source="sSd1" target="sM1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e72" value="Rol/Categoria/Usuario::create" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=0;exitY=0.5;entryX=1;entryY=0.7;fontSize=9;" edge="1" parent="1" source="sSd2" target="sM3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e73" value="factory" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=0;exitY=0.5;entryX=1;entryY=0.5;fontSize=9;" edge="1" parent="1" source="sFac" target="sM13"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- tests → rutas y trait -->
+        <mxCell id="e80" value="HTTP a /api/v1/admin/*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;exitX=0;exitY=0.5;entryX=1;entryY=0.6;fontSize=9;fontColor=#999999;" edge="1" parent="1" source="sT1" target="sApi"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e81" value="HTTP a /api/v1/admin/*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;exitX=0;exitY=0.5;entryX=1;entryY=0.7;fontSize=9;fontColor=#999999;" edge="1" parent="1" source="sT2" target="sApi"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e82" value="HTTP a /api/v1/cliente/*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;exitX=0;exitY=0.5;entryX=1;entryY=0.8;fontSize=9;fontColor=#999999;" edge="1" parent="1" source="sT3" target="sApi"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e83" value="HTTP a /api/v1/cliente/*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;exitX=0;exitY=0.5;entryX=1;entryY=0.9;fontSize=9;fontColor=#999999;" edge="1" parent="1" source="sT4" target="sApi"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e84" value="HTTP + trait" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;exitX=0;exitY=0.5;entryX=1;entryY=0.95;fontSize=9;fontColor=#999999;" edge="1" parent="1" source="sT5" target="sApi"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e85" value="usa" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=9;fontColor=#999999;" edge="1" parent="1" source="sT2" target="sT0"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e86" value="usa" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;dashed=1;exitX=0.6;exitY=1;entryX=0.6;entryY=0;fontSize=9;fontColor=#999999;" edge="1" parent="1" source="sT5" target="sT0"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e87" value="crea usuarios de prueba" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;dashed=1;exitX=0.3;exitY=0;entryX=0.3;entryY=1;fontSize=9;fontColor=#999999;" edge="1" parent="1" source="sT0" target="sSd1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- faltantes → controladores (conexiones que FALTAN) -->
+        <mxCell id="e90" value="los 12 controladores la usarían" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.3;entryX=0;entryY=0.3;fontSize=9;fontColor=#b85450;" edge="1" parent="1" source="sMissReq" target="sC1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e91" value="los 12 controladores la usarían" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=9;fontColor=#b85450;" edge="1" parent="1" source="sMissRes" target="sC1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e92" value="authorize() en cliente" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.4;entryX=0;entryY=0.7;fontSize=9;fontColor=#b85450;" edge="1" parent="1" source="sMissPol" target="sC11"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e93" value="@can en vistas / Gate en controllers — como en experimental" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0.5;entryY=1;fontSize=9;fontColor=#b85450;" edge="1" parent="1" source="sMissGate" target="sVLogin"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- doc → rutas -->
+        <mxCell id="e94" value="documenta" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=9;fontColor=#b8860b;" edge="1" parent="1" source="sPostman" target="sApi"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- leyenda -->
+        <mxCell id="sLeg" value="LEYENDA:  🟩 archivo real · 🟥 falta crear · 🟨 raro/existe duda · línea naranja = ruta→controlador · línea verde = controlador→modelo · línea verde punteada = relación Eloquent · línea morada = guard/instanciación · línea roja punteada = conexión QUE FALTA · 【】= actividad de Moodle" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1230" width="1480" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="experimental" name="2. apiv2_experimental">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1360" pageHeight="880" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="xTitle" value="🔗 APIV2_EXPERIMENTAL — aquí vive la 3.4: de un archivo (AppServiceProvider) salen los 5 Gates y llegan a las vistas con @can" style="text;html=1;align=left;verticalAlign=middle;fontSize=17;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="10" width="1300" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="xMig" value="database/migrations/2026_10_27_120000_add_nivel_to_administradores_table.php&#10;crea la columna administradores.nivel&#10;【3.4 · ⚠️ nombre distinto al de sanctum】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="70" width="330" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="xAdm" value="app/Models/Administrador.php&#10;campos: activo + nivel (1/2/3)&#10;【3.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="170" width="330" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="xProv" value="app/Providers/AppServiceProvider.php&#10;boot(): Gate::before + 5 × Gate::define&#10;【3.4 · AUTORIZACIÓN — ENTREGADA】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="470" y="150" width="340" height="76" as="geometry" />
+        </mxCell>
+
+        <mxCell id="xG1" value="Gate::before — nivel 3 pasa todo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="470" y="260" width="165" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="xG2" value="Gate::define('consultar') — nivel ≥1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="645" y="260" width="165" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="xG3" value="Gate::define('crear') — nivel ≥2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="470" y="314" width="165" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="xG4" value="Gate::define('editar') — nivel ≥2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="645" y="314" width="165" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="xG5" value="Gate::define('eliminar') — nivel 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="470" y="368" width="165" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="xG6" value="Gate::define('administrar-administradores') — nivel 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="645" y="368" width="165" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="xVNiv" value="resources/views/administradores/niveles.blade.php&#10;@@can/@@cannot de los 5 Gates (demo en pantalla)&#10;【3.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="940" y="150" width="380" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="xVIdx" value="resources/views/{alimentos,administradores,acciones-importantes,...}/index.blade.php&#10;@@can('crear') @@can('editar') @@can('eliminar') en botones y filas&#10;【3.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="940" y="240" width="380" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="x403" value="resources/views/errors/403.blade.php&#10;cuando un @@can falla&#10;【3.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="940" y="330" width="380" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="xTest" value="tests/Feature/AutorizacionNivelesTest.php&#10;prueba los 5 Gates con niveles 1/2/3&#10;【3.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="470" y="470" width="340" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="xPlan" value="PLAN_AUTORIZACION.md — documenta el diseño&#10;【3.4】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="470" y="560" width="340" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="xRoutes" value="routes/api.php (versión vieja)&#10;sin prefijo /v1, sin área cliente, sin EnsureEs*&#10;⚠️ divergió de sanctum&#10;【4.2 — pero desactualizada】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="470" width="330" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="xViews" value="resources/views/ (54 archivos: layouts/app, dashboard,&#10;admin/login, CRUD completo en Blade)&#10;【1.6 Vistas】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="580" width="330" height="76" as="geometry" />
+        </mxCell>
+
+        <mxCell id="xM1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d79b00;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="xMig" target="xAdm"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM2" value="lee nivel + activo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="xAdm" target="xProv"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM3" value="define" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="xProv" target="xG2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;exitX=0.3;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="xProv" target="xG1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;exitX=0.7;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="xProv" target="xG3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;exitX=0.9;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="xProv" target="xG4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;exitX=0.4;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="xProv" target="xG5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2d7d2d;exitX=0.8;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="xProv" target="xG6"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="xM9" value="@@can / @@cannot" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=10;fontStyle=1;fontColor=#9673a6;" edge="1" parent="1" source="xG6" target="xVNiv"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM10" value="@@can" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.4;fontSize=10;fontStyle=1;fontColor=#9673a6;" edge="1" parent="1" source="xG5" target="xVIdx"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM11" value="denegado → 403" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;exitX=1;exitY=0.7;entryX=0;entryY=0.5;fontSize=9;fontColor=#b85450;" edge="1" parent="1" source="xVIdx" target="x403"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM12" value="prueba los 5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#999999;exitX=0;exitY=0.5;entryX=0.5;entryY=1;fontSize=9;fontColor=#999999;" edge="1" parent="1" source="xTest" target="xG3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM13" value="documenta" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;dashed=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;fontSize=9;fontColor=#b8860b;" edge="1" parent="1" source="xPlan" target="xTest"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="xM14" value="gentes a vistas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=0;entryX=0.5;entryY=1;fontSize=9;fontColor=#6c8ebf;" edge="1" parent="1" source="xViews" target="xRoutes"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="xMiss" value="❌ FALTA AQUÍ: app/Http/Requests, app/Http/Resources, app/Policies, EnsureEsAdmin/Cliente, área cliente — todo eso está (o debe estar) en SANCTUM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="700" width="1290" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="xLeg" value="LEYENDA: 🟩 existe · 🟨 existe pero raro · 🟥 falta · línea verde = define/lee · línea morada = @can llegando a vista · línea roja = denegación 403" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="30" y="760" width="1290" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="main" name="3. main">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1360" pageHeight="760" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="mTitle" value="🔗 MAIN — proyecto Blade puro: routes/web.php es el centro, NO hay routes/api.php ni Gates" style="text;html=1;align=left;verticalAlign=middle;fontSize=17;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="10" width="1300" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mWeb" value="routes/web.php  (única ruta)&#10;/admin/login, /admin/logout, dashboard,&#10;CRUD web de 12 recursos (incluye carritos y listas de deseos)&#10;【3.3 login + 1.6 vistas + 2.x CRUD Blade】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="70" width="360" height="96" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mAuth" value="app/Http/Controllers/AuthAdminController.php&#10;login de admin con sesión (no token)&#10;【3.3 · con @csrf en la vista】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="470" y="70" width="360" height="76" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mCtrls" value="12 controladores web (Alimento, Rol, Usuario, CuentaAcceso, Categoria,&#10;Donacion, Solicitud, Entrega, AccionImportante, Carrito, ListaDeseo...)&#10;renderizan vistas Blade, no devuelven JSON&#10;【2.3–2.6 CRUD en Blade】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="470" y="180" width="360" height="86" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mViews" value="resources/views/ (61 archivos)&#10;layouts/app + dashboard + admin/login +&#10;CRUD de 12 recursos + carritos + listas-deseos&#10;【1.6 Vistas · 3.3 @@auth/@@guest】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="940" y="70" width="380" height="96" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mCfg" value="config/auth.php — guard 'admin'&#10;【3.3 Guardias】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="240" width="360" height="52" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mProv" value="app/Providers/AppServiceProvider.php — SIN Gates&#10;❌ la 3.4 no está en esta rama&#10;【3.4 · falta】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="330" width="360" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mNoApi" value="routes/api.php  ❌ NO EXISTE en main&#10;app/Http/Middleware/EnsureEs* ❌&#10;app/Http/Requests ❌ · Resources ❌ · Policies ❌&#10;【4.x — todo eso está en sanctum】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="440" width="360" height="86" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mOld" value="⚠️ vistas de tablas BORRADAS del modelo:&#10;carritos/ y listas-deseos/ — ya no tienen tabla ni controlador en sanctum" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="940" y="200" width="380" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mA1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;strokeWidth=2;exitX=1;exitY=0.3;entryX=0;entryY=0.4;fontSize=9;" edge="1" parent="1" source="mWeb" target="mAuth"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="mA2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;strokeWidth=2;exitX=1;exitY=0.6;entryX=0;entryY=0.3;fontSize=9;" edge="1" parent="1" source="mWeb" target="mCtrls"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="mA3" value="return view()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="mCtrls" target="mViews"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="mA4" value="Auth::guard('admin')" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;exitX=0;exitY=0.5;entryX=0.5;entryY=0;fontSize=9;fontColor=#2d7d2d;" edge="1" parent="1" source="mAuth" target="mCfg"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="mA5" value="extenden layouts/app" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;dashed=1;exitX=0.7;exitY=1;entryX=0.3;entryY=0;fontSize=9;fontColor=#b8860b;" edge="1" parent="1" source="mWeb" target="mOld"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="mLeg" value="LEYENDA: 🟩 existe · 🟥 falta en esta rama · 🟨 raro · línea azul = web.php → controlador · línea verde = controlador → vista" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="30" y="570" width="1290" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="api" name="4. origin/api">
+    <mxGraphModel dx="1200" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="aTitle" value="🔗 ORIGIN/API — solo Postman, no hay código del proyecto que conectar" style="text;html=1;align=left;verticalAlign=middle;fontSize=17;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="10" width="920" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="aYaml" value="postman/collections/redistribucion-alimentos-api/&#10;13 carpetas con .resources/definition.yaml&#10;【4.1 Diseño API — colección documentada】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="70" width="360" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="aRes" value=".postman/resources.yaml + Entregas/Diseno_API/API_REST_Diseno.md&#10;【4.1 Diseño API】" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="180" width="360" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aNone" value="❌ NO HAY: routes/, app/, resources/&#10;esta rama no participa en ninguna actividad práctica,&#10;es material de consulta para la 4.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="470" y="70" width="480" height="76" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+</mxfile>

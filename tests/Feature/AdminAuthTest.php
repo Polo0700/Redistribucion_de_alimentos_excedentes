@@ -21,87 +21,74 @@ class AdminAuthTest extends TestCase
         ]);
     }
 
-    public function test_login_muestra_formulario(): void
+    public function test_login_con_get_devuelve_405(): void
     {
-        $this->get('/admin/login')->assertOk();
+        $this->getJson('/api/v1/admin/login')->assertStatus(405);
     }
 
-    public function test_ingreso_valido_autentica_y_redirige_al_dashboard(): void
+    public function test_ingreso_valido_devuelve_token(): void
     {
         $this->crearAdmin();
 
-        $respuesta = $this->post('/admin/login', [
+        $this->postJson('/api/v1/admin/login', [
             'username' => 'admin',
             'password' => '12345678',
-        ]);
-
-        $respuesta->assertRedirect(route('dashboard'));
-        $this->assertAuthenticated('admin');
+        ])
+            ->assertOk()
+            ->assertJsonStructure(['token', 'admin' => ['id', 'username', 'nivel']]);
     }
 
-    public function test_contrasena_incorrecta_no_autentica(): void
+    public function test_contrasena_incorrecta_devuelve_401(): void
     {
         $this->crearAdmin();
 
-        $respuesta = $this->post('/admin/login', [
+        $this->postJson('/api/v1/admin/login', [
             'username' => 'admin',
             'password' => 'clave-mala',
-        ]);
-
-        $respuesta->assertSessionHas('aviso');
-        $this->assertGuest('admin');
+        ])->assertStatus(401);
     }
 
-    public function test_cuenta_deshabilitada_no_autentica(): void
+    public function test_cuenta_deshabilitada_devuelve_403(): void
     {
         $this->crearAdmin(activo: false);
 
-        $respuesta = $this->post('/admin/login', [
+        $this->postJson('/api/v1/admin/login', [
             'username' => 'admin',
             'password' => '12345678',
-        ]);
-
-        $respuesta->assertSessionHas('aviso');
-        $this->assertGuest('admin');
+        ])->assertStatus(403);
     }
 
-    public function test_campos_requeridos(): void
+    public function test_campos_requeridos_devuelve_422(): void
     {
-        $this->post('/admin/login', [])
-            ->assertSessionHasErrors(['username', 'password']);
+        $this->postJson('/api/v1/admin/login', [])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['username', 'password']);
     }
 
-    public function test_logout_cierra_sesion_y_redirige_al_login(): void
+    public function test_ruta_protegida_sin_token_devuelve_401(): void
     {
         $this->crearAdmin();
 
-        $this->post('/admin/login', [
-            'username' => 'admin',
-            'password' => '12345678',
-        ]);
-
-        $respuesta = $this->post('/admin/logout');
-
-        $respuesta->assertRedirect(route('admin.login'));
-        $this->assertGuest('admin');
+        $this->getJson('/api/v1/admin/alimentos')->assertStatus(401);
     }
 
-    public function test_panel_sin_sesion_redirige_al_login(): void
+    public function test_ruta_protegida_con_token_de_admin_devuelve_200(): void
     {
-        $this->get(route('dashboard'))->assertRedirect(route('admin.login'));
+        $admin = $this->crearAdmin();
+        $token = $admin->createToken('test')->plainTextToken;
 
-        $this->get(route('alimentos.index'))->assertRedirect(route('admin.login'));
-
-        $this->get(route('roles.index'))->assertRedirect(route('admin.login'));
+        $this->withToken($token)->getJson('/api/v1/admin/alimentos')->assertOk();
     }
 
-    public function test_panel_con_sesion_de_admin_accede(): void
+    public function test_logout_revoca_el_token(): void
     {
-        $cuenta = $this->crearAdmin();
-        $this->actingAs($cuenta, 'admin');
+        $admin = $this->crearAdmin();
+        $token = $admin->createToken('test')->plainTextToken;
 
-        $this->get(route('dashboard'))->assertOk();
+        $this->withToken($token)->postJson('/api/v1/admin/logout')->assertOk();
 
-        $this->get(route('alimentos.index'))->assertOk();
+        $this->app['auth']->forgetGuards();
+
+        $this->withToken($token)->getJson('/api/v1/admin/alimentos')->assertStatus(401);
     }
 }

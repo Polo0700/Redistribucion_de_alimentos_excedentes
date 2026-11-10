@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="Electron" modified="2026-11-09T12:00:00.000Z" agent="Mozilla/5.0" version="24.7.7" type="device">
+
+  <diagram id="unidad4" name="1. Unidad 4 — Backend">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="840" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="p1t" value="🎯 UNIDAD 4 — BACKEND (lo que está en juego ahora)" style="text;html=1;align=left;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="45" y="15" width="1310" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h41" value="4.1 — Diseño y Configuración de un Servicio Web REST   ·   PENDIENTE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#6c8ebf;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="75" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c41a" value="❌ Catálogo de endpoints con los 12 campos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c41b" value="❌ Diferenciar área admin / área cliente" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c41c" value="❌ Documentar rutas de autenticación" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c41d" value="❌ Métodos HTTP y códigos HTTP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c41e" value="❌ Middleware de autenticación documentado" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c41f" value="❌ Gates y Policies documentados" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c41g" value="❌ PDF: EquipoN_A3_4_API_RESTful" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c41h" value="❌ Video ≤5 min + GitHub (enlaces en el área en línea)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="n41" value="⚠️ Ya existe CATALOGO_ENDPOINTS.md pero solo tiene 1 ejemplo de ~60 operaciones. El PDF se llama A3_4 (no A4_1) — nomenclatura rara pero obligatoria." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;spacingLeft=8;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="45" y="223" width="1310" height="32" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h43" value="4.3 — Área Administrativa   ·   ENTREGADA EL 8 NOV PERO INCOMPLETA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d79b00;strokeColor=#d79b00;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="275" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c43a" value="✅ Sanctum + middleware auth:sanctum" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="317" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43b" value="✅ Autorización Opción C (EnsureEsAdmin)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="317" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43c" value="✅ CRUD de 10 recursos en /api/v1/admin/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="317" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43d" value="✅ Altas, bajas lógicas y físicas (restore / forceDestroy)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="317" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43e" value="❌ FormRequest — 20 PTS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="45" y="370" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43f" value="❌ JsonResource — 20 PTS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="375" y="370" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43g" value="❌ PATCH /admin/usuarios/{id}/estado" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="370" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43h" value="❌ Token debe llamarse admin-token (hoy: api-admin)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="370" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43i" value="❓ Cuestionario de 5 preguntas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontColor=#666666;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="423" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43j" value="❓ Video demostrando 401 sin token (≤5 min, 720p+)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontColor=#666666;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="423" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c43k" value="⚠️ PDF EquipoXX_Practica_Laravel_AdminAPI.pdf — ya entregado, verificar que esté completo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="423" width="650" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h44" value="4.4 — Área Cliente   ·   PENDIENTE · el más tocado (40 pts por data ownership)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b85450;strokeColor=#b85450;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="490" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c44a" value="✅ Sanctum + login / logout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="532" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44b" value="✅ GET / PATCH /perfil" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="532" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44c" value="✅ user_id SIEMPRE desde el token, nunca del body" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="532" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44d" value="✅ Filtrado por id_usuario en solicitudes y donaciones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="532" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44e" value="❌ POST /client/register (registro)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="585" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44f" value="❌ Catálogo PÚBLICO GET /client/catalogo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="585" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44g" value="❌ GET /client/catalogo/{id}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="585" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44h" value="⚠️ mis-registros existe, pero como /solicitudes y /donaciones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="585" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44i" value="❌ GET /client/mis-registros/{id}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="638" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44j" value="❌ DELETE /client/mis-registros/{id}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="638" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44k" value="❌ FormRequest — 20 PTS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="705" y="638" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44l" value="❌ JsonResource — 20 PTS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="638" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44m" value="❌ Policy / Gate de pertenencia — 40 PTS data ownership" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="45" y="691" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44n" value="❌ Prefijo /cliente → /client (lo exigen 4.4, 5.3 y 5.4)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="691" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44o" value="❌ Token api-cliente → client-token" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="691" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44p" value="❌ Video: token A accede a datos de B → debe salir 403" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="691" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c44q" value="❌ PDF: EquipoXX_Practica_Laravel_ClientAPI.pdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="744" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="n44" value="🔒 Sin GET /mis-registros/{id} NO hay ruta que probar en el video del 403. Es lo primero que hay que crear en el área cliente." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;spacingLeft=8;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="375" y="744" width="980" height="45" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="unidad5" name="2. Unidad 5 — Frontends">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="p2t" value="🖥️ UNIDAD 5 — FRONTENDS (todos pendientes, ninguno empezado)" style="text;html=1;align=left;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="45" y="15" width="1310" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h51" value="5.1 — Front admin SIN token   ·   PENDIENTE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#6c8ebf;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="75" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c51a" value="❌ Proyecto frontend NUEVO (Angular/React/Vue)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c51b" value="❌ Vista Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c51c" value="❌ Vista Detalle" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c51d" value="❌ Consumo con HttpClient / Axios" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c51e" value="❌ Comentar auth:sanctum en el backend" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c51f" value="❌ Mapear rutas de imágenes + placeholder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c51g" value="❌ Spinners / loading states" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c51h" value="❌ Mostrar routes/api.php en el video (que se vea el middleware comentado)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c51i" value="❌ PDF: EquipoXX_Practica_5.1_Cliente_HttpClient.pdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="223" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c51j" value="❓ Cuestionario de 5 preguntas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontColor=#666666;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="223" width="320" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h52" value="5.2 — Front admin CON token   ·   PENDIENTE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#6c8ebf;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="290" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c52a" value="❌ Reactivar auth:sanctum" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="332" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c52b" value="❌ Interceptor HTTP con Bearer — OBLIGATORIO, nunca a mano" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="332" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c52c" value="❌ Persistencia de sesión (localStorage / sessionStorage)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="332" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c52d" value="❌ Route Guards (CanActivate / rutas privadas)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="332" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c52e" value="❌ Redirección al login ante 401 / 403" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="385" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c52f" value="❌ Login + Logout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="385" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c52g" value="❌ Video: Network Tab mostrando Authorization: Bearer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="385" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c52h" value="❌ PDF: EquipoXX_Practica_5.2_Cliente_Token_Sesiones.pdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="385" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c52i" value="❓ Cuestionario de 5 preguntas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontColor=#666666;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="438" width="320" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h53" value="5.3 — Front público SIN token   ·   PENDIENTE · repo nuevo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#6c8ebf;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="505" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c53a" value="❌ Tercer proyecto independiente (repo nuevo)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="547" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c53b" value="❌ Vista Catálogo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="547" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c53c" value="❌ Vista Detalle" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="547" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c53d" value="❌ Rutas /client/catalogo FUERA de auth:sanctum" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="547" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c53e" value="❌ Spinners / Skeletons + placeholders de imagen" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="600" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c53f" value="❌ Video: Network Tab SIN header Authorization" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="600" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c53g" value="❌ PDF: EquipoXX_Practica_5.3_Cliente_Publico_SinToken.pdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="600" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c53h" value="❓ Cuestionario de 5 preguntas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontColor=#666666;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="600" width="320" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h54" value="5.4 — Front cliente CON token   ·   PENDIENTE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#6c8ebf;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="667" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c54a" value="❌ Registro" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="709" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c54b" value="❌ Login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="709" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c54c" value="❌ Mi Perfil" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="709" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c54d" value="❌ Mis Registros (CRUD de datos propios)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="709" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c54e" value="❌ Logout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="762" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c54f" value="❌ Interceptor Bearer + Route Guards" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="762" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c54g" value="❌ Video: entrar a ruta privada sin token → expulsa al Login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="762" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c54h" value="❌ PDF: EquipoXX_Practica_5.4_Cliente_AreaPrivada_Token.pdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="762" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c54i" value="❓ Cuestionario de 5 preguntas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontColor=#666666;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="815" width="320" height="45" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="unidad1a3" name="3. Unidades 1–3 verificadas">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="p3t" value="🔍 UNIDADES 1–3 — VERIFICADAS CONTRA EL CÓDIGO (entregadas en Moodle)" style="text;html=1;align=left;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="45" y="15" width="1310" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h33" value="3.3 — Autenticación mediante GUARDIAS   ·   ENTREGADA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#82b366;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="75" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c33a" value="✅ Guardia &quot;admin&quot; en config/auth.php (driver session)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c33b" value="✅ Proveedor apuntando al modelo Administrador" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c33c" value="✅ Guardia &quot;cliente&quot; (extra, no lo pedía)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c33d" value="✅ Estado de cuenta: campo activo + validación al login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="117" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c33e" value="⚠️ Contraseña: campo &quot;password&quot; — confirmar que use Hash::make()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c33f" value="❌ Vista Blade de login ADMIN con @csrf — no existe (solo cliente/login)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c33g" value="❌ Directivas @auth('admin') / @guest('admin') — no hay vistas admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c33h" value="✅ Protección de rutas del área admin (middleware)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="170" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c33i" value="⚠️ Cierre de sesión: funciona con token Sanctum, no con sesión — el flujo real de la API es por token" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="223" width="1310" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h34" value="3.4 — Autorización de administradores (Gates + niveles)   ·   ENTREGADA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#82b366;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="290" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c34a" value="✅ Campo &quot;nivel&quot; en administradores (migración 2026_10_30)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="332" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c34b" value="✅ Tres niveles documentados: 1 consulta · 2 crear/editar · 3 todo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="332" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c34c" value="❌ Gates en AppServiceProvider::boot() — ESTÁ VACÍO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="705" y="332" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c34d" value="❌ Directivas @can / @cannot en Blade" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="332" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c34e" value="❌ Control por NIVEL en rutas/controladores (solo existe EnsureEsAdmin, sin nivel)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="385" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c34f" value="✅ Mensaje de acceso denegado (403)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="385" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c34g" value="❌ Menú administrativo según nivel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="385" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="c34h" value="⚠️ Reutilizable para API: el middleware SÍ, los Gates NO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="385" width="320" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hres" value="📋 UNIDADES 1 y 2 — verificación rápida" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#82b366;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="452" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="cresa" value="✅ 1.5 Migraciones, modelos y relaciones — 23 migraciones + modelos con relaciones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="494" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cresb" value="⚠️ 1.6 Vistas estáticas — solo 2 vistas Blade en el repo (cliente/login y cliente/panel)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="494" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cresc" value="✅ 1.7 XML/JSON — carpeta formatos_intercambio_datos/XML con 12 archivos · JSON por confirmar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="705" y="494" width="320" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cresd" value="✅ 2.3–2.6 CRUD con paginate(5), borrado lógico y físico, restauración" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="494" width="320" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hprob" value="🐛 PROBLEMAS DETECTADOS EN EL CÓDIGO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b85450;strokeColor=#b85450;fontColor=#FFFFFF;fontStyle=1;fontSize=14;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="45" y="561" width="1310" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="cproba" value="❌ Ruta GET /admin/dashboard pide la vista &quot;dashboard&quot; que NO existe → error 500" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="45" y="603" width="430" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cprobb" value="❌ 9 controladores huérfanos en app/Http/Controllers/Api/ sin rutas (duplican a los demás)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="485" y="603" width="430" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="cprobc" value="⚠️ Git sucio: 8 modificados + 17 sin trackear SIN COMMIT (incluye todo el área cliente)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="925" y="603" width="430" height="45" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+</mxfile>

@@ -1,0 +1,166 @@
+.card.ancho {
+    width: min(720px, 92vw);
+    text-align: left;
+    margin: 2rem 0;
+}
+
+.formulario {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.formulario label {
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.95rem;
+    color: #d9f7e8;
+}
+
+.formulario input {
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 1rem;
+}
+
+.formulario input:focus {
+    outline: 2px solid #d9f7e8;
+}
+
+.boton {
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #fff;
+    color: #134e5e;
+    justify-self: start;
+    transition: transform .15s ease;
+}
+
+.boton:hover {
+    transform: translateY(-2px);
+}
+
+.navegacion {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.boton-menu {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.boton-menu.activo {
+    background: #fff;
+    color: #134e5e;
+}
+
+.boton-menu.salir {
+    margin-left: auto;
+    background: rgba(160, 45, 45, 0.65);
+}
+
+.error {
+    color: #ffd7d7;
+    margin-top: 0.75rem;
+}
+
+.mensaje {
+    margin-top: 0.5rem;
+    color: #ffd7d7;
+}
+
+.mensaje.exito {
+    color: #d9f7e8;
+}
+
+.lista-alimentos {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+}
+
+.item-alimento {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+}
+
+.item-alimento span {
+    color: #d9f7e8;
+    font-size: 0.9rem;
+}
+
+.item-alimento small {
+    flex-basis: 100%;
+    color: #e2e8f0;
+}
+
+.acciones-item {
+    display: flex;
+    gap: 0.5rem;
+    flex-basis: 100%;
+}
+
+.boton-chico {
+    padding: 0.35rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #fff;
+    color: #134e5e;
+}
+
+.boton-chico.donar {
+    background: #71b280;
+    color: #fff;
+}
+
+.boton-chico:hover,
+.boton-menu:hover {
+    transform: translateY(-1px);
+}
+
+.titulo-seccion {
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+    color: #d9f7e8;
+}
+
+.acciones-formulario {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.acciones-formulario .boton-menu {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+}

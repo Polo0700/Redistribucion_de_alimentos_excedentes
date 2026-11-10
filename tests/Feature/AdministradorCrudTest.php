@@ -11,6 +11,13 @@ class AdministradorCrudTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withToken($this->crearAdmin(['username' => 'admin.setup'])->createToken('test')->plainTextToken);
+    }
+
     private function crearAdmin(array $datos = []): Administrador
     {
         return Administrador::create(array_merge([
@@ -26,14 +33,14 @@ class AdministradorCrudTest extends TestCase
     {
         $this->crearAdmin();
 
-        $this->getJson('/api/administradores')
+        $this->getJson('/api/v1/admin/administradores')
             ->assertOk()
-            ->assertJsonStructure(['administradores' => ['data']]);
+            ->assertJsonStructure(['data']);
     }
 
     public function test_crea_un_administrador_con_password_cifrado(): void
     {
-        $respuesta = $this->postJson('/api/administradores', [
+        $respuesta = $this->postJson('/api/v1/admin/administradores', [
             'nombre_completo' => 'Nuevo Admin',
             'username' => 'admin.nuevo',
             'password' => 'password123',
@@ -53,7 +60,7 @@ class AdministradorCrudTest extends TestCase
     {
         $this->crearAdmin(['username' => 'admin.repetido']);
 
-        $this->postJson('/api/administradores', [
+        $this->postJson('/api/v1/admin/administradores', [
             'nombre_completo' => 'Otro Admin',
             'username' => 'admin.repetido',
             'password' => 'password123',
@@ -66,11 +73,11 @@ class AdministradorCrudTest extends TestCase
     {
         $admin = $this->crearAdmin();
 
-        $this->getJson("/api/administradores/{$admin->id}")
+        $this->getJson("/api/v1/admin/administradores/{$admin->id}")
             ->assertOk()
-            ->assertJsonPath('administrador.id', $admin->id);
+            ->assertJsonPath('data.id', $admin->id);
 
-        $this->getJson('/api/administradores/999999')
+        $this->getJson('/api/v1/admin/administradores/999999')
             ->assertNotFound()
             ->assertJsonStructure(['message']);
     }
@@ -80,7 +87,7 @@ class AdministradorCrudTest extends TestCase
         $admin = $this->crearAdmin();
         $passwordOriginal = $admin->password;
 
-        $this->putJson("/api/administradores/{$admin->id}", [
+        $this->putJson("/api/v1/admin/administradores/{$admin->id}", [
             'nombre_completo' => 'Admin Editado',
             'username' => 'admin.base',
             'activo' => false,
@@ -98,21 +105,21 @@ class AdministradorCrudTest extends TestCase
     {
         $admin = $this->crearAdmin();
 
-        $this->deleteJson("/api/administradores/{$admin->id}")->assertOk();
+        $this->deleteJson("/api/v1/admin/administradores/{$admin->id}")->assertOk();
         $this->assertSoftDeleted('administradores', ['id' => $admin->id]);
 
-        $this->getJson('/api/administradores/eliminados')
+        $this->getJson('/api/v1/admin/administradores/eliminados')
             ->assertOk()
             ->assertJsonStructure(['administradores' => ['data']]);
 
-        $this->patchJson("/api/administradores/{$admin->id}/restore")->assertOk();
+        $this->patchJson("/api/v1/admin/administradores/{$admin->id}/restore")->assertOk();
         $this->assertNotSoftDeleted('administradores', ['id' => $admin->id]);
 
         // sin borrado lógico previo no se permite el borrado físico
-        $this->deleteJson("/api/administradores/{$admin->id}/force")->assertStatus(422);
+        $this->deleteJson("/api/v1/admin/administradores/{$admin->id}/force")->assertStatus(422);
 
         $admin->delete();
-        $this->deleteJson("/api/administradores/{$admin->id}/force")->assertOk();
+        $this->deleteJson("/api/v1/admin/administradores/{$admin->id}/force")->assertOk();
         $this->assertDatabaseMissing('administradores', ['id' => $admin->id]);
     }
 }
