@@ -1,0 +1,19 @@
+$kind: http-request
+name: 'Eliminar categoria de apoyo'
+method: DELETE
+url: '{{baseUrlV1}}/categorias/:id'
+order: 12000
+pathVariables:
+  - key: id
+    value: '{{categoriaAlimentoId}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Confirma la eliminacion de la categoria de apoyo", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(true);
+      });

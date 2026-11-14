@@ -1,0 +1,26 @@
+$kind: http-request
+name: 'Reemplazar imagen del alimento'
+method: POST
+url: '{{baseUrlV1}}/alimentos/:id/imagen'
+order: 4000
+pathVariables:
+  - key: id
+    value: '{{alimentoId}}'
+body:
+  type: formdata
+  content:
+    - key: imagen
+      type: file
+      src: 'postman/collections/actividad-4.2-api-v1/Alimentos/imagen.png'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve la nueva imagen", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(true);
+          pm.expect(body.data.imagen_url).to.be.a("string");
+      });

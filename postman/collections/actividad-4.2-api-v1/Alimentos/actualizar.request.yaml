@@ -1,0 +1,32 @@
+$kind: http-request
+name: 'Actualizar alimento (PUT)'
+method: PUT
+url: '{{baseUrlV1}}/alimentos/:id'
+order: 5000
+pathVariables:
+  - key: id
+    value: '{{alimentoId}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "id_categoria": {{categoriaAlimentoId}},
+      "nombre": "Alimento de prueba 4.2 actualizado",
+      "descripcion": "Reemplazo completo enviado por la coleccion",
+      "estado": 0
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve los datos actualizados", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(true);
+          pm.expect(body.data.estado).to.eql(false);
+      });

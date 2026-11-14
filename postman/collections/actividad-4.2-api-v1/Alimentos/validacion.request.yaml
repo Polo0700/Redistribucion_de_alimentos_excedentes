@@ -1,0 +1,31 @@
+$kind: http-request
+name: 'Validacion de alimento'
+method: POST
+url: '{{baseUrlV1}}/alimentos'
+order: 8000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "id_categoria": 999999,
+      "nombre": "",
+      "descripcion": "",
+      "estado": "no-es-booleano"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 422 Unprocessable Content", function () {
+          pm.response.to.have.status(422);
+      });
+      pm.test("Devuelve los errores por campo", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(false);
+          pm.expect(body.errors).to.have.property("id_categoria");
+          pm.expect(body.errors).to.have.property("nombre");
+          pm.expect(body.errors).to.have.property("estado");
+      });

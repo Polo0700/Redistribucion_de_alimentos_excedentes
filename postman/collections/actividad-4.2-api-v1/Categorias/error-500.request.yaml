@@ -1,0 +1,19 @@
+$kind: http-request
+name: 'Error interno controlado'
+method: GET
+url: '{{baseUrlV1}}/categorias?buscar[]=x'
+order: 6700
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 500 Internal Server Error", function () {
+          pm.response.to.have.status(500);
+      });
+      pm.test("Devuelve el error estandarizado sin detalles internos", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(false);
+          pm.expect(body.message).to.eql("Ocurrió un error interno al procesar la solicitud");
+          pm.expect(body.data).to.eql(null);
+          pm.expect(body.errors).to.eql(null);
+      });
