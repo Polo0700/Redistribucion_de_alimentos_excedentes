@@ -14,7 +14,8 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        // la raíz redirige al dashboard
-        $response->assertRedirect(route('dashboard'));
+        // la raíz responde con un JSON informativo de la API
+        $response->assertOk()
+            ->assertJsonStructure(['message']);
     }
 }

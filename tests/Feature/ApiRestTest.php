@@ -82,6 +82,16 @@ class ApiRestTest extends TestCase
         $this->crearAdmin();
         $token = $this->login();
 
+        // crea una acción importante para verificar el mapeo del Resource
+        \App\Models\AccionImportante::create([
+            'id_usuario' => null,
+            'accion' => 'PRUEBA_INDEX',
+            'tabla_afectada' => 'usuarios',
+            'descripcion' => 'Accion creada por la prueba automatizada',
+            'fecha_hora' => now()->toDateTimeString(),
+            'ip_origen' => '127.0.0.1',
+        ]);
+
         $this->withToken($token)
             ->getJson('/api/acciones-importantes')
             ->assertStatus(200)
@@ -89,7 +99,8 @@ class ApiRestTest extends TestCase
                 'data' => [['id_accion', 'accion', 'tabla_afectada']],
                 'links',
                 'meta',
-            ]);
+            ])
+            ->assertJsonPath('data.0.accion', 'PRUEBA_INDEX');
     }
 
     /*
