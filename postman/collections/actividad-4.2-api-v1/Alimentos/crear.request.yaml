@@ -1,0 +1,36 @@
+$kind: http-request
+name: 'Crear alimento con imagen'
+method: POST
+url: '{{baseUrlV1}}/alimentos'
+order: 2000
+body:
+  type: formdata
+  content:
+    - key: id_categoria
+      type: text
+      value: '{{categoriaAlimentoId}}'
+    - key: nombre
+      type: text
+      value: 'Alimento de prueba 4.2'
+    - key: descripcion
+      type: text
+      value: 'Registro creado por la coleccion de Postman'
+    - key: estado
+      type: text
+      value: '1'
+    - key: imagen
+      type: file
+      src: 'postman/collections/actividad-4.2-api-v1/Alimentos/imagen.png'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Guarda el id y devuelve la imagen publica", function () {
+          var body = pm.response.json();
+          pm.expect(body.data.id_alimento).to.be.a("number");
+          pm.expect(body.data.imagen_url).to.be.a("string");
+          pm.collectionVariables.set("alimentoId", body.data.id_alimento);
+      });

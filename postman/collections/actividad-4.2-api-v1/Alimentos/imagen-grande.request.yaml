@@ -1,0 +1,26 @@
+$kind: http-request
+name: 'Imagen que excede el tamano maximo'
+method: POST
+url: '{{baseUrlV1}}/alimentos/:id/imagen'
+order: 7500
+pathVariables:
+  - key: id
+    value: '{{alimentoId}}'
+body:
+  type: formdata
+  content:
+    - key: imagen
+      type: file
+      src: 'postman/collections/actividad-4.2-api-v1/Alimentos/imagen-grande.png'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 422 Unprocessable Content", function () {
+          pm.response.to.have.status(422);
+      });
+      pm.test("Explica el error de tamano", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(false);
+          pm.expect(body.errors).to.have.property("imagen");
+      });

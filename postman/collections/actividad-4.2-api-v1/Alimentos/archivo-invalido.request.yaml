@@ -1,0 +1,26 @@
+$kind: http-request
+name: 'Archivo que no es imagen'
+method: POST
+url: '{{baseUrlV1}}/alimentos/:id/imagen'
+order: 7000
+pathVariables:
+  - key: id
+    value: '{{alimentoId}}'
+body:
+  type: formdata
+  content:
+    - key: imagen
+      type: file
+      src: 'postman/collections/actividad-4.2-api-v1/Alimentos/no-imagen.txt'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 422 Unprocessable Content", function () {
+          pm.response.to.have.status(422);
+      });
+      pm.test("Explica el error del archivo", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(false);
+          pm.expect(body.errors).to.have.property("imagen");
+      });

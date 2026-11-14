@@ -1,0 +1,18 @@
+$kind: http-request
+name: 'Alimento inexistente'
+method: GET
+url: '{{baseUrlV1}}/alimentos/999999'
+order: 11000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 404 Not Found", function () {
+          pm.response.to.have.status(404);
+      });
+      pm.test("Devuelve el error estandarizado", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(false);
+          pm.expect(body.data).to.eql(null);
+          pm.expect(body.errors).to.eql(null);
+      });

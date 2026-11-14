@@ -1,0 +1,20 @@
+$kind: http-request
+name: 'Eliminar categoria'
+method: DELETE
+url: '{{baseUrlV1}}/categorias/:id'
+order: 8000
+pathVariables:
+  - key: id
+    value: '{{categoriaId}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Confirma la eliminacion", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(true);
+          pm.expect(body.data).to.eql(null);
+      });

@@ -1,0 +1,18 @@
+$kind: http-request
+name: 'Listar alimentos'
+method: GET
+url: '{{baseUrlV1}}/alimentos'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve la coleccion de datos", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(true);
+          pm.expect(body.data).to.be.an("array");
+          pm.expect(body.data.length).to.be.at.least(0);
+      });

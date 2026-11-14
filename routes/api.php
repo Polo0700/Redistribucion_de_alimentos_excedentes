@@ -3,6 +3,8 @@
 use App\Http\Controllers\AccionImportanteController;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AlimentoController;
+use App\Http\Controllers\Api\V1\AlimentoController as AlimentoV1Controller;
+use App\Http\Controllers\Api\V1\CategoriaController as CategoriaV1Controller;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\CategoriaAlimentoController;
 use App\Http\Controllers\CuentaAccesoController;
@@ -12,6 +14,51 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API v1 (Actividad 4.2, sin autenticación)
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('v1')->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Categorías
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/categorias', [CategoriaV1Controller::class, 'index'])->name('api.v1.categorias.index');
+
+    Route::post('/categorias', [CategoriaV1Controller::class, 'store'])->name('api.v1.categorias.store');
+
+    Route::get('/categorias/{id}', [CategoriaV1Controller::class, 'show'])->whereNumber('id')->name('api.v1.categorias.show');
+
+    Route::match(['put', 'patch'], '/categorias/{id}', [CategoriaV1Controller::class, 'update'])->whereNumber('id')->name('api.v1.categorias.update');
+
+    Route::delete('/categorias/{id}', [CategoriaV1Controller::class, 'destroy'])->whereNumber('id')->name('api.v1.categorias.destroy');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Alimentos
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/alimentos', [AlimentoV1Controller::class, 'index'])->name('api.v1.alimentos.index');
+
+    Route::post('/alimentos', [AlimentoV1Controller::class, 'store'])->name('api.v1.alimentos.store');
+
+    Route::post('/alimentos/{id}/imagen', [AlimentoV1Controller::class, 'storeImagen'])->whereNumber('id')->name('api.v1.alimentos.imagen.store');
+
+    Route::delete('/alimentos/{id}/imagen', [AlimentoV1Controller::class, 'destroyImagen'])->whereNumber('id')->name('api.v1.alimentos.imagen.destroy');
+
+    Route::get('/alimentos/{id}', [AlimentoV1Controller::class, 'show'])->whereNumber('id')->name('api.v1.alimentos.show');
+
+    Route::match(['put', 'patch'], '/alimentos/{id}', [AlimentoV1Controller::class, 'update'])->whereNumber('id')->name('api.v1.alimentos.update');
+
+    Route::delete('/alimentos/{id}', [AlimentoV1Controller::class, 'destroy'])->whereNumber('id')->name('api.v1.alimentos.destroy');
+});
 
 /*
 |--------------------------------------------------------------------------

@@ -1,0 +1,28 @@
+$kind: http-request
+name: 'Crear categoria'
+method: POST
+url: '{{baseUrlV1}}/categorias'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Categoria de prueba 4.2",
+      "descripcion": "Registro creado por la coleccion de Postman",
+      "estado": 1
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Guarda el id de la categoria creada", function () {
+          var body = pm.response.json();
+          pm.expect(body.data.id_categoria).to.be.a("number");
+          pm.collectionVariables.set("categoriaId", body.data.id_categoria);
+      });

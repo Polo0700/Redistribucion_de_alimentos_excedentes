@@ -1,0 +1,31 @@
+$kind: http-request
+name: 'Actualizar categoria (PUT)'
+method: PUT
+url: '{{baseUrlV1}}/categorias/:id'
+order: 4000
+pathVariables:
+  - key: id
+    value: '{{categoriaId}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Categoria de prueba 4.2 actualizada",
+      "descripcion": "Reemplazo completo enviado por la coleccion",
+      "estado": 0
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Devuelve los datos actualizados", function () {
+          var body = pm.response.json();
+          pm.expect(body.success).to.eql(true);
+          pm.expect(body.data.estado).to.eql(false);
+      });

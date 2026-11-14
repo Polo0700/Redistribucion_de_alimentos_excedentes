@@ -1,0 +1,27 @@
+$kind: http-request
+name: 'Crear categoria para el alimento'
+method: POST
+url: '{{baseUrlV1}}/categorias'
+order: 1500
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Categoria de apoyo 4.2",
+      "descripcion": "Categoria usada por las pruebas de alimentos",
+      "estado": 1
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Guarda el id de la categoria de apoyo", function () {
+          var body = pm.response.json();
+          pm.collectionVariables.set("categoriaAlimentoId", body.data.id_categoria);
+      });
