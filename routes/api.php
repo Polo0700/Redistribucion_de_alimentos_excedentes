@@ -13,23 +13,15 @@ use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| RUTA PÚBLICA: autenticación con Sanctum
-|--------------------------------------------------------------------------
-*/
+//ruta publica auteticacion santum
 
 Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
-/*
-|--------------------------------------------------------------------------
-| RUTAS PROTEGIDAS POR SANCTUM
-|--------------------------------------------------------------------------
-*/
+//rutas protegidas sunctum
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // cierre de sesión (revoca el token actual)
+    // cierre de sesión 
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
 
     /*
