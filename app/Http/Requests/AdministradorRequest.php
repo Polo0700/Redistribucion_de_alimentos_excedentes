@@ -14,13 +14,20 @@ class AdministradorRequest extends FormRequest
     public function rules(): array
     {
         // el username no puede repetirse, pero se ignora el propio al actualizar
-        $id = $this->route('administrador') ?? $this->route('id');
+        // (el parámetro de la ruta apiResource se genera como "administradore")
+        $id = $this->route('administradore') ?? $this->route('administrador') ?? $this->route('id');
 
         $esCreacion = $this->isMethod('post');
 
+        $reglaUsername = \Illuminate\Validation\Rule::unique('administradores', 'username');
+
+        if ($id) {
+            $reglaUsername->ignore($id);
+        }
+
         return [
             'nombre_completo' => 'required|string|max:50',
-            'username' => ['required', 'string', 'max:30', \Illuminate\Validation\Rule::unique('administradores', 'username')->ignore($id)],
+            'username' => ['required', 'string', 'max:30', $reglaUsername],
             'password' => ($esCreacion ? 'required' : 'nullable').'|string|min:8|max:255',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'activo' => 'nullable|boolean',
