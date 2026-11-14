@@ -2,70 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoriaAlimentoRequest;
+use App\Http\Resources\CategoriaAlimentoResource;
 use App\Models\CategoriaAlimento;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class CategoriaAlimentoController extends Controller
 {
-    // trae las categorias de la base de datos de 5 en 5
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO
+    |--------------------------------------------------------------------------
+    */
     public function index()
     {
-        $categorias = CategoriaAlimento::paginate(5);
-
-        return response()->json(['categorias' => $categorias], 200);
+        return CategoriaAlimentoResource::collection(CategoriaAlimento::paginate(5));
     }
 
-    
-    public function create()
-{
-    return response()->json([
-        'message' => 'Endpoint no utilizado en API'
-    ]);
-}
-
-    public function store(Request $request)
+    /*
+    |--------------------------------------------------------------------------
+    | GUARDAR NUEVA CATEGORÍA
+    |--------------------------------------------------------------------------
+    */
+    public function store(CategoriaAlimentoRequest $request): JsonResponse
     {
-        // toma la peticion y la comprueba si tiene los parametros
-        $validado = $request->validate([
-            'nombre' => 'required|string|max:80',
-            'descripcion' => 'required|string|max:200',
-            'estado' => 'required|boolean',
-        ]);
+        $categoria = CategoriaAlimento::create($request->validated());
 
-       $categoria = CategoriaAlimento::create($validado);
-              return response()->json([
-      'message' => 'Categoria creada correctamente',
-      'data' => $categoria
-      ], 201);
-    }
-
-    public function edit($id)
-    {
-        $categoria = CategoriaAlimento::findOrFail($id);
-
-       return response()->json([
-    'categoria' => $categoria
-]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $categoria = CategoriaAlimento::findOrFail($id);
-
-        $request->validate([
-            'nombre' => 'required|max:80',
-            'descripcion' => 'nullable|max:200',
-            'estado' => 'required|boolean',
-        ]);
-
-        $categoria->update([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'estado' => $request->estado,
-        ]);
-
-           return response()->json([
-    'message' => 'Categoría actualizada correctamente.','data' => $categoria], 200);
+        return (new CategoriaAlimentoResource($categoria))
+            ->additional(['message' => 'Categoria creada correctamente'])
+            ->response()
+            ->setStatusCode(201);
     }
 
     /*
@@ -73,11 +39,24 @@ class CategoriaAlimentoController extends Controller
     | MOSTRAR (consulta individual, solo lectura)
     |--------------------------------------------------------------------------
     */
-    public function show($id)
+    public function show($id): JsonResponse
+    {
+        return (new CategoriaAlimentoResource(CategoriaAlimento::findOrFail($id)))->response();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACTUALIZAR CATEGORÍA
+    |--------------------------------------------------------------------------
+    */
+    public function update(CategoriaAlimentoRequest $request, $id): JsonResponse
     {
         $categoria = CategoriaAlimento::findOrFail($id);
+        $categoria->update($request->validated());
 
-       return response()->json(['categoria' => $categoria], 200);
+        return (new CategoriaAlimentoResource($categoria))
+            ->additional(['message' => 'Categoría actualizada correctamente.'])
+            ->response();
     }
 
     /*
@@ -85,7 +64,7 @@ class CategoriaAlimentoController extends Controller
     | BORRADO LÓGICO
     |--------------------------------------------------------------------------
     */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $categoria = CategoriaAlimento::findOrFail($id);
         $categoria->delete();
@@ -100,9 +79,7 @@ class CategoriaAlimentoController extends Controller
     */
     public function trashed()
     {
-        $categorias = CategoriaAlimento::onlyTrashed()->paginate(5);
-
-        return response()->json(['categorias' => $categorias], 200);
+        return CategoriaAlimentoResource::collection(CategoriaAlimento::onlyTrashed()->paginate(5));
     }
 
     /*
@@ -110,12 +87,14 @@ class CategoriaAlimentoController extends Controller
     | RESTAURAR REGISTRO
     |--------------------------------------------------------------------------
     */
-    public function restore($id)
+    public function restore($id): JsonResponse
     {
         $categoria = CategoriaAlimento::onlyTrashed()->findOrFail($id);
         $categoria->restore();
 
-        return response()->json(['message' => 'Categoría restaurada correctamente.'], 200);
+        return (new CategoriaAlimentoResource($categoria))
+            ->additional(['message' => 'Categoría restaurada correctamente.'])
+            ->response();
     }
 
     /*
@@ -123,7 +102,7 @@ class CategoriaAlimentoController extends Controller
     | BORRADO FÍSICO (solo para registros lógicamente eliminados)
     |--------------------------------------------------------------------------
     */
-    public function forceDestroy($id)
+    public function forceDestroy($id): JsonResponse
     {
         $categoria = CategoriaAlimento::withTrashed()->findOrFail($id);
 
@@ -134,12 +113,13 @@ class CategoriaAlimentoController extends Controller
 
         // validación de relaciones: si otra tabla la usa, se cancela
         if ($categoria->alimentos()->count() > 0) {
-          return response()->json([
-    'message' => 'Categoría eliminada definitivamente.'], 200);
+            return response()->json([
+                'message' => 'No se puede eliminar: la categoría tiene alimentos registrados.',
+            ], 422);
         }
 
         $categoria->forceDelete();
 
-        return redirect()->route('categorias.trashed')->with('success', 'Categoría eliminada definitivamente.');
+        return response()->json(['message' => 'Categoría eliminada definitivamente.'], 200);
     }
 }

@@ -2,88 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EntregaRequest;
+use App\Http\Resources\EntregaResource;
 use App\Models\Entrega;
-use App\Models\Solicitud;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class EntregaController extends Controller
 {
-    // trae las entregas de la base de datos con su solicitud de 5 en 5
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO
+    |--------------------------------------------------------------------------
+    */
     public function index()
     {
-        $entregas = Entrega::with('solicitud')->paginate(5);
-
-        return response()->json([
-            'entregas' => $entregas
-        ], 200);
+        return EntregaResource::collection(Entrega::with('solicitud')->paginate(5));
     }
 
-    // obtiene las solicitudes y las organiza por id y las mete a solicitudes
-    public function create()
+    /*
+    |--------------------------------------------------------------------------
+    | GUARDAR NUEVA ENTREGA
+    |--------------------------------------------------------------------------
+    */
+    public function store(EntregaRequest $request): JsonResponse
     {
-        $solicitudes = Solicitud::orderBy('id_solicitud')->get();
+        $entrega = Entrega::create($request->validated());
 
-        return response()->json([
-            'solicitudes' => $solicitudes
-        ], 200);
-    }
-
-    public function store(Request $request)
-    {
-        // toma la peticion y la comprueba si tiene los parametros
-        $validado = $request->validate([
-            'id_solicitud' => 'required|exists:solicitudes,id_solicitud',
-            'fecha_entrega' => 'required|date',
-            'responsable' => 'required|string|max:100',
-            'estado' => 'required|string|max:30',
-            'observaciones' => 'nullable|string|max:250',
-        ]);
-
-        // crea una entrega
-        $entrega = Entrega::create($validado);
-
-        return response()->json([
-            'message' => 'Entrega creada correctamente',
-            'data' => $entrega
-        ], 201);
-    }
-
-    public function edit($id)
-    {
-        $entrega = Entrega::findOrFail($id);
-
-        $solicitudes = Solicitud::with('usuario')->get();
-
-        return response()->json([
-            'entrega' => $entrega,
-            'solicitudes' => $solicitudes
-        ], 200);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $entrega = Entrega::findOrFail($id);
-
-        $request->validate([
-            'id_solicitud' => 'required|exists:solicitudes,id_solicitud',
-            'fecha_entrega' => 'required|date',
-            'responsable' => 'required|max:100',
-            'estado' => 'required|max:30',
-            'observaciones' => 'nullable|max:250',
-        ]);
-
-        $entrega->update([
-            'id_solicitud' => $request->id_solicitud,
-            'fecha_entrega' => $request->fecha_entrega,
-            'responsable' => $request->responsable,
-            'estado' => $request->estado,
-            'observaciones' => $request->observaciones,
-        ]);
-
-        return response()->json([
-            'message' => 'Entrega actualizada correctamente.',
-            'data' => $entrega
-        ], 200);
+        return (new EntregaResource($entrega))
+            ->additional(['message' => 'Entrega creada correctamente'])
+            ->response()
+            ->setStatusCode(201);
     }
 
     /*
@@ -91,13 +39,24 @@ class EntregaController extends Controller
     | MOSTRAR (consulta individual, solo lectura)
     |--------------------------------------------------------------------------
     */
-    public function show($id)
+    public function show($id): JsonResponse
     {
-        $entrega = Entrega::with('solicitud')->findOrFail($id);
+        return (new EntregaResource(Entrega::with('solicitud')->findOrFail($id)))->response();
+    }
 
-        return response()->json([
-            'entrega' => $entrega
-        ], 200);
+    /*
+    |--------------------------------------------------------------------------
+    | ACTUALIZAR ENTREGA
+    |--------------------------------------------------------------------------
+    */
+    public function update(EntregaRequest $request, $id): JsonResponse
+    {
+        $entrega = Entrega::findOrFail($id);
+        $entrega->update($request->validated());
+
+        return (new EntregaResource($entrega))
+            ->additional(['message' => 'Entrega actualizada correctamente.'])
+            ->response();
     }
 
     /*
@@ -105,13 +64,13 @@ class EntregaController extends Controller
     | BORRADO LÓGICO
     |--------------------------------------------------------------------------
     */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $entrega = Entrega::findOrFail($id);
         $entrega->delete();
 
         return response()->json([
-            'message' => 'Entrega eliminada correctamente.'
+            'message' => 'Entrega eliminada correctamente.',
         ], 200);
     }
 
@@ -122,11 +81,7 @@ class EntregaController extends Controller
     */
     public function trashed()
     {
-        $entregas = Entrega::onlyTrashed()->paginate(5);
-
-        return response()->json([
-            'entregas' => $entregas
-        ], 200);
+        return EntregaResource::collection(Entrega::onlyTrashed()->paginate(5));
     }
 
     /*
@@ -134,14 +89,14 @@ class EntregaController extends Controller
     | RESTAURAR REGISTRO
     |--------------------------------------------------------------------------
     */
-    public function restore($id)
+    public function restore($id): JsonResponse
     {
         $entrega = Entrega::onlyTrashed()->findOrFail($id);
         $entrega->restore();
 
-        return response()->json([
-            'message' => 'Entrega restaurada correctamente.'
-        ], 200);
+        return (new EntregaResource($entrega))
+            ->additional(['message' => 'Entrega restaurada correctamente.'])
+            ->response();
     }
 
     /*
@@ -149,14 +104,14 @@ class EntregaController extends Controller
     | BORRADO FÍSICO (solo para registros lógicamente eliminados)
     |--------------------------------------------------------------------------
     */
-    public function forceDestroy($id)
+    public function forceDestroy($id): JsonResponse
     {
         $entrega = Entrega::withTrashed()->findOrFail($id);
 
-        // solo se permite si ya estaba eliminada lógicamente
+        // solo se permite si ya estaba eliminado lógicamente
         if (! $entrega->trashed()) {
             return response()->json([
-                'message' => 'Primero debe aplicar el borrado lógico al registro.'
+                'message' => 'Primero debe aplicar el borrado lógico al registro.',
             ], 422);
         }
 
@@ -164,7 +119,7 @@ class EntregaController extends Controller
         $entrega->forceDelete();
 
         return response()->json([
-            'message' => 'Entrega eliminada definitivamente.'
+            'message' => 'Entrega eliminada definitivamente.',
         ], 200);
     }
 }
