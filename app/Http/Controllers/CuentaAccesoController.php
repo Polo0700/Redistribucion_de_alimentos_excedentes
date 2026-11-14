@@ -2,95 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CuentaAccesoRequest;
+use App\Http\Resources\CuentaAccesoResource;
 use App\Models\CuentaAcceso;
-use App\Models\Usuario;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 class CuentaAccesoController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO
+    |--------------------------------------------------------------------------
+    */
     public function index()
     {
-        // toma las cuentas que quiere acceso del tipo usuario en la DB
-        $cuentas = CuentaAcceso::with('usuario')->paginate(5);
-
-        return response()->json([
-            'cuentas' => $cuentas
-        ], 200);
+        return CuentaAccesoResource::collection(CuentaAcceso::with('usuario')->paginate(5));
     }
 
-    public function create()
+    /*
+    |--------------------------------------------------------------------------
+    | GUARDAR NUEVA CUENTA DE ACCESO
+    |--------------------------------------------------------------------------
+    */
+    public function store(CuentaAccesoRequest $request): JsonResponse
     {
-        // obtiene los usuarios y los ordena por nombre y los mete a usuarios
-        $usuarios = Usuario::orderBy('nombre')->get();
+        $validado = $request->validated();
 
-        return response()->json([
-            'usuarios' => $usuarios
-        ], 200);
-    }
-
-    public function store(Request $request)
-    {
-        // toma la peticion y la comprueba si tiene los parametros
-        $validado = $request->validate([
-            'id_usuario' => 'required|exists:usuarios,id',
-            'proveedor' => 'required|string|max:30',
-            'identificador_externo' => 'required|string|max:150',
-            'contrasena' => 'required|string|min:6|max:255',
-            'fecha_ultimo_acceso' => 'required|date',
-        ]);
-
-        // toma de validado la contraseña y la convierte a hash y la pone como parametro en validado
+        // toma la contraseña y la convierte a hash antes de guardarla
         $validado['contrasena_hash'] = Hash::make($validado['contrasena']);
 
         // quita la contraseña sin hashear
         unset($validado['contrasena']);
 
-        // crea una cuenta
         $cuenta = CuentaAcceso::create($validado);
 
-        return response()->json([
-            'message' => 'Cuenta de acceso creada correctamente',
-            'data' => $cuenta
-        ], 201);
-    }
-
-    public function edit($id)
-    {
-        $cuenta = CuentaAcceso::findOrFail($id);
-
-        $usuarios = Usuario::where('estado', true)->get();
-
-        return response()->json([
-            'cuenta' => $cuenta,
-            'usuarios' => $usuarios
-        ], 200);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $cuenta = CuentaAcceso::findOrFail($id);
-
-        $request->validate([
-            'id_usuario' => 'required|exists:usuarios,id',
-            'proveedor' => 'required|max:30',
-            'identificador_externo' => 'required|max:150',
-            'contrasena_hash' => 'required|max:255',
-            'fecha_ultimo_acceso' => 'required|date',
-        ]);
-
-        $cuenta->update([
-            'id_usuario' => $request->id_usuario,
-            'proveedor' => $request->proveedor,
-            'identificador_externo' => $request->identificador_externo,
-            'contrasena_hash' => $request->contrasena_hash,
-            'fecha_ultimo_acceso' => $request->fecha_ultimo_acceso,
-        ]);
-
-        return response()->json([
-            'message' => 'Cuenta de acceso actualizada correctamente.',
-            'data' => $cuenta
-        ], 200);
+        return (new CuentaAccesoResource($cuenta))
+            ->additional(['message' => 'Cuenta de acceso creada correctamente'])
+            ->response()
+            ->setStatusCode(201);
     }
 
     /*
@@ -98,13 +48,34 @@ class CuentaAccesoController extends Controller
     | MOSTRAR (consulta individual, solo lectura)
     |--------------------------------------------------------------------------
     */
-    public function show($id)
+    public function show($id): JsonResponse
     {
-        $cuenta = CuentaAcceso::with('usuario')->findOrFail($id);
+        return (new CuentaAccesoResource(CuentaAcceso::with('usuario')->findOrFail($id)))->response();
+    }
 
-        return response()->json([
-            'cuenta' => $cuenta
-        ], 200);
+    /*
+    |--------------------------------------------------------------------------
+    | ACTUALIZAR CUENTA DE ACCESO
+    |--------------------------------------------------------------------------
+    */
+    public function update(CuentaAccesoRequest $request, $id): JsonResponse
+    {
+        $cuenta = CuentaAcceso::findOrFail($id);
+
+        $validado = $request->validated();
+
+        // si se envía una nueva contraseña, se guarda hasheada
+        if (! empty($validado['contrasena'])) {
+            $validado['contrasena_hash'] = Hash::make($validado['contrasena']);
+        }
+
+        unset($validado['contrasena']);
+
+        $cuenta->update($validado);
+
+        return (new CuentaAccesoResource($cuenta))
+            ->additional(['message' => 'Cuenta de acceso actualizada correctamente.'])
+            ->response();
     }
 
     /*
@@ -112,13 +83,13 @@ class CuentaAccesoController extends Controller
     | BORRADO LÓGICO
     |--------------------------------------------------------------------------
     */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $cuenta = CuentaAcceso::findOrFail($id);
         $cuenta->delete();
 
         return response()->json([
-            'message' => 'Cuenta de acceso eliminada correctamente.'
+            'message' => 'Cuenta de acceso eliminada correctamente.',
         ], 200);
     }
 
@@ -129,11 +100,7 @@ class CuentaAccesoController extends Controller
     */
     public function trashed()
     {
-        $cuentas = CuentaAcceso::onlyTrashed()->paginate(5);
-
-        return response()->json([
-            'cuentas' => $cuentas
-        ], 200);
+        return CuentaAccesoResource::collection(CuentaAcceso::onlyTrashed()->paginate(5));
     }
 
     /*
@@ -141,14 +108,14 @@ class CuentaAccesoController extends Controller
     | RESTAURAR REGISTRO
     |--------------------------------------------------------------------------
     */
-    public function restore($id)
+    public function restore($id): JsonResponse
     {
         $cuenta = CuentaAcceso::onlyTrashed()->findOrFail($id);
         $cuenta->restore();
 
-        return response()->json([
-            'message' => 'Cuenta de acceso restaurada correctamente.'
-        ], 200);
+        return (new CuentaAccesoResource($cuenta))
+            ->additional(['message' => 'Cuenta de acceso restaurada correctamente.'])
+            ->response();
     }
 
     /*
@@ -156,14 +123,14 @@ class CuentaAccesoController extends Controller
     | BORRADO FÍSICO (solo para registros lógicamente eliminados)
     |--------------------------------------------------------------------------
     */
-    public function forceDestroy($id)
+    public function forceDestroy($id): JsonResponse
     {
         $cuenta = CuentaAcceso::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminada lógicamente
         if (! $cuenta->trashed()) {
             return response()->json([
-                'message' => 'Primero debe aplicar el borrado lógico al registro.'
+                'message' => 'Primero debe aplicar el borrado lógico al registro.',
             ], 422);
         }
 
@@ -171,7 +138,7 @@ class CuentaAccesoController extends Controller
         $cuenta->forceDelete();
 
         return response()->json([
-            'message' => 'Cuenta de acceso eliminada definitivamente.'
+            'message' => 'Cuenta de acceso eliminada definitivamente.',
         ], 200);
     }
 }

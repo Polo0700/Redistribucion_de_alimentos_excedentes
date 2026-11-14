@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AlimentoRequest;
+use App\Http\Resources\AlimentoResource;
 use App\Models\Alimento;
-use App\Models\CategoriaAlimento;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,30 +15,21 @@ class AlimentoController extends Controller
     |--------------------------------------------------------------------------
     | LISTADO
     |--------------------------------------------------------------------------
+    | Módulo administrativo: respuesta estandarizada con JsonResource.
+    | Módulo cliente (Actividad 4.4): conserva su estructura original.
     */
-    public function index()
+    public function index(Request $request)
     {
         // trae los alimentos de la base de datos con su categoría de 5 en 5
         $alimentos = Alimento::with('categoria')->paginate(5);
 
-        return response()->json([
-            'alimentos' => $alimentos
-        ], 200);
-    }
+        if ($request->routeIs('cliente.*')) {
+            return response()->json([
+                'alimentos' => $alimentos,
+            ], 200);
+        }
 
-    /*
-    |--------------------------------------------------------------------------
-    | FORMULARIO DE CREACIÓN
-    |--------------------------------------------------------------------------
-    */
-    public function create()
-    {
-        // obtiene las categorías ordenadas por nombre
-        $categorias = CategoriaAlimento::orderBy('nombre')->get();
-
-        return response()->json([
-            'categorias' => $categorias
-        ], 200);
+        return AlimentoResource::collection($alimentos)->response();
     }
 
     /*
@@ -44,16 +37,12 @@ class AlimentoController extends Controller
     | GUARDAR NUEVO ALIMENTO
     |--------------------------------------------------------------------------
     */
-    public function store(Request $request)
+    public function store(AlimentoRequest $request): JsonResponse
     {
-        // validación
-        $validado = $request->validate([
-            'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
-            'nombre' => 'required|string|max:80',
-            'descripcion' => 'required|string|max:200',
-            'estado' => 'required|boolean',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-        ]);
+        $validado = $request->validated();
+
+        // el campo imagen no es una columna de la tabla
+        unset($validado['imagen']);
 
         // crear alimento
         $alimento = Alimento::create($validado);
@@ -66,26 +55,10 @@ class AlimentoController extends Controller
             $alimento->update(['imagen' => $ruta]);
         }
 
-        return response()->json([
-            'message' => 'Alimento creado correctamente.',
-            'data' => $alimento
-        ], 201);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | FORMULARIO DE EDICIÓN
-    |--------------------------------------------------------------------------
-    */
-    public function edit($id)
-    {
-        $alimento = Alimento::findOrFail($id);
-        $categorias = CategoriaAlimento::orderBy('nombre')->get();
-
-        return response()->json([
-            'alimento' => $alimento,
-            'categorias' => $categorias
-        ], 200);
+        return (new AlimentoResource($alimento->fresh()))
+            ->additional(['message' => 'Alimento creado correctamente.'])
+            ->response()
+            ->setStatusCode(201);
     }
 
     /*
@@ -93,27 +66,17 @@ class AlimentoController extends Controller
     | ACTUALIZAR ALIMENTO
     |--------------------------------------------------------------------------
     */
-    public function update(Request $request, $id)
+    public function update(AlimentoRequest $request, $id): JsonResponse
     {
         $alimento = Alimento::findOrFail($id);
         $imagenAnterior = $alimento->imagen;
 
-        // validación
-        $validado = $request->validate([
-            'id_categoria' => 'required|exists:categorias_alimento,id_categoria',
-            'nombre' => 'required|string|max:80',
-            'descripcion' => 'nullable|string|max:200',
-            'estado' => 'required|boolean',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-        ]);
+        $validado = $request->validated();
+
+        unset($validado['imagen']);
 
         // actualizar datos
-        $alimento->update([
-            'id_categoria' => $validado['id_categoria'],
-            'nombre' => $validado['nombre'],
-            'descripcion' => $validado['descripcion'],
-            'estado' => $validado['estado'],
-        ]);
+        $alimento->update($validado);
 
         // si hay nueva imagen
         if ($request->hasFile('imagen')) {
@@ -129,24 +92,29 @@ class AlimentoController extends Controller
             }
         }
 
-        return response()->json([
-            'message' => 'Alimento actualizado correctamente.',
-            'data' => $alimento
-        ], 200);
+        return (new AlimentoResource($alimento->fresh()))
+            ->additional(['message' => 'Alimento actualizado correctamente.'])
+            ->response();
     }
 
     /*
     |--------------------------------------------------------------------------
     | MOSTRAR (consulta individual, solo lectura)
     |--------------------------------------------------------------------------
+    | Igual que index(): JsonResource en administrativo, estructura
+    | original en el módulo cliente.
     */
-    public function show($id)
+    public function show(Request $request, $id): JsonResponse
     {
         $alimento = Alimento::with('categoria')->findOrFail($id);
 
-        return response()->json([
-            'alimento' => $alimento
-        ], 200);
+        if ($request->routeIs('cliente.*')) {
+            return response()->json([
+                'alimento' => $alimento,
+            ], 200);
+        }
+
+        return (new AlimentoResource($alimento))->response();
     }
 
     /*
@@ -154,13 +122,13 @@ class AlimentoController extends Controller
     | BORRADO LÓGICO
     |--------------------------------------------------------------------------
     */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $alimento = Alimento::findOrFail($id);
         $alimento->delete();
 
         return response()->json([
-            'message' => 'Alimento eliminado correctamente.'
+            'message' => 'Alimento eliminado correctamente.',
         ], 200);
     }
 
@@ -171,11 +139,7 @@ class AlimentoController extends Controller
     */
     public function trashed()
     {
-        $alimentos = Alimento::onlyTrashed()->paginate(5);
-
-        return response()->json([
-            'alimentos' => $alimentos
-        ], 200);
+        return AlimentoResource::collection(Alimento::onlyTrashed()->paginate(5))->response();
     }
 
     /*
@@ -183,14 +147,14 @@ class AlimentoController extends Controller
     | RESTAURAR REGISTRO
     |--------------------------------------------------------------------------
     */
-    public function restore($id)
+    public function restore($id): JsonResponse
     {
         $alimento = Alimento::onlyTrashed()->findOrFail($id);
         $alimento->restore();
 
-        return response()->json([
-            'message' => 'Alimento restaurado correctamente.'
-        ], 200);
+        return (new AlimentoResource($alimento))
+            ->additional(['message' => 'Alimento restaurado correctamente.'])
+            ->response();
     }
 
     /*
@@ -198,21 +162,21 @@ class AlimentoController extends Controller
     | BORRADO FÍSICO (solo para registros lógicamente eliminados)
     |--------------------------------------------------------------------------
     */
-    public function forceDestroy($id)
+    public function forceDestroy($id): JsonResponse
     {
         $alimento = Alimento::withTrashed()->findOrFail($id);
 
         // solo se permite si ya estaba eliminado lógicamente
         if (! $alimento->trashed()) {
             return response()->json([
-                'message' => 'Primero debe aplicar el borrado lógico al registro.'
+                'message' => 'Primero debe aplicar el borrado lógico al registro.',
             ], 422);
         }
 
         // validación de relaciones: si otra tabla lo usa, se cancela
         if ($alimento->detallesDonacion()->count() > 0) {
             return response()->json([
-                'message' => 'No se puede eliminar: el alimento está registrado en Detalles de Donación.'
+                'message' => 'No se puede eliminar: el alimento está registrado en Detalles de Donación.',
             ], 422);
         }
 
@@ -225,7 +189,7 @@ class AlimentoController extends Controller
         $alimento->forceDelete();
 
         return response()->json([
-            'message' => 'Alimento eliminado físicamente junto con su imagen.'
+            'message' => 'Alimento eliminado físicamente junto con su imagen.',
         ], 200);
     }
 }

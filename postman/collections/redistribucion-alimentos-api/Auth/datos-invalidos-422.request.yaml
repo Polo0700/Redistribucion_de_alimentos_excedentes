@@ -1,0 +1,29 @@
+$kind: http-request
+name: 'Crear administrador con datos invalidos -> 422'
+method: POST
+url: '{{baseUrl}}/administradores'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+        "nombre_completo": "",
+        "username": "ab",
+        "password": "123",
+        "nivel": 99
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Validacion fallida: responde 422 Unprocessable Entity", function () {
+          pm.response.to.have.status(422);
+      });
+      pm.test("Devuelve los errores de validacion por campo", function () {
+          const json = pm.response.json();
+          pm.expect(json).to.have.property("errors");
+          pm.expect(json.errors).to.have.property("nivel");
+      });

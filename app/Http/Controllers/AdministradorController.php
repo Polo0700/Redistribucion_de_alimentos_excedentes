@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdministradorRequest;
+use App\Http\Resources\AdministradorResource;
 use App\Models\Administrador;
-use App\Http\Requests\AdminResourceRequest;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
-use App\Http\Resources\AdministradorResource;
 
 class AdministradorController extends Controller
 {
@@ -19,23 +18,7 @@ class AdministradorController extends Controller
     */
     public function index()
     {
-        // trae los administradores de 5 en 5
-        $administradores = Administrador::orderBy('id')->paginate(5);
-
-        return AdministradorResource::collection($administradores);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | FORMULARIO DE CREACIÓN
-    |--------------------------------------------------------------------------
-    */
-    public function create()
-    {
-        // niveles de acceso que acepta el servidor
-        return response()->json([
-            'niveles' => Administrador::NIVELES_PERMITIDOS,
-        ], 200);
+        return AdministradorResource::collection(Administrador::orderBy('id')->paginate(5));
     }
 
     /*
@@ -43,10 +26,8 @@ class AdministradorController extends Controller
     | GUARDAR NUEVO ADMINISTRADOR
     |--------------------------------------------------------------------------
     */
-    // se usa el AdminResourceRequest para validar los datos de entrada
-    public function store(AdminResourceRequest $request)
+    public function store(AdministradorRequest $request): JsonResponse
     {
-        // validación: el nivel siempre se valida contra los valores permitidos
         $validado = $request->validated();
 
         // la contraseña se guarda cifrada y activo arranca en true si no lo envían
@@ -66,36 +47,19 @@ class AdministradorController extends Controller
         }
 
         return (new AdministradorResource($administrador))
-            ->additional(['message'=> 'Administrador creado correctamente.'])
+            ->additional(['message' => 'Administrador creado correctamente.'])
             ->response()
             ->setStatusCode(201);
-        }
+    }
 
     /*
     |--------------------------------------------------------------------------
     | MOSTRAR (consulta individual, solo lectura)
     |--------------------------------------------------------------------------
     */
-    public function show($id)
+    public function show($id): JsonResponse
     {
-        $administrador = Administrador::findOrFail($id);
-
-        return new AdministradorResource($administrador);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | FORMULARIO DE EDICIÓN
-    |--------------------------------------------------------------------------
-    */
-    public function edit($id)
-    {
-        $administrador = Administrador::findOrFail($id);
-
-        return response()->json([
-            'administrador' => $administrador,
-            'niveles' => Administrador::NIVELES_PERMITIDOS,
-        ], 200);
+        return (new AdministradorResource(Administrador::findOrFail($id)))->response();
     }
 
     /*
@@ -103,12 +67,11 @@ class AdministradorController extends Controller
     | ACTUALIZAR ADMINISTRADOR
     |--------------------------------------------------------------------------
     */
-    public function update(AdminResourceRequest $request, $id)
+    public function update(AdministradorRequest $request, $id): JsonResponse
     {
         $administrador = Administrador::findOrFail($id);
         $fotoAnterior = $administrador->foto;
 
-        // validación ya hecha por AdminResourceRequest (rules() con ignore del propio id)
         $validado = $request->validated();
 
         $datos = [
@@ -139,7 +102,7 @@ class AdministradorController extends Controller
         }
 
         return (new AdministradorResource($administrador))
-            ->additional(['message'=> 'Administrador actualizado correctamente.'])
+            ->additional(['message' => 'Administrador actualizado correctamente.'])
             ->response();
     }
 
@@ -148,7 +111,7 @@ class AdministradorController extends Controller
     | BORRADO LÓGICO
     |--------------------------------------------------------------------------
     */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $administrador = Administrador::findOrFail($id);
         $administrador->delete();
@@ -165,11 +128,7 @@ class AdministradorController extends Controller
     */
     public function trashed()
     {
-        $administradores = Administrador::onlyTrashed()->paginate(5);
-
-        return response()->json([
-            'administradores' => $administradores,
-        ], 200);
+        return AdministradorResource::collection(Administrador::onlyTrashed()->paginate(5));
     }
 
     /*
@@ -177,14 +136,14 @@ class AdministradorController extends Controller
     | RESTAURAR REGISTRO
     |--------------------------------------------------------------------------
     */
-    public function restore($id)
+    public function restore($id): JsonResponse
     {
         $administrador = Administrador::onlyTrashed()->findOrFail($id);
         $administrador->restore();
 
-        return response()->json([
-            'message' => 'Administrador restaurado correctamente.',
-        ], 200);
+        return (new AdministradorResource($administrador))
+            ->additional(['message' => 'Administrador restaurado correctamente.'])
+            ->response();
     }
 
     /*
@@ -192,7 +151,7 @@ class AdministradorController extends Controller
     | BORRADO FÍSICO (solo para registros lógicamente eliminados)
     |--------------------------------------------------------------------------
     */
-    public function forceDestroy($id)
+    public function forceDestroy($id): JsonResponse
     {
         $administrador = Administrador::withTrashed()->findOrFail($id);
 

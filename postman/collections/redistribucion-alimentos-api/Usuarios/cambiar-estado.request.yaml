@@ -1,0 +1,23 @@
+$kind: http-request
+name: 'Cambiar estado del usuario (activo/inactivo)'
+method: PATCH
+url: '{{baseUrl}}/usuarios/:id/estado'
+order: 11000
+pathVariables:
+  - key: id
+    value: '{{idPrueba}}'
+body:
+  type: json
+  content: |-
+    {
+      "estado": false
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Devuelve message y el usuario con el estado actualizado", function () {
+          const json = pm.response.json();
+          pm.expect(json).to.have.property("message");
+          pm.expect(json.data).to.have.property("estado");
+      });

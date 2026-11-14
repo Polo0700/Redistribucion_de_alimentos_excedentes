@@ -110,7 +110,7 @@ class AdministradorCrudTest extends TestCase
 
         $this->getJson('/api/v1/admin/administradores/eliminados')
             ->assertOk()
-            ->assertJsonStructure(['administradores' => ['data']]);
+            ->assertJsonStructure(['data']);
 
         $this->patchJson("/api/v1/admin/administradores/{$admin->id}/restore")->assertOk();
         $this->assertNotSoftDeleted('administradores', ['id' => $admin->id]);

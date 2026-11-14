@@ -7,22 +7,17 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class AdministradorResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
-        return [        
+        return [
             'id' => $this->id,
             'nombre_completo' => $this->nombre_completo,
             'username' => $this->username,
-            'nivel' => $this->nivel,
-            'foto' => $this->foto,
+            'foto_url' => $this->foto ? asset('storage/'.$this->foto) : null,
             'activo' => (bool) $this->activo,
-            'created_at' => $this->created_at,
-            'updated_at'=> $this->updated_at,
+            'nivel' => $this->nivel,
+            'created_at' => $this->created_at?->toDateTimeString(),
+            'updated_at' => $this->updated_at?->toDateTimeString(),
         ];
     }
 }

@@ -1,10 +1,10 @@
 name: Local
 values:
   - key: baseUrl
-    value: 'http://127.0.0.1:8000/api'
+    value: 'http://127.0.0.1:8000/api/v1/admin'
     enabled: true
     type: default
-    description: 'Servidor local de Laravel (php artisan serve)'
+    description: 'Servidor local de Laravel (php artisan serve) con el prefijo del area administrativa'
   - key: idPrueba
     value: ''
     enabled: true

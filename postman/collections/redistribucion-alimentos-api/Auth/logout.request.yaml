@@ -1,0 +1,34 @@
+$kind: http-request
+name: 'Logout admin (revoca el token)'
+method: POST
+url: '{{baseUrl}}/logout'
+order: 2000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Logout 200: confirma el cierre de sesion", function () {
+          pm.response.to.have.status(200);
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+
+      // Requisito del enunciado: confirmar que el token revocado YA NO
+      // permite realizar operaciones administrativas (vuelve a responder 401).
+      const tokenRevocado = pm.collectionVariables.get("tokenAdmin");
+      if (tokenRevocado) {
+          pm.sendRequest({
+              url: pm.collectionVariables.get("baseUrl") + "/administradores",
+              method: "GET",
+              header: { Authorization: "Bearer " + tokenRevocado }
+          }, function (err, resp) {
+              if (err) {
+                  pm.test("No se pudo reintentar con el token revocado", function () {
+                      pm.expect.fail(err);
+                  });
+                  return;
+              }
+              pm.test("Token revocado rechazado con 401 Unauthorized", function () {
+                  pm.expect(resp.code).to.eql(401);
+              });
+          });
+      }

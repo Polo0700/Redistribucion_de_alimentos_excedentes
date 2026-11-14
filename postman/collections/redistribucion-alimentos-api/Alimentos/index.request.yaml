@@ -7,6 +7,6 @@ scripts:
   - type: afterResponse
     language: text/javascript
     code: |-
-      pm.test("Devuelve la lista paginada en 'alimentos'", function () {
-          pm.expect(pm.response.json()).to.have.property('alimentos');
+      pm.test("Devuelve la lista paginada en 'data'", function () {
+          pm.expect(pm.response.json()).to.have.property('data');
       });

@@ -201,3 +201,27 @@ Notas:
 - Lint: `postman collection lint postman/collections/administrador`
   (debe decir `No issues found`, 10 requests escaneados).
 
+---
+
+## 10. Requests `create` / `edit` (obsoletos, no tocar)
+
+> **Nota para futuras revisiones y conversaciones:** no preguntar por estos
+> archivos, ni intentar "arreglarlos" ni borrarlos.
+
+En `collections/redistribucion-alimentos-api/` hay **18 requests** (uno
+`create.request.yaml` y uno `edit.request.yaml` por cada carpeta de recurso)
+que apuntan a las rutas `GET .../create` y `GET .../{id}/edit`.
+
+Esas rutas **ya no existen**: se eliminaron al pasar el módulo administrativo a
+**API pura** en la Actividad 4.3, porque `create()` y `edit()` devolvían datos
+para formularios HTML y la API ya no tiene vistas.
+
+Se dejaron los archivos **a propósito**:
+
+- No afectan el resto de la colección.
+- No rompen el lint (`postman collection lint` sigue en `No issues found`).
+- No se ejecutan en el flujo normal (los de lectura/escritura reales son
+  `store`, `update`, `show`, `index`, `destroy`, `restore`, `force-destroy`).
+
+Documentado también en `AGENTS.md` (`<POSTMAN_KNOWN_STATE>`).
+

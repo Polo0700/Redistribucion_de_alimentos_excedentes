@@ -34,7 +34,7 @@ class AuthAdminController extends Controller
             return response()->json(['message' => 'Cuenta deshabilitada'], 403);
         }
 
-        $token = $admin->createToken('api-admin')->plainTextToken;
+        $token = $admin->createToken('admin-token')->plainTextToken;
 
         return response()->json([
             'token' => $token,

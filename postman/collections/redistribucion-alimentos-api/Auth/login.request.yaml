@@ -1,0 +1,25 @@
+$kind: http-request
+name: 'Login admin (emite el token)'
+method: POST
+url: '{{baseUrl}}/login'
+order: 1000
+body:
+  type: json
+  content: |-
+    {
+      "username": "admin",
+      "password": "admin123"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Login 200: devuelve token y datos del admin", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(200);
+          pm.expect(json).to.have.property("token");
+          pm.expect(json).to.have.property("admin");
+      });
+      // Guarda el token como Bearer para todos los demas requests de la coleccion.
+      // Sin correr este request primero, tokenAdmin queda vacio y todo responde 401.
+      pm.collectionVariables.set("tokenAdmin", pm.response.json().token);

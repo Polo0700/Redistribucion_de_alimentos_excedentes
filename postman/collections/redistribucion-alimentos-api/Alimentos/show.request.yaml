@@ -10,10 +10,10 @@ scripts:
   - type: afterResponse
     language: text/javascript
     code: |-
-      pm.test("200 con el registro en 'alimento', o 404 con message", function () {
+      pm.test("200 con el registro en 'data', o 404 con message", function () {
           var body = pm.response.json();
           if (pm.response.code === 200) {
-              pm.expect(body).to.have.property('alimento');
+              pm.expect(body).to.have.property('data');
           } else {
               pm.response.to.have.status(404);
               pm.expect(body).to.have.property('message');

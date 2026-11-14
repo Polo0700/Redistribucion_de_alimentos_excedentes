@@ -18,8 +18,16 @@ use App\Http\Middleware\EnsureEsAdmin;
 use App\Http\Middleware\EnsureEsCliente;
 use Illuminate\Support\Facades\Route;
 
+// Raíz de la API: respuesta JSON informativa (API REST pura, sin vistas)
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return response()->json([
+        'message' => 'API Redistribución de Alimentos Excedentes. Usa POST /api/v1/admin/login para autenticarte.',
+        'endpoints' => [
+            'login' => 'POST /api/v1/admin/login',
+            'logout' => 'POST /api/v1/admin/logout',
+            'recursos' => 'GET /api/v1/admin/{recursos}',
+        ],
+    ]);
 });
 
 Route::prefix('v1/admin')->group(function () {
@@ -32,13 +40,9 @@ Route::prefix('v1/admin')->group(function () {
 
     Route::middleware(['auth:sanctum', EnsureEsAdmin::class])->group(function () {
 
-        Route::view('/dashboard', 'dashboard')->name('dashboard');
-
         Route::get('/administradores', [AdministradorController::class, 'index'])->name('administradores.index');
-        Route::get('/administradores/create', [AdministradorController::class, 'create'])->name('administradores.create');
         Route::post('/administradores', [AdministradorController::class, 'store'])->name('administradores.store');
         Route::get('/administradores/eliminados', [AdministradorController::class, 'trashed'])->name('administradores.trashed');
-        Route::get('/administradores/{id}/edit', [AdministradorController::class, 'edit'])->name('administradores.edit');
         Route::put('/administradores/{id}', [AdministradorController::class, 'update'])->name('administradores.update');
         Route::patch('/administradores/{id}/restore', [AdministradorController::class, 'restore'])->name('administradores.restore');
         Route::delete('/administradores/{id}/force', [AdministradorController::class, 'forceDestroy'])->name('administradores.forceDestroy');
@@ -46,9 +50,7 @@ Route::prefix('v1/admin')->group(function () {
         Route::delete('/administradores/{id}', [AdministradorController::class, 'destroy'])->name('administradores.destroy');
 
         Route::get('/roles', [RolController::class, 'index'])->name('roles.index');
-        Route::get('/roles/create', [RolController::class, 'create'])->name('roles.create');
         Route::post('/roles', [RolController::class, 'store'])->name('roles.store');
-        Route::get('/roles/{id}/edit', [RolController::class, 'edit'])->name('roles.edit');
         Route::put('/roles/{id}', [RolController::class, 'update'])->name('roles.update');
         Route::get('/roles/eliminados', [RolController::class, 'trashed'])->name('roles.trashed');
         Route::get('/roles/{id}', [RolController::class, 'show'])->name('roles.show');
@@ -57,10 +59,9 @@ Route::prefix('v1/admin')->group(function () {
         Route::delete('/roles/{id}/force', [RolController::class, 'forceDestroy'])->name('roles.forceDestroy');
 
         Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
-        Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuarios.create');
         Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.store');
-        Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuarios.edit');
         Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
+        Route::patch('/usuarios/{id}/estado', [UsuarioController::class, 'cambiarEstado'])->name('usuarios.estado');
         Route::get('/usuarios/eliminados', [UsuarioController::class, 'trashed'])->name('usuarios.trashed');
         Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
         Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
@@ -68,9 +69,7 @@ Route::prefix('v1/admin')->group(function () {
         Route::delete('/usuarios/{id}/force', [UsuarioController::class, 'forceDestroy'])->name('usuarios.forceDestroy');
 
         Route::get('/cuentas-acceso', [CuentaAccesoController::class, 'index'])->name('cuentas-acceso.index');
-        Route::get('/cuentas-acceso/create', [CuentaAccesoController::class, 'create'])->name('cuentas-acceso.create');
         Route::post('/cuentas-acceso', [CuentaAccesoController::class, 'store'])->name('cuentas-acceso.store');
-        Route::get('/cuentas-acceso/{id}/edit', [CuentaAccesoController::class, 'edit'])->name('cuentas-acceso.edit');
         Route::put('/cuentas-acceso/{id}', [CuentaAccesoController::class, 'update'])->name('cuentas-acceso.update');
         Route::get('/cuentas-acceso/eliminados', [CuentaAccesoController::class, 'trashed'])->name('cuentas-acceso.trashed');
         Route::get('/cuentas-acceso/{id}', [CuentaAccesoController::class, 'show'])->name('cuentas-acceso.show');
@@ -79,9 +78,7 @@ Route::prefix('v1/admin')->group(function () {
         Route::delete('/cuentas-acceso/{id}/force', [CuentaAccesoController::class, 'forceDestroy'])->name('cuentas-acceso.forceDestroy');
 
         Route::get('/categorias', [CategoriaAlimentoController::class, 'index'])->name('categorias.index');
-        Route::get('/categorias/create', [CategoriaAlimentoController::class, 'create'])->name('categorias.create');
         Route::post('/categorias', [CategoriaAlimentoController::class, 'store'])->name('categorias.store');
-        Route::get('/categorias/{id}/edit', [CategoriaAlimentoController::class, 'edit'])->name('categorias.edit');
         Route::put('/categorias/{id}', [CategoriaAlimentoController::class, 'update'])->name('categorias.update');
         Route::get('/categorias/eliminados', [CategoriaAlimentoController::class, 'trashed'])->name('categorias.trashed');
         Route::get('/categorias/{id}', [CategoriaAlimentoController::class, 'show'])->name('categorias.show');
@@ -91,19 +88,15 @@ Route::prefix('v1/admin')->group(function () {
 
         Route::get('/alimentos', [AlimentoController::class, 'index'])->name('alimentos.index');
         Route::get('/alimentos/eliminados', [AlimentoController::class, 'trashed'])->name('alimentos.trashed');
-        Route::get('/alimentos/create', [AlimentoController::class, 'create'])->name('alimentos.create');
         Route::post('/alimentos', [AlimentoController::class, 'store'])->name('alimentos.store');
         Route::get('/alimentos/{id}', [AlimentoController::class, 'show'])->name('alimentos.show');
-        Route::get('/alimentos/{id}/edit', [AlimentoController::class, 'edit'])->name('alimentos.edit');
         Route::put('/alimentos/{id}', [AlimentoController::class, 'update'])->name('alimentos.update');
         Route::delete('/alimentos/{id}', [AlimentoController::class, 'destroy'])->name('alimentos.destroy');
         Route::patch('/alimentos/{id}/restore', [AlimentoController::class, 'restore'])->name('alimentos.restore');
         Route::delete('/alimentos/{id}/force', [AlimentoController::class, 'forceDestroy'])->name('alimentos.forceDestroy');
 
         Route::get('/donaciones', [DonacionController::class, 'index'])->name('donaciones.index');
-        Route::get('/donaciones/create', [DonacionController::class, 'create'])->name('donaciones.create');
         Route::post('/donaciones', [DonacionController::class, 'store'])->name('donaciones.store');
-        Route::get('/donaciones/{id}/edit', [DonacionController::class, 'edit'])->name('donaciones.edit');
         Route::put('/donaciones/{id}', [DonacionController::class, 'update'])->name('donaciones.update');
         Route::get('/donaciones/eliminados', [DonacionController::class, 'trashed'])->name('donaciones.trashed');
         Route::get('/donaciones/{id}', [DonacionController::class, 'show'])->name('donaciones.show');
@@ -112,9 +105,7 @@ Route::prefix('v1/admin')->group(function () {
         Route::delete('/donaciones/{id}/force', [DonacionController::class, 'forceDestroy'])->name('donaciones.forceDestroy');
 
         Route::get('/solicitudes', [SolicitudController::class, 'index'])->name('solicitudes.index');
-        Route::get('/solicitudes/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
         Route::post('/solicitudes', [SolicitudController::class, 'store'])->name('solicitudes.store');
-        Route::get('/solicitudes/{id}/edit', [SolicitudController::class, 'edit'])->name('solicitudes.edit');
         Route::put('/solicitudes/{id}', [SolicitudController::class, 'update'])->name('solicitudes.update');
         Route::get('/solicitudes/eliminados', [SolicitudController::class, 'trashed'])->name('solicitudes.trashed');
         Route::get('/solicitudes/{id}', [SolicitudController::class, 'show'])->name('solicitudes.show');
@@ -123,9 +114,7 @@ Route::prefix('v1/admin')->group(function () {
         Route::delete('/solicitudes/{id}/force', [SolicitudController::class, 'forceDestroy'])->name('solicitudes.forceDestroy');
 
         Route::get('/entregas', [EntregaController::class, 'index'])->name('entregas.index');
-        Route::get('/entregas/create', [EntregaController::class, 'create'])->name('entregas.create');
         Route::post('/entregas', [EntregaController::class, 'store'])->name('entregas.store');
-        Route::get('/entregas/{id}/edit', [EntregaController::class, 'edit'])->name('entregas.edit');
         Route::put('/entregas/{id}', [EntregaController::class, 'update'])->name('entregas.update');
         Route::get('/entregas/eliminados', [EntregaController::class, 'trashed'])->name('entregas.trashed');
         Route::get('/entregas/{id}', [EntregaController::class, 'show'])->name('entregas.show');
@@ -134,9 +123,7 @@ Route::prefix('v1/admin')->group(function () {
         Route::delete('/entregas/{id}/force', [EntregaController::class, 'forceDestroy'])->name('entregas.forceDestroy');
 
         Route::get('/acciones-importantes', [AccionImportanteController::class, 'index'])->name('acciones.index');
-        Route::get('/acciones-importantes/create', [AccionImportanteController::class, 'create'])->name('acciones.create');
         Route::post('/acciones-importantes', [AccionImportanteController::class, 'store'])->name('acciones.store');
-        Route::get('/acciones-importantes/{id}/edit', [AccionImportanteController::class, 'edit'])->name('acciones.edit');
         Route::put('/acciones-importantes/{id}', [AccionImportanteController::class, 'update'])->name('acciones.update');
         Route::get('/acciones-importantes/eliminados', [AccionImportanteController::class, 'trashed'])->name('acciones.trashed');
         Route::get('/acciones-importantes/{id}', [AccionImportanteController::class, 'show'])->name('acciones.show');

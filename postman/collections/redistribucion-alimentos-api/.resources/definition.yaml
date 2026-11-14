@@ -1,10 +1,18 @@
 $kind: collection
 name: 'Redistribucion de Alimentos API'
-description: 'API REST del proyecto de redistribucion de alimentos excedentes. Cubre los 9 recursos vigentes y todos los endpoints responden JSON.'
+description: 'API REST del proyecto de redistribucion de alimentos excedentes. Cubre los 9 recursos vigentes y todos los endpoints responden JSON. Autenticacion: corre Login admin primero; el token emitido se guarda en la variable tokenAdmin y viaja como Bearer en todos los requests.'
 variables:
   - key: baseUrl
-    value: 'http://127.0.0.1:8000/api'
-    description: 'Base URL del servidor local (php artisan serve)'
+    value: 'http://127.0.0.1:8000/api/v1/admin'
+    description: 'Base URL del servidor local (php artisan serve) con el prefijo del area administrativa'
+  - key: tokenAdmin
+    value: ''
+    description: 'Bearer emitido por Login admin (createToken). Vacio hasta correr ese request: sin el, todos los endpoints responden 401.'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tokenAdmin}}'
 scripts:
   - type: http:beforeRequest
     language: text/javascript
