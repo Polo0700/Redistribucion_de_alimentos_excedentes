@@ -2,13 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClienteRegistroRequest;
 use App\Models\CuentaAcceso;
+use App\Models\Rol;
+use App\Models\Usuario;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthClienteController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | REGISTRO (API con Sanctum)
+    |--------------------------------------------------------------------------
+    | Endpoint público: crea el Usuario y su CuentaAcceso asignando
+    | automáticamente el rol de Cliente.
+    */
+    public function registrar(ClienteRegistroRequest $request): JsonResponse
+    {
+        $datos = $request->validated();
+
+        // el rol de Cliente se asigna en el backend (nunca viene del payload)
+        $rol = Rol::firstOrCreate(
+            ['nombre' => 'Cliente'],
+            ['descripcion' => 'Cliente registrado', 'estado' => 1]
+        );
+
+        $usuario = Usuario::create([
+            'id_rol' => $rol->id,
+            'nombre' => $datos['nombre'],
+            'apellido' => $datos['apellido'],
+            'correo' => $datos['correo'],
+            'telefono' => $datos['telefono'],
+            'direccion' => $datos['direccion'],
+            'fecha_registro' => now(),
+            'estado' => 1,
+        ]);
+
+        $cuenta = CuentaAcceso::create([
+            'id_usuario' => $usuario->id,
+            'proveedor' => 'Correo',
+            'identificador_externo' => $datos['correo'],
+            'contrasena_hash' => Hash::make($datos['password']),
+            'fecha_ultimo_acceso' => now(),
+        ]);
+
+        // token de acceso firmado: createToken('client-token')
+        $token = $cuenta->createToken('client-token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Cliente registrado correctamente.',
+            'usuario' => [
+                'id' => $usuario->id,
+                'nombre' => $usuario->nombre,
+                'apellido' => $usuario->apellido,
+                'correo' => $usuario->correo,
+                'rol' => $rol->nombre,
+            ],
+            'token' => $token,
+        ], 201);
+    }
+
     public function login(): JsonResponse
     {
         return response()->json([
@@ -39,7 +94,7 @@ class AuthClienteController extends Controller
 
         $cuenta->update(['fecha_ultimo_acceso' => now()]);
 
-        $token = $cuenta->createToken('api-cliente')->plainTextToken;
+        $token = $cuenta->createToken('client-token')->plainTextToken;
 
         return response()->json([
             'token' => $token,

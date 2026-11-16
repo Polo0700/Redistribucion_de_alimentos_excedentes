@@ -51,6 +51,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/login', [AuthClienteController::class, 'login'])->name('cliente.login');
 
         Route::post('/login', [AuthClienteController::class, 'in'])->name('cliente.in');
+
+        // registro: también público, porque aún no existe la cuenta
+        Route::post('/register', [AuthClienteController::class, 'registrar'])->name('cliente.register');
     });
 });
 
