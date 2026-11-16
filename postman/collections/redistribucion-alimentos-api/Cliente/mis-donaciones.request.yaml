@@ -1,0 +1,14 @@
+$kind: http-request
+name: 'Mis donaciones: solo las propias (cliente A)'
+method: GET
+url: '{{baseUrlCliente}}/donaciones'
+order: 9500
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Donaciones 200 con la estructura paginada", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(200);
+          pm.expect(json.donaciones).to.have.property("data");
+      });

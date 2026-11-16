@@ -1,0 +1,9 @@
+$kind: collection
+name: 'Cliente (datos propios)'
+order: 10000
+description: 'Area cliente de la Actividad 4.4: registro publico, catalogo sin token, perfil y gestion de registros propios (solicitudes) con propiedad de datos. El flujo empieza en Registro/Login cliente A y B (emiten los tokens tokenClienteA y tokenClienteB), sigue con crear-detalle-cancelar de mis-registros y termina en Logout. Las Policies devuelven 403 si el cliente B intenta ver o cancelar registros del cliente A.'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tokenClienteA}}'

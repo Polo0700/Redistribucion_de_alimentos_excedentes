@@ -1,6 +1,6 @@
 $kind: collection
 name: 'Redistribucion de Alimentos API'
-description: 'API REST del proyecto de redistribucion de alimentos excedentes. Cubre los 9 recursos vigentes y todos los endpoints responden JSON. Autenticacion: corre Login admin primero; el token emitido se guarda en la variable tokenAdmin y viaja como Bearer en todos los requests.'
+description: 'API REST del proyecto de redistribucion de alimentos excedentes. Cubre los 9 recursos vigentes y todos los endpoints responden JSON. Autenticacion: corre Login admin primero; el token emitido se guarda en la variable tokenAdmin y viaja como Bearer en todos los requests. La carpeta Cliente (Actividad 4.4) usa sus propias variables (tokenClienteA/tokenClienteB) y termina cada flujo en Logout.'
 variables:
   - key: baseUrl
     value: 'http://127.0.0.1:8000/api/v1/admin'
@@ -8,6 +8,24 @@ variables:
   - key: tokenAdmin
     value: ''
     description: 'Bearer emitido por Login admin (createToken). Vacio hasta correr ese request: sin el, todos los endpoints responden 401.'
+  - key: baseUrlCliente
+    value: 'http://127.0.0.1:8000/api/v1/cliente'
+    description: 'Base URL del area cliente (Actividad 4.4) para la carpeta Cliente'
+  - key: tokenClienteA
+    value: ''
+    description: 'Bearer del cliente A. Lo emiten Registro cliente A o Login cliente A. Vacio hasta correrlos: sin el, la carpeta Cliente responde 401.'
+  - key: tokenClienteB
+    value: ''
+    description: 'Bearer del cliente B, usado solo en los requests de intrusion para demostrar el 403 de las Policies.'
+  - key: idUsuarioA
+    value: '0'
+    description: 'id del Usuario del cliente A; lo guarda Login/Registro cliente A para verificar el filtro de datos propios.'
+  - key: idSolicitudA
+    value: '1'
+    description: 'id de la solicitud creada por Crear registro propio; la actualiza ese request y la usan detalle, 403 y cancelacion.'
+  - key: idAlimentoCatalogo
+    value: '1'
+    description: 'id del primer alimento del catalogo publico; lo guarda Catalogo publico y lo usa Crear registro propio.'
 auth:
   type: bearer
   credentials:

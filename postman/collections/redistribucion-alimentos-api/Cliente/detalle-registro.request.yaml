@@ -1,0 +1,22 @@
+$kind: http-request
+name: 'Detalle de registro propio (cliente A) -> 200'
+method: GET
+url: '{{baseUrlCliente}}/mis-registros/:id'
+order: 10000
+pathVariables:
+  - key: id
+    value: '{{idSolicitudA}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Detalle 200 del registro creado por el cliente A", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(200);
+          pm.expect(json.solicitud).to.have.property("id_solicitud");
+      });
+      if (pm.response.code === 404) {
+          pm.test("Corre 'Crear registro propio (cliente A)' antes de este request", function () {
+              pm.expect.fail("idSolicitudA no existe en la base de datos");
+          });
+      }

@@ -1,0 +1,23 @@
+$kind: http-request
+name: 'Detalle del catalogo (sin token)'
+method: GET
+url: '{{baseUrlCliente}}/catalogo/:id'
+order: 5500
+auth:
+  type: noauth
+pathVariables:
+  - key: id
+    value: '{{idAlimentoCatalogo}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("200 con el alimento, o 404 con message si el catalogo esta vacio", function () {
+          const body = pm.response.json();
+          if (pm.response.code === 200) {
+              pm.expect(body).to.have.property("alimento");
+          } else {
+              pm.response.to.have.status(404);
+              pm.expect(body).to.have.property("message");
+          }
+      });

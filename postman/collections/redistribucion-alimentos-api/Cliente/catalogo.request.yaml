@@ -1,0 +1,20 @@
+$kind: http-request
+name: 'Catalogo publico (sin token)'
+method: GET
+url: '{{baseUrlCliente}}/catalogo'
+order: 5000
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Catalogo publico accesible sin token (200)", function () {
+          pm.response.to.have.status(200);
+          pm.expect(pm.response.json().catalogo).to.have.property("data");
+      });
+      // Guarda el id del primer alimento del catalogo: sirve para crear registros propios.
+      const data = pm.response.json().catalogo.data;
+      if (data.length > 0) {
+          pm.collectionVariables.set("idAlimentoCatalogo", String(data[0].id_alimento));
+      }

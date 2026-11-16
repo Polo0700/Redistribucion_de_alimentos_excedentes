@@ -1,0 +1,34 @@
+$kind: http-request
+name: 'Logout cliente A (revoca el token)'
+method: POST
+url: '{{baseUrlCliente}}/logout'
+order: 17000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Logout 200: confirma el cierre de sesion", function () {
+          pm.response.to.have.status(200);
+          pm.expect(pm.response.json()).to.have.property("message");
+      });
+
+      // Requisito del enunciado: confirmar que el token revocado YA NO
+      // permite operaciones del cliente (vuelve a responder 401).
+      const tokenRevocado = pm.collectionVariables.get("tokenClienteA");
+      if (tokenRevocado) {
+          pm.sendRequest({
+              url: pm.collectionVariables.get("baseUrlCliente") + "/perfil",
+              method: "GET",
+              header: { Authorization: "Bearer " + tokenRevocado }
+          }, function (err, resp) {
+              if (err) {
+                  pm.test("No se pudo reintentar con el token revocado", function () {
+                      pm.expect.fail(err);
+                  });
+                  return;
+              }
+              pm.test("Token revocado rechazado con 401 Unauthorized", function () {
+                  pm.expect(resp.code).to.eql(401);
+              });
+          });
+      }

@@ -1,0 +1,38 @@
+$kind: http-request
+name: 'Crear registro propio (cliente A) -> 201'
+method: POST
+url: '{{baseUrlCliente}}/mis-registros'
+order: 8000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "direccion_entrega": "Calle entrega 42",
+      "observaciones": "Entregar por la tarde",
+      "id_alimento": {{idAlimentoCatalogo}},
+      "cantidad": 2
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Registro creado 201 y vinculado al cliente autenticado", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(201);
+          pm.expect(json.solicitud).to.have.property("id_solicitud");
+      });
+      if (pm.response.code === 201) {
+          const json = pm.response.json();
+          // Guarda el id para los requests de detalle, intrusion (403) y cancelacion.
+          pm.collectionVariables.set("idSolicitudA", String(json.solicitud.id_solicitud));
+      } else if (pm.response.code === 422) {
+          const errores = pm.response.json().errors || {};
+          if (errores.id_alimento) {
+              pm.test("No hay alimentos en el catalogo: corre un 'store' del area admin (o registra datos semilla) y vuelve a 'Catalogo publico'", function () {
+                  pm.expect.fail("id_alimento rechazado por validacion");
+              });
+          }
+      }

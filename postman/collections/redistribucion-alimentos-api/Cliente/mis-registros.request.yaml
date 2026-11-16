@@ -1,0 +1,23 @@
+$kind: http-request
+name: 'Mis registros: solo los propios (cliente A)'
+method: GET
+url: '{{baseUrlCliente}}/mis-registros'
+order: 9000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Listado 200 con la estructura paginada", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(200);
+          pm.expect(json.solicitudes).to.have.property("data");
+      });
+      // Filtro de consultas por usuario: cada fila del listado debe pertenecer
+      // al id_usuario del cliente autenticado (nunca ver ajenos).
+      pm.test("Todos los registros pertenecen al cliente autenticado", function () {
+          const items = pm.response.json().solicitudes.data;
+          const idEsperado = Number(pm.collectionVariables.get("idUsuarioA"));
+          items.forEach(function (item) {
+              pm.expect(item.id_usuario, "id_usuario de cada registro").to.eql(idEsperado);
+          });
+      });

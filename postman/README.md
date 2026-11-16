@@ -5,7 +5,7 @@ Colección de Postman para los 9 recursos vigentes del proyecto. Vive en el repo
 
 | Qué | Dónde |
 | --- | --- |
-| 90 requests en 9 carpetas | `collections/redistribucion-alimentos-api/` |
+| 109 requests en 10 carpetas (9 admin + `Cliente`) | `collections/redistribucion-alimentos-api/` |
 | Ambiente `Local` | `environments/local.environment.yaml` |
 | Vínculo con el workspace | `../.postman/resources.yaml` |
 
@@ -122,7 +122,7 @@ Antes de subir cambios a la colección:
 postman collection lint postman/collections/redistribucion-alimentos-api
 ```
 
-Debe decir `No issues found` (90 requests escaneados).
+Debe decir `No issues found` (109 requests escaneados).
 
 ---
 
@@ -155,6 +155,7 @@ con el `workspace`, como está ahora.
 | Solicitudes | `/api/solicitudes` |
 | Entregas | `/api/entregas` |
 | Acciones importantes | `/api/acciones-importantes` |
+| Cliente (datos propios) | `/api/v1/cliente` |
 
 Quedan fuera de la API, por decisión del dominio actual: carritos, listas de
 deseos y sus detalles. Siguen existiendo como tablas, pero no tienen rutas,
@@ -224,4 +225,58 @@ Se dejaron los archivos **a propósito**:
   `store`, `update`, `show`, `index`, `destroy`, `restore`, `force-destroy`).
 
 Documentado también en `AGENTS.md` (`<POSTMAN_KNOWN_STATE>`).
+
+---
+
+## 11. Carpeta `Cliente` (Actividad 4.4)
+
+Nueva carpeta con los endpoints del módulo del cliente y los escenarios de
+**propiedad de datos** del enunciado:
+
+| Qué | Dónde |
+| --- | --- |
+| 19 requests en 1 carpeta (`Cliente`) | `collections/redistribucion-alimentos-api/Cliente/` |
+
+```bash
+postman collection run postman/collections/redistribucion-alimentos-api \
+  --environment postman/environments/local.environment.yaml
+```
+
+### Variables propias de la carpeta
+
+| Variable | La llena | Uso |
+| --- | --- | --- |
+| `tokenClienteA` | `Registro cliente A` o `Login cliente A` | Bearer por defecto de la carpeta (auth de la carpeta usa este token) |
+| `tokenClienteB` | `Registro cliente B` o `Login cliente B` | Se usa solo en los requests de intrusión (`-> 403`) |
+| `idUsuarioA` | `Login/Registro cliente A` | Verifica que el listado solo traiga registros del dueño |
+| `idSolicitudA` | `Crear registro propio` | Id que usan detalle, intrusión y cancelación |
+| `idAlimentoCatalogo` | `Catalogo publico` | Alimento con el que se crea el registro propio |
+
+Todos los requests de la carpeta heredan el Bearer `tokenClienteA` de la
+definición de la carpeta; los que necesitan otro comportamiento lo sobreescriben
+a nivel request (`noauth` o Bearer `tokenClienteB`).
+
+### Orden de ejecución del flujo
+
+1. `Registrar cliente A` y `Registrar cliente B` (si ya existen, responden 422
+   por el correo único: en ese caso corre los dos `Login`).
+2. `Login cliente A` y `Login cliente B` (guardan ambos tokens).
+3. `Catalogo publico` y `Detalle del catalogo`: sin token, deben responder 200.
+4. `Perfil del cliente A` y `Actualizar perfil`: enmascaran datos propios.
+5. `Crear registro propio` (201, guarda `idSolicitudA`), `Mis registros`,
+   `Mis donaciones` y `Detalle de registro propio`.
+6. **Pruebas de propiedad de datos:** `Registro de A consultado con token de B`
+   y `Cancelar registro de A con token de B` deben responder **403 Forbidden**
+   (Policy). Si responden 200, hay una vulnerabilidad.
+7. `Crear registro sin datos` responde **422** con los errores por campo.
+8. `Cancelar registro propio` (200, estado `cancelada`) y un nuevo intento
+   (`Re-cancelar registro ya cancelado`) responde **403**: el estado ya no es
+   cancelable.
+9. `Ruta protegida SIN token` responde **401**.
+10. `Logout cliente A` revoca el token y reintenta `GET /perfil` con el token
+    revocado: debe volver a responder 401.
+
+Requisitos del run: backend arriba (`php artisan serve`) y al menos un alimento
+activo en la DB (el catálogo público llena `idAlimentoCatalogo`; si está vacío,
+crea uno primero desde la carpeta `Alimentos` del área admin).
 

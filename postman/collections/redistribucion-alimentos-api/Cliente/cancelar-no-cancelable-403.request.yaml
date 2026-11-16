@@ -1,0 +1,17 @@
+$kind: http-request
+name: 'Re-cancelar registro ya cancelado -> 403'
+method: DELETE
+url: '{{baseUrlCliente}}/mis-registros/:id'
+order: 15000
+pathVariables:
+  - key: id
+    value: '{{idSolicitudA}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      // Es el dueño, pero la Policy cancelar exige estado cancelable
+      // ('pendiente'): un registro ya cancelado ya no se puede tocar.
+      pm.test("Estado no cancelable: la Policy responde 403", function () {
+          pm.response.to.have.status(403);
+      });

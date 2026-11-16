@@ -1,0 +1,18 @@
+$kind: http-request
+name: 'Perfil del cliente A (datos propios)'
+method: GET
+url: '{{baseUrlCliente}}/perfil'
+order: 6000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Perfil 200: devuelve los datos del cliente autenticado", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(200);
+          pm.expect(json.usuario).to.have.property("correo", "cliente.a@test.com");
+      });
+      pm.test("No expone la contrasena ni datos sensibles", function () {
+          pm.expect(pm.response.json().usuario).to.not.have.property("contrasena_hash");
+          pm.expect(pm.response.text()).to.not.include("contrasena_hash");
+      });

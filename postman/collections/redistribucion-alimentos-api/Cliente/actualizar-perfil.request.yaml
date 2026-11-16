@@ -1,0 +1,29 @@
+$kind: http-request
+name: 'Actualizar perfil del cliente A'
+method: PATCH
+url: '{{baseUrlCliente}}/perfil'
+order: 7000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Ana Maria",
+      "apellido": "Perez Lopez",
+      "telefono": "3399887766",
+      "direccion": "Calle Actualizada 789"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Actualizacion 200: el perfil cambia con el token del propio cliente", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(200);
+          pm.expect(json.usuario).to.have.property("nombre", "Ana Maria");
+      });
+      pm.test("El correo no se puede cambiar desde el perfil", function () {
+          pm.expect(pm.response.json().usuario).to.have.property("correo", "cliente.a@test.com");
+      });

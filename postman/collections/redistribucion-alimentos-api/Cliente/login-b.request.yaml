@@ -1,0 +1,27 @@
+$kind: http-request
+name: 'Login cliente B (emite el token)'
+method: POST
+url: '{{baseUrlCliente}}/login'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "correo": "cliente.b@test.com",
+      "password": "12345678"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Login 200: devuelve token y datos del cliente B", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(200);
+          pm.expect(json).to.have.property("token");
+          pm.expect(json.usuario).to.have.property("correo", "cliente.b@test.com");
+      });
+      // Guarda el token del cliente B: se usa en los requests 403 de propiedad de datos.
+      pm.collectionVariables.set("tokenClienteB", pm.response.json().token);

@@ -1,0 +1,17 @@
+$kind: http-request
+name: 'Cancelar registro propio (cliente A) -> 200'
+method: DELETE
+url: '{{baseUrlCliente}}/mis-registros/:id'
+order: 14000
+pathVariables:
+  - key: id
+    value: '{{idSolicitudA}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("El dueno cancela su registro con 200", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(200);
+          pm.expect(json.solicitud).to.have.property("estado", "cancelada");
+      });

@@ -1,0 +1,25 @@
+$kind: http-request
+name: 'Registro de A consultado con token de B -> 403 Forbidden'
+method: GET
+url: '{{baseUrlCliente}}/mis-registros/:id'
+order: 11000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tokenClienteB}}'
+pathVariables:
+  - key: id
+    value: '{{idSolicitudA}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      // Prueba de vulnerabilidad del enunciado: la SolicitudPolicy debe
+      // interceptar al cliente B y responder 403, nunca 200.
+      pm.test("La Policy bloquea al cliente B con 403 Forbidden", function () {
+          pm.response.to.have.status(403);
+      });
+      pm.test("El mensaje explica la falta de autorizacion", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

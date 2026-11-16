@@ -1,0 +1,20 @@
+$kind: http-request
+name: 'Cancelar registro de A con token de B -> 403 Forbidden'
+method: DELETE
+url: '{{baseUrlCliente}}/mis-registros/:id'
+order: 12000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tokenClienteB}}'
+pathVariables:
+  - key: id
+    value: '{{idSolicitudA}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("La Policy impide cancelar datos ajenos con 403 Forbidden", function () {
+          pm.response.to.have.status(403);
+      });

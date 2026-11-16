@@ -1,0 +1,34 @@
+$kind: http-request
+name: 'Registrar cliente B (emite su token)'
+method: POST
+url: '{{baseUrlCliente}}/register'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Beto",
+      "apellido": "Lopez",
+      "correo": "cliente.b@test.com",
+      "telefono": "3344556677",
+      "direccion": "Calle Dos 456",
+      "password": "12345678"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Registro 201: el cliente B queda con su propio token", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(201);
+          pm.expect(json.usuario).to.have.property("rol", "Cliente");
+          pm.expect(json).to.have.property("token");
+      });
+      // Si responde 422 es porque el correo ya existe: corre 'Login cliente B'.
+      if (pm.response.code === 201) {
+          const json = pm.response.json();
+          pm.collectionVariables.set("tokenClienteB", json.token);
+      }
