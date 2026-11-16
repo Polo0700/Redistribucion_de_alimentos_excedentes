@@ -30,15 +30,46 @@ Route::get('/', function () {
     ]);
 });
 
-Route::prefix('v1/admin')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| BLOQUE PÚBLICO (sin token)
+|--------------------------------------------------------------------------
+| Únicamente los endpoints de autenticación quedan fuera del grupo
+| protegido: ninguno modifica datos propios, solo emiten el Bearer Token.
+*/
+Route::prefix('v1')->group(function () {
 
-    Route::get('/login', [AuthAdminController::class, 'login'])->name('admin.login');
+    Route::prefix('admin')->group(function () {
+        // GET informativo: recuerda usar el método POST
+        Route::get('/login', [AuthAdminController::class, 'login'])->name('admin.login');
 
-    Route::post('/login', [AuthAdminController::class, 'in'])->name('admin.in');
+        Route::post('/login', [AuthAdminController::class, 'in'])->name('admin.in');
+    });
 
-    Route::post('/logout', [AuthAdminController::class, 'out'])->middleware('auth:sanctum')->name('admin.logout');
+    Route::prefix('cliente')->group(function () {
+        // GET informativo: recuerda usar el método POST
+        Route::get('/login', [AuthClienteController::class, 'login'])->name('cliente.login');
 
-    Route::middleware(['auth:sanctum', EnsureEsAdmin::class])->group(function () {
+        Route::post('/login', [AuthClienteController::class, 'in'])->name('cliente.in');
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| GRUPO ÚNICO PROTEGIDO: auth:sanctum (Actividad 4.4)
+|--------------------------------------------------------------------------
+| Todas las rutas de la API viven dentro de este grupo con middleware
+| auth:sanctum: sin Bearer Token válido responden 401 Unauthorized.
+| Dentro, cada módulo agrega su middleware de autorización (403):
+|  - EnsureEsAdmin  -> solo tokens del modelo Administrador
+|  - EnsureEsCliente -> solo tokens del modelo CuentaAcceso (clientes)
+*/
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+
+    // ---------------- Módulo administrativo (/api/v1/admin) ----------------
+    Route::prefix('admin')->middleware(EnsureEsAdmin::class)->group(function () {
+
+        Route::post('/logout', [AuthAdminController::class, 'out'])->name('admin.logout');
 
         Route::get('/administradores', [AdministradorController::class, 'index'])->name('administradores.index');
         Route::post('/administradores', [AdministradorController::class, 'store'])->name('administradores.store');
@@ -132,15 +163,11 @@ Route::prefix('v1/admin')->group(function () {
         Route::delete('/acciones-importantes/{id}/force', [AccionImportanteController::class, 'forceDestroy'])->name('acciones.forceDestroy');
 
     });
-});
 
-Route::prefix('v1/cliente')->group(function () {
-
-    Route::get('/login', [AuthClienteController::class, 'login'])->name('cliente.login');
-
-    Route::post('/login', [AuthClienteController::class, 'in'])->name('cliente.in');
-
-    Route::middleware(['auth:sanctum', EnsureEsCliente::class])->group(function () {
+    // ---------------- Módulo del cliente (/api/v1/cliente) ----------------
+    // Los "registros propios" de la Actividad 4.4 son las solicitudes
+    // y las donaciones creadas por el cliente autenticado.
+    Route::prefix('cliente')->middleware(EnsureEsCliente::class)->group(function () {
 
         Route::post('/logout', [AuthClienteController::class, 'out'])->name('cliente.logout');
 
