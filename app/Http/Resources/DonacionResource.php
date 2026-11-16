@@ -18,6 +18,7 @@ class DonacionResource extends JsonResource
             'estado' => $this->estado,
             'observaciones' => $this->observaciones,
             'usuario' => $this->whenLoaded('usuario', fn () => new UsuarioResource($this->usuario)),
+            'detalles' => DetalleDonacionResource::collection($this->whenLoaded('detalles')),
         ];
     }
 }

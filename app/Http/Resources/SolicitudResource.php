@@ -17,6 +17,7 @@ class SolicitudResource extends JsonResource
             'direccion_entrega' => $this->direccion_entrega,
             'observaciones' => $this->observaciones,
             'usuario' => $this->whenLoaded('usuario', fn () => new UsuarioResource($this->usuario)),
+            'detalles' => DetalleSolicitudResource::collection($this->whenLoaded('detalles')),
         ];
     }
 }
