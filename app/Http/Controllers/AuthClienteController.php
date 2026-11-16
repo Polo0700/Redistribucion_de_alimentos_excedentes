@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ClienteRegistroRequest;
+use App\Http\Requests\ClientePerfilRequest;
+use App\Http\Resources\UsuarioResource;
 use App\Models\CuentaAcceso;
 use App\Models\Rol;
 use App\Models\Usuario;
@@ -118,28 +119,32 @@ class AuthClienteController extends Controller
         return response()->json(['message' => 'Sesión cerrada'], 200);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | PERFIL (datos propios)
+    |--------------------------------------------------------------------------
+    | Consulta y actualización del perfil del CLIENTE autenticado:
+    | nunca recibe un id, opera siempre sobre el usuario del token.
+    */
     public function perfil(Request $request): JsonResponse
     {
         /** @var CuentaAcceso $cuenta */
         $cuenta = $request->user();
 
-        return response()->json(['usuario' => $cuenta->usuario], 200);
+        return response()->json([
+            'usuario' => new UsuarioResource($cuenta->usuario),
+        ], 200);
     }
 
-    public function actualizarPerfil(Request $request): JsonResponse
+    public function actualizarPerfil(ClientePerfilRequest $request): JsonResponse
     {
         /** @var CuentaAcceso $cuenta */
         $cuenta = $request->user();
 
-        $validado = $request->validate([
-            'nombre' => 'required|string|max:100',
-            'apellido' => 'required|string|max:100',
-            'telefono' => 'required|string|max:100',
-            'direccion' => 'required|string|max:200',
-        ]);
+        $cuenta->usuario->update($request->validated());
 
-        $cuenta->usuario->update($validado);
-
-        return response()->json(['usuario' => $cuenta->usuario->fresh()], 200);
+        return response()->json([
+            'usuario' => new UsuarioResource($cuenta->usuario->fresh()),
+        ], 200);
     }
 }

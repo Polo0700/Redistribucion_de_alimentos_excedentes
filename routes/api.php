@@ -12,6 +12,7 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AuthClienteController;
+use App\Http\Controllers\ClienteCatalogoController;
 use App\Http\Controllers\ClienteDonacionController;
 use App\Http\Controllers\ClienteSolicitudController;
 use App\Http\Middleware\EnsureEsAdmin;
@@ -54,6 +55,11 @@ Route::prefix('v1')->group(function () {
 
         // registro: también público, porque aún no existe la cuenta
         Route::post('/register', [AuthClienteController::class, 'registrar'])->name('cliente.register');
+
+        // catálogo público (Actividad 4.4): consulta abierta sin token
+        Route::get('/catalogo', [ClienteCatalogoController::class, 'index'])->name('cliente.catalogo.index');
+
+        Route::get('/catalogo/{id}', [ClienteCatalogoController::class, 'show'])->whereNumber('id')->name('cliente.catalogo.show');
     });
 });
 
@@ -189,6 +195,17 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         Route::get('/donaciones', [ClienteDonacionController::class, 'index'])->name('cliente.donaciones.index');
 
         Route::post('/donaciones', [ClienteDonacionController::class, 'store'])->name('cliente.donaciones.store');
+
+        // Registros propios (Actividad 4.4): los pedidos (solicitudes)
+        // del cliente autenticado, con detalle y cancelación protegidos
+        // por la SolicitudPolicy (propiedad de datos).
+        Route::get('/mis-registros', [ClienteSolicitudController::class, 'index'])->name('cliente.registros.index');
+
+        Route::post('/mis-registros', [ClienteSolicitudController::class, 'store'])->name('cliente.registros.store');
+
+        Route::get('/mis-registros/{id}', [ClienteSolicitudController::class, 'show'])->whereNumber('id')->name('cliente.registros.show');
+
+        Route::delete('/mis-registros/{id}', [ClienteSolicitudController::class, 'destroy'])->whereNumber('id')->name('cliente.registros.destroy');
 
     });
 });
