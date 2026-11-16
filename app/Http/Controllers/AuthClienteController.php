@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClientePerfilRequest;
+use App\Http\Requests\ClienteRegistroRequest;
 use App\Http\Resources\UsuarioResource;
 use App\Models\CuentaAcceso;
 use App\Models\Rol;
