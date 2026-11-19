@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClienteSolicitudRequest;
+use App\Http\Requests\ClienteSolicitudUpdateRequest;
 use App\Http\Resources\SolicitudResource;
 use App\Models\CuentaAcceso;
 use App\Models\Solicitud;
@@ -83,6 +84,25 @@ class ClienteSolicitudController extends Controller
 
         return response()->json([
             'solicitud' => new SolicitudResource($solicitud),
+        ], 200);
+    }
+
+    /**
+     * PUT /api/v1/cliente/mis-registros/{id}
+     * Modifica los campos editables de un registro propio:
+     * 404 si no existe, 403 si pertenece a otro cliente (Policy update).
+     */
+    public function update(ClienteSolicitudUpdateRequest $request, int $id): JsonResponse
+    {
+        $solicitud = Solicitud::findOrFail($id);
+
+        $this->authorize('update', $solicitud);
+
+        $solicitud->update($request->validated());
+
+        return response()->json([
+            'message' => 'Solicitud actualizada correctamente.',
+            'solicitud' => new SolicitudResource($solicitud->fresh()->load('detalles.alimento')),
         ], 200);
     }
 

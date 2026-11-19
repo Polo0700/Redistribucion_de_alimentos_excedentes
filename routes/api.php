@@ -205,6 +205,8 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 
         Route::get('/mis-registros/{id}', [ClienteSolicitudController::class, 'show'])->whereNumber('id')->name('cliente.registros.show');
 
+        Route::put('/mis-registros/{id}', [ClienteSolicitudController::class, 'update'])->whereNumber('id')->name('cliente.registros.update');
+
         Route::delete('/mis-registros/{id}', [ClienteSolicitudController::class, 'destroy'])->whereNumber('id')->name('cliente.registros.destroy');
 
     });

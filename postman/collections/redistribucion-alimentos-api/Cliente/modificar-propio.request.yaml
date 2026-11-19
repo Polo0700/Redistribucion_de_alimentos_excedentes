@@ -1,0 +1,32 @@
+$kind: http-request
+name: 'Modificar registro propio (cliente A) -> 200'
+method: PUT
+url: '{{baseUrlCliente}}/mis-registros/:id'
+order: 13500
+headers:
+  - key: Content-Type
+    value: application/json
+pathVariables:
+  - key: id
+    value: '{{idSolicitudA}}'
+body:
+  type: json
+  content: |-
+    {
+      "direccion_entrega": "Avenida Modificada 100",
+      "observaciones": "Entregar en recepcion"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("El dueno modifica su registro con 200", function () {
+          const json = pm.response.json();
+          pm.expect(pm.response.code).to.eql(200);
+          pm.expect(json.solicitud).to.have.property("direccion_entrega", "Avenida Modificada 100");
+      });
+      pm.test("La modificacion no cambia el propietario ni el estado", function () {
+          const solicitud = pm.response.json().solicitud;
+          pm.expect(solicitud).to.have.property("estado", "pendiente");
+          pm.expect(String(solicitud.id_usuario)).to.eql(pm.collectionVariables.get("idUsuarioA"));
+      });

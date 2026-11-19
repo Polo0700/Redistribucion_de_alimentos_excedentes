@@ -1,0 +1,34 @@
+$kind: http-request
+name: 'Modificar registro de A con token de B -> 403 Forbidden'
+method: PUT
+url: '{{baseUrlCliente}}/mis-registros/:id'
+order: 11500
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{tokenClienteB}}'
+headers:
+  - key: Content-Type
+    value: application/json
+pathVariables:
+  - key: id
+    value: '{{idSolicitudA}}'
+body:
+  type: json
+  content: |-
+    {
+      "direccion_entrega": "Calle del intruso 666"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      // Prueba de vulnerabilidad del enunciado: la SolicitudPolicy (update)
+      // debe interceptar al cliente B y responder 403, nunca 200.
+      pm.test("La Policy bloquea la modificacion del cliente B con 403 Forbidden", function () {
+          pm.response.to.have.status(403);
+      });
+      pm.test("El mensaje explica la falta de autorizacion", function () {
+          pm.expect(pm.response.json()).to.have.property("message");
+      });

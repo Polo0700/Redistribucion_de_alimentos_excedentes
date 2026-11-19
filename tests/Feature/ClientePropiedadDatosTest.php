@@ -17,8 +17,8 @@ use Tests\TestCase;
  *  1. El login devuelve un token válido de Sanctum.
  *  2. Las rutas protegidas devuelven 401 sin token.
  *  3. Las rutas protegidas funcionan (200) enviando el token.
- *  4. Propiedad de datos: el Cliente B recibe 403 al consultar o
- *     cancelar registros del Cliente A (Policy).
+ *  4. Propiedad de datos: el Cliente B recibe 403 al consultar,
+ *     modificar o cancelar registros del Cliente A (Policy).
  */
 class ClientePropiedadDatosTest extends TestCase
 {
@@ -169,6 +169,10 @@ class ClientePropiedadDatosTest extends TestCase
 
         $this->getJson('/api/v1/cliente/mis-registros/1')->assertStatus(401);
 
+        $this->putJson('/api/v1/cliente/mis-registros/1', [
+            'direccion_entrega' => 'Calle 1',
+        ])->assertStatus(401);
+
         $this->deleteJson('/api/v1/cliente/mis-registros/1')->assertStatus(401);
 
         $this->getJson('/api/v1/cliente/solicitudes')->assertStatus(401);
@@ -272,6 +276,30 @@ class ClientePropiedadDatosTest extends TestCase
         ]);
     }
 
+    public function test_cliente_b_no_puede_modificar_el_registro_de_cliente_a(): void
+    {
+        $this->crearCliente('cliente.a@test.com');
+        $this->crearCliente('cliente.b@test.com');
+        $idAlimento = $this->crearAlimento();
+
+        $tokenA = $this->tokenDeLogin('cliente.a@test.com');
+        $tokenB = $this->tokenDeLogin('cliente.b@test.com');
+
+        $idSolicitud = $this->crearSolicitudPropia($tokenA, $idAlimento);
+        $this->app['auth']->forgetGuards();
+
+        $this->withToken($tokenB)
+            ->putJson('/api/v1/cliente/mis-registros/'.$idSolicitud, [
+                'direccion_entrega' => 'Calle del intruso 666',
+            ])->assertStatus(403);
+
+        // la Policy interceptó la acción: la dirección NO cambió
+        $this->assertDatabaseHas('solicitudes', [
+            'id_solicitud' => $idSolicitud,
+            'direccion_entrega' => 'Calle propia 42',
+        ]);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | 6. PROPIETARIO: Cliente A consulta y cancela su propio registro
@@ -299,6 +327,37 @@ class ClientePropiedadDatosTest extends TestCase
         $this->assertDatabaseHas('solicitudes', [
             'id_solicitud' => $idSolicitud,
             'estado' => 'cancelada',
+        ]);
+    }
+
+    public function test_cliente_a_puede_modificar_su_registro(): void
+    {
+        $cuenta = $this->crearCliente('cliente.a@test.com');
+        $idAlimento = $this->crearAlimento();
+
+        $tokenA = $this->tokenDeLogin('cliente.a@test.com');
+        $idSolicitud = $this->crearSolicitudPropia($tokenA, $idAlimento);
+
+        $this->withToken($tokenA)
+            ->putJson('/api/v1/cliente/mis-registros/'.$idSolicitud, [
+                'direccion_entrega' => 'Avenida Modificada 100',
+                'observaciones' => 'Entregar en recepcion',
+            ])
+            ->assertOk()
+            ->assertJsonPath('solicitud.direccion_entrega', 'Avenida Modificada 100')
+            ->assertJsonPath('solicitud.estado', 'pendiente');
+
+        $this->assertDatabaseHas('solicitudes', [
+            'id_solicitud' => $idSolicitud,
+            'direccion_entrega' => 'Avenida Modificada 100',
+            'observaciones' => 'Entregar en recepcion',
+            'estado' => 'pendiente',
+        ]);
+
+        // la modificación no cambia el propietario ni el estado
+        $this->assertDatabaseHas('solicitudes', [
+            'id_solicitud' => $idSolicitud,
+            'id_usuario' => $cuenta->id_usuario,
         ]);
     }
 
