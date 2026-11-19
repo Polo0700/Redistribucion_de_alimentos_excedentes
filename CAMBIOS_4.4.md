@@ -17,7 +17,7 @@ la actividad completa.
 | Autenticación | Laravel Sanctum (Bearer Tokens), modelo `CuentaAcceso` para clientes |
 | Autorización | Policies de propiedad de datos (`SolicitudPolicy`, `DonacionPolicy`) + Gate `gestionar-registro-propio` |
 | Prefijo de la API | `/api/v1/cliente` |
-| Resultado de pruebas | 55 tests pasando (44 previos + 11 nuevos), 202 aserciones |
+| Resultado de pruebas | 57 tests pasando (44 previos + 13 nuevos), 215 aserciones |
 
 ### 0.1 Commits en orden de aplicación
 
@@ -30,6 +30,7 @@ la actividad completa.
 | 5 | `629aa14` | Endpoints de registros propios, catálogo público y Resources |
 | 6 | `8be477c` | Pruebas automáticas de auth y propiedad de datos |
 | 7 | `407c36e` | Carpeta Postman `Cliente` con los escenarios manuales (401/403/422) |
+| 8 | `c6c9db3` | Endpoint `PUT /mis-registros/{id}` con Policy `update` + 2 pruebas + 2 requests Postman |
 
 ---
 
@@ -51,14 +52,15 @@ la actividad completa.
 | 12 | MODIFICAR | `app/Http/Resources/SolicitudResource.php` | Agrega clave `detalles` |
 | 13 | MODIFICAR | `app/Http/Resources/DonacionResource.php` | Agrega clave `detalles` |
 | 14 | MODIFICAR | `app/Http/Controllers/AuthClienteController.php` | Registro + perfil con FormRequest/Resource + token `client-token` |
-| 15 | MODIFICAR | `app/Http/Controllers/ClienteSolicitudController.php` | CRUD de registros propios con Policy |
+| 15 | MODIFICAR | `app/Http/Controllers/ClienteSolicitudController.php` | CRUD de registros propios con Policy (index/store/show/update/destroy) |
 | 16 | MODIFICAR | `app/Http/Controllers/ClienteDonacionController.php` | Donaciones propias con FormRequest/Resource |
 | 17 | CREAR | `app/Http/Controllers/ClienteCatalogoController.php` | Catálogo público sin token |
-| 18 | CREAR | `tests/Feature/ClientePropiedadDatosTest.php` | 11 pruebas automáticas (ver §5) |
-| 19 | CREAR | `postman/collections/redistribucion-alimentos-api/Cliente/` | 19 requests Postman (ver §6) |
+| 18 | CREAR | `tests/Feature/ClientePropiedadDatosTest.php` | 13 pruebas automáticas (ver §6) |
+| 19 | CREAR | `postman/collections/redistribucion-alimentos-api/Cliente/` | 21 requests Postman (ver §7) |
 | 20 | MODIFICAR | `postman/collections/redistribucion-alimentos-api/.resources/definition.yaml` | Variables `tokenClienteA/B`, `idUsuarioA`, `idSolicitudA`, `idAlimentoCatalogo`, `baseUrlCliente` |
 | 21 | MODIFICAR | `postman/README.md` | Nueva sección §11 con el flujo de la carpeta `Cliente` |
 | 22 | CREAR | `CAMBIOS_4.4.md` | Este documento |
+| 23 | CREAR | `app/Http/Requests/ClienteSolicitudUpdateRequest.php` | Validación de la modificación (`PUT`) de solicitudes propias |
 
 ### 1.1 Lo que NO se tocó
 
@@ -116,6 +118,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         Route::get('/mis-registros', ...);        // NUEVO
         Route::post('/mis-registros', ...);       // NUEVO
         Route::get('/mis-registros/{id}', ...);   // NUEVO (Policy view)
+        Route::put('/mis-registros/{id}', ...);   // NUEVO (Policy update)
         Route::delete('/mis-registros/{id}', ...);// NUEVO (Policy cancelar)
     });
 });
@@ -206,6 +209,7 @@ para habilitar `$this->authorize('view', $solicitud)`.
 | `GET /api/v1/cliente/mis-registros` | `auth:sanctum` | `ClienteSolicitudController@index` | `200` (solo propios) |
 | `POST /api/v1/cliente/mis-registros` | `auth:sanctum` | `ClienteSolicitudController@store` | `201`, `422` |
 | `GET /api/v1/cliente/mis-registros/{id}` | `auth:sanctum` | `ClienteSolicitudController@show` | `200`, `403`, `404` |
+| `PUT /api/v1/cliente/mis-registros/{id}` | `auth:sanctum` | `ClienteSolicitudController@update` | `200`, `403`, `404`, `422` |
 | `DELETE /api/v1/cliente/mis-registros/{id}` | `auth:sanctum` | `ClienteSolicitudController@destroy` | `200`, `403`, `404` |
 
 Cambios en endpoints existentes (misma ruta, mejor formato):
@@ -228,26 +232,28 @@ Códigos HTTP cubiertos: `200`/`201`, `401` (sin/expirado), `403` (policy),
 
 ## 6. Pruebas automáticas (`tests/Feature/ClientePropiedadDatosTest.php`)
 
-11 pruebas, todas contra SQLite en memoria (`RefreshDatabase`):
+13 pruebas, todas contra SQLite en memoria (`RefreshDatabase`):
 
 | # | Prueba | Valida |
 | --- | --- | --- |
 | 1 | `registro_publico_crea_cliente_con_rol_y_token` | 201, rol `Cliente`, token funcional sobre ruta protegida |
 | 2 | `login_devuelve_un_token_de_sanctum_valido` | 200, formato `id|hash` con regex, 1 fila en `personal_access_tokens` |
-| 3 | `rutas_protegidas_devuelven_401_sin_token` | 401 en perfil (GET/PATCH), mis-registros (GET/POST/{id}/DELETE), solicitudes, donaciones y logout |
+| 3 | `rutas_protegidas_devuelven_401_sin_token` | 401 en perfil (GET/PATCH), mis-registros (GET/POST/PUT/{id}/DELETE), solicitudes, donaciones y logout |
 | 4 | `rutas_protegidas_con_token_devuelven_200` | 200/201 con Bearer en perfil, listado, creación y donaciones |
 | 5 | `catalogo_publico_no_requiere_token` | 200 en catálogo y detalle sin token |
 | 6 | `cliente_b_no_puede_ver_el_registro_de_cliente_a` | **403** (Policy `view`) |
 | 7 | `cliente_b_no_puede_cancelar_el_registro_de_cliente_a` | **403** (Policy `cancelar`), el registro queda `pendiente` |
-| 8 | `cliente_a_puede_ver_y_cancelar_su_registro` | 200 en detalle y cancelación; estado final `cancelada` |
-| 9 | `no_se_puede_cancelar_un_registro_no_cancelable` | 403 cuando el estado ya no es `pendiente` |
-| 10 | `la_lista_mis_registros_solo_muestra_lo_propio` | el listado de B está vacío; el de A trae exactamente su registro |
-| 11 | `logout_revoca_el_token_y_deja_de_autorizar` | 200 al cerrar sesión y **401** al reintentar con el token revocado |
+| 8 | `cliente_b_no_puede_modificar_el_registro_de_cliente_a` | **403** (Policy `update`), la dirección NO cambia en la DB |
+| 9 | `cliente_a_puede_ver_y_cancelar_su_registro` | 200 en detalle y cancelación; estado final `cancelada` |
+| 10 | `cliente_a_puede_modificar_su_registro` | 200 en `PUT`; cambia dirección/observaciones sin tocar propietario ni estado |
+| 11 | `no_se_puede_cancelar_un_registro_no_cancelable` | 403 cuando el estado ya no es `pendiente` |
+| 12 | `la_lista_mis_registros_solo_muestra_lo_propio` | el listado de B está vacío; el de A trae exactamente su registro |
+| 13 | `logout_revoca_el_token_y_deja_de_autorizar` | 200 al cerrar sesión y **401** al reintentar con el token revocado |
 
 Ejecución:
 
 ```bash
-php artisan test                                  # suite completa: 55 passed
+php artisan test                                  # suite completa: 57 passed
 php artisan test tests/Feature/ClientePropiedadDatosTest.php   # solo la 4.4
 ```
 
@@ -256,7 +262,7 @@ php artisan test tests/Feature/ClientePropiedadDatosTest.php   # solo la 4.4
 ## 7. Colección Postman (`postman/...`)
 
 Carpeta nueva `postman/collections/redistribucion-alimentos-api/Cliente/` con
-19 requests que replican los escenarios manuales del enunciado, en orden de
+21 requests que replican los escenarios manuales del enunciado, en orden de
 ejecución:
 
 | # | Request | Esperado |
@@ -268,12 +274,13 @@ ejecución:
 | 9 | `Crear registro propio (cliente A)` | `201`, guarda `idSolicitudA` |
 | 10-11 | `Mis registros` / `Mis donaciones` | `200`; verifica que cada fila pertenece a `idUsuarioA` |
 | 12 | `Detalle de registro propio` | `200` |
-| 13-14 | `Registro de A con token de B` / `Cancelar registro de A con token de B` | **`403` Forbidden (Policy)** |
-| 15 | `Crear registro sin datos` | `422` con `errors` por campo |
-| 16 | `Cancelar registro propio` | `200` con estado `cancelada` |
-| 17 | `Re-cancelar registro ya cancelado` | `403` (estado no cancelable) |
-| 18 | `Ruta protegida SIN token` | `401` |
-| 19 | `Logout cliente A` | `200` y reintento con el token revocado → `401` |
+| 13-15 | `Registro` / `Modificar` / `Cancelar registro de A con token de B` | **`403` Forbidden (Policy)** |
+| 16 | `Crear registro sin datos` | `422` con `errors` por campo |
+| 17 | `Modificar registro propio (cliente A)` | `200`; cambia dirección/observaciones sin tocar propietario ni estado |
+| 18 | `Cancelar registro propio` | `200` con estado `cancelada` |
+| 19 | `Re-cancelar registro ya cancelado` | `403` (estado no cancelable) |
+| 20 | `Ruta protegida SIN token` | `401` |
+| 21 | `Logout cliente A` | `200` y reintento con el token revocado → `401` |
 
 Variables nuevas en la definición de la colección: `baseUrlCliente`,
 `tokenClienteA`, `tokenClienteB`, `idUsuarioA`, `idSolicitudA`,
@@ -281,7 +288,7 @@ Variables nuevas en la definición de la colección: `baseUrlCliente`,
 públicos usan `noauth` y los de intrusión sobreescriben con `tokenClienteB`.
 
 Lint verificado: `postman collection lint postman/collections/redistribucion-alimentos-api`
-→ `No issues found` (114 elementos escaneados). Documentación del flujo añadida
+→ `No issues found` (116 elementos escaneados). Documentación del flujo añadida
 como sección §11 de `postman/README.md`.
 
 ---

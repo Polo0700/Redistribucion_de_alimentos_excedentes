@@ -5,7 +5,7 @@ Colección de Postman para los 9 recursos vigentes del proyecto. Vive en el repo
 
 | Qué | Dónde |
 | --- | --- |
-| 109 requests en 10 carpetas (9 admin + `Cliente`) | `collections/redistribucion-alimentos-api/` |
+| 111 requests en 10 carpetas (9 admin + `Cliente`) | `collections/redistribucion-alimentos-api/` |
 | Ambiente `Local` | `environments/local.environment.yaml` |
 | Vínculo con el workspace | `../.postman/resources.yaml` |
 
@@ -122,7 +122,7 @@ Antes de subir cambios a la colección:
 postman collection lint postman/collections/redistribucion-alimentos-api
 ```
 
-Debe decir `No issues found` (109 requests escaneados).
+Debe decir `No issues found` (111 requests escaneados).
 
 ---
 
@@ -235,7 +235,7 @@ Nueva carpeta con los endpoints del módulo del cliente y los escenarios de
 
 | Qué | Dónde |
 | --- | --- |
-| 19 requests en 1 carpeta (`Cliente`) | `collections/redistribucion-alimentos-api/Cliente/` |
+| 21 requests en 1 carpeta (`Cliente`) | `collections/redistribucion-alimentos-api/Cliente/` |
 
 ```bash
 postman collection run postman/collections/redistribucion-alimentos-api \
@@ -265,15 +265,18 @@ a nivel request (`noauth` o Bearer `tokenClienteB`).
 4. `Perfil del cliente A` y `Actualizar perfil`: enmascaran datos propios.
 5. `Crear registro propio` (201, guarda `idSolicitudA`), `Mis registros`,
    `Mis donaciones` y `Detalle de registro propio`.
-6. **Pruebas de propiedad de datos:** `Registro de A consultado con token de B`
-   y `Cancelar registro de A con token de B` deben responder **403 Forbidden**
-   (Policy). Si responden 200, hay una vulnerabilidad.
+6. **Pruebas de propiedad de datos:** `Registro de A consultado con token de B`,
+   `Modificar registro de A con token de B` y `Cancelar registro de A con token
+   de B` deben responder **403 Forbidden** (Policy). Si responden 200, hay una
+   vulnerabilidad.
 7. `Crear registro sin datos` responde **422** con los errores por campo.
-8. `Cancelar registro propio` (200, estado `cancelada`) y un nuevo intento
+8. `Modificar registro propio (cliente A)` responde **200**: cambia
+   `direccion_entrega`/`observaciones` sin tocar el propietario ni el estado.
+9. `Cancelar registro propio` (200, estado `cancelada`) y un nuevo intento
    (`Re-cancelar registro ya cancelado`) responde **403**: el estado ya no es
    cancelable.
-9. `Ruta protegida SIN token` responde **401**.
-10. `Logout cliente A` revoca el token y reintenta `GET /perfil` con el token
+10. `Ruta protegida SIN token` responde **401**.
+11. `Logout cliente A` revoca el token y reintenta `GET /perfil` con el token
     revocado: debe volver a responder 401.
 
 Requisitos del run: backend arriba (`php artisan serve`) y al menos un alimento
