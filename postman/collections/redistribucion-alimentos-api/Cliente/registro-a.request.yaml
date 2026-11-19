@@ -21,7 +21,15 @@ scripts:
   - type: afterResponse
     language: text/javascript
     code: |-
-      pm.test("Registro 201: rol Cliente asignado automaticamente y token Sanctum", function () {
+      pm.test("Registro 201 con rol Cliente y token Sanctum (o 422 si el correo ya existe)", function () {
+          if (pm.response.code === 422) {
+              // El cliente ya existe de una corrida anterior: el Login que
+              // sigue (orden 3000) emitira el token. Solo se acepta 422
+              // cuando el error es por el correo duplicado.
+              const errores = pm.response.json().errors || {};
+              pm.expect(errores, "422 debe ser por correo duplicado").to.have.property("correo");
+              return;
+          }
           const json = pm.response.json();
           pm.expect(pm.response.code).to.eql(201);
           pm.expect(json.usuario).to.have.property("rol", "Cliente");
