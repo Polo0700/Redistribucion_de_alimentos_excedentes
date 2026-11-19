@@ -1,3 +1,10 @@
+cloudResources:
+  collections:
+    ../postman/collections/actividad-4.2-api-v1: 58799317-7edb47e4-3fd5-4f5e-9356-ed6eeb88c0a3
+    ../postman/collections/administrador: 58799317-d3f420e3-8205-45a1-a89a-42a72cd839eb
+    ../postman/collections/redistribucion-alimentos-api: 58799317-ed089269-1fa8-4ea8-bd84-2d3db7436e0b
+  environments:
+    ../postman/environments/local.environment.yaml: 58799317-7089b2e7-e899-408e-b9af-68294adb7ad5
 workspace:
-  id: 1c41b625-8b4a-44fd-8252-a7649fb04d20
-  name: Polo0700/Redistribucion_de_alimentos_excedentes
+  id: 76d500c7-d1ef-4ab8-86de-7eddb2c6ea7a
+  name: RITO IVAN AGUILA MENDOZA's Workspace
