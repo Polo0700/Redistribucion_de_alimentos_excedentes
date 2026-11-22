@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Altura completa para que el sidebar ocupe toda la pantalla */
+html,
+body,
+#root {
+  height: 100%;
+}
