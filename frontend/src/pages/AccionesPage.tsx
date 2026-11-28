@@ -4,6 +4,8 @@ import { getRecursos, getRecursosById } from "../services/acciones";
 import type { AccionImportante } from "../types/accion";
 import { useState, useEffect, useRef } from "react";
 import { PanelLateral } from "../components/PanelLateral";
+import { errorMessage } from "../services/errores";
+import { Spinner } from "../components/Spinner";
 
 // Fuente: app/Http/Resources/AccionImportanteResource.php
 // Vista de solo lectura: es un log de auditoria, no tiene CRUD.
@@ -30,6 +32,10 @@ export default function AccionesPage() {
     const [estadoDetalle, setEstadoDetalle] = useState<
         "cargando" | "listo" | "error"
     >("cargando");
+    const [mensajeError, setMensajeError] = useState<string | null>(null);
+    const [mensajeErrorDetalle, setMensajeErrorDetalle] = useState<
+        string | null
+    >(null);
 
     // Cada clic invalida la respuesta anterior, aunque llegue mas tarde.
     const peticionActual = useRef(0);
@@ -45,13 +51,19 @@ export default function AccionesPage() {
                 if (numero !== peticionActual.current) {
                     return;
                 }
+                if (!data) {
+                    setMensajeErrorDetalle("Recurso no encontrado (404).");
+                    setEstadoDetalle("error");
+                    return;
+                }
                 setDetalle(data);
-                setEstadoDetalle(data ? "listo" : "error");
+                setEstadoDetalle("listo");
             })
-            .catch(() => {
+            .catch((error) => {
                 if (numero !== peticionActual.current) {
                     return;
                 }
+                setMensajeErrorDetalle(errorMessage(error));
                 setEstadoDetalle("error");
             });
     }
@@ -62,7 +74,8 @@ export default function AccionesPage() {
                 setAcciones(data);
                 setEstado(data.length === 0 ? "vacio" : "listo");
             })
-            .catch(() => {
+            .catch((error) => {
+                setMensajeError(errorMessage(error));
                 setEstado("error");
             });
     }, []);
@@ -75,12 +88,10 @@ export default function AccionesPage() {
             relaciones={["usuario"]}
             campos={CAMPOS}
         >
-            {estado === "cargando" && (
-                <p className="mt-4 text-sm text-gray-500">Cargando...</p>
-            )}
+            {estado === "cargando" && <Spinner />}
             {estado === "error" && (
                 <p className="mt-4 text-sm text-red-500">
-                    Error al cargar las acciones importantes.
+                    {mensajeError ?? "Error al cargar los datos."}
                 </p>
             )}
             {estado === "vacio" && (
@@ -126,13 +137,12 @@ export default function AccionesPage() {
                     onCerrar={() => setSeleccionado(null)}
                 >
                     {estadoDetalle === "cargando" && (
-                        <p className="text-sm text-gray-500">
-                            Cargando detalle...
-                        </p>
+                        <Spinner texto="Cargando detalle..." />
                     )}
                     {estadoDetalle === "error" && (
                         <p className="text-sm text-red-500">
-                            Error al cargar el detalle.
+                            {mensajeErrorDetalle ??
+                                "Error al cargar el detalle."}
                         </p>
                     )}
                     {estadoDetalle === "listo" && detalle && (

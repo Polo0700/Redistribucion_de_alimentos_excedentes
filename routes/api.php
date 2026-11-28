@@ -72,11 +72,19 @@ Route::prefix('v1')->group(function () {
 | Dentro, cada módulo agrega su middleware de autorización (403):
 |  - EnsureEsAdmin  -> solo tokens del modelo Administrador
 |  - EnsureEsCliente -> solo tokens del modelo CuentaAcceso (clientes)
+|
+| ACTIVIDAD 5.1: la autenticación del módulo administrativo queda
+| comentada temporalmente para que el frontend consuma la API sin
+| Bearer Token. Restaurar en la Actividad 5.2.
 */
-Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+// Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+Route::prefix('v1')->group(function () {
 
     // ---------------- Módulo administrativo (/api/v1/admin) ----------------
-    Route::prefix('admin')->middleware(EnsureEsAdmin::class)->group(function () {
+    // ACTIVIDAD 5.1: EnsureEsAdmin comentado. Depende de un usuario
+    // autenticado: sin auth:sanctum siempre respondería 403.
+    // Route::prefix('admin')->middleware(EnsureEsAdmin::class)->group(function () {
+    Route::prefix('admin')->group(function () {
 
         Route::post('/logout', [AuthAdminController::class, 'out'])->name('admin.logout');
 
@@ -176,7 +184,9 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     // ---------------- Módulo del cliente (/api/v1/cliente) ----------------
     // Los "registros propios" de la Actividad 4.4 son las solicitudes
     // y las donaciones creadas por el cliente autenticado.
-    Route::prefix('cliente')->middleware(EnsureEsCliente::class)->group(function () {
+    // ACTIVIDAD 5.1: sanctum se mantiene aquí (solo se desactivó en
+    // el módulo administrativo, que es el que consume el frontend).
+    Route::prefix('cliente')->middleware(['auth:sanctum', EnsureEsCliente::class])->group(function () {
 
         Route::post('/logout', [AuthClienteController::class, 'out'])->name('cliente.logout');
 

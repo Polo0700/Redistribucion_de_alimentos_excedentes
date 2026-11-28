@@ -4,6 +4,8 @@ import { getRecursos, getRecursosById } from "../services/entregas";
 import type { Entrega } from "../types/entrega";
 import { useState, useEffect, useRef } from "react";
 import { PanelLateral } from "../components/PanelLateral";
+import { errorMessage } from "../services/errores";
+import { Spinner } from "../components/Spinner";
 
 // Fuente: app/Http/Resources/EntregaResource.php
 // Ojo: 'estado' NO viene casteado a booleano, llega crudo (texto/enum).
@@ -27,6 +29,10 @@ export default function EntregasPage() {
     const [estadoDetalle, setEstadoDetalle] = useState<
         "cargando" | "listo" | "error"
     >("cargando");
+    const [mensajeError, setMensajeError] = useState<string | null>(null);
+    const [mensajeErrorDetalle, setMensajeErrorDetalle] = useState<
+        string | null
+    >(null);
 
     // Cada clic invalida la respuesta anterior, aunque llegue mas tarde.
     const peticionActual = useRef(0);
@@ -42,14 +48,22 @@ export default function EntregasPage() {
                 if (numero !== peticionActual.current) {
                     return;
                 }
+                if (!data) {
+                    setMensajeErrorDetalle(
+                        `No se encontró la entrega con id ${entrega.id_entrega}.`,
+                    );
+                    setEstadoDetalle("error");
+                    return;
+                }
                 setDetalle(data);
-                setEstadoDetalle(data ? "listo" : "error");
+                setEstadoDetalle("listo");
             })
-            .catch(() => {
+            .catch((error) => {
                 if (numero !== peticionActual.current) {
                     return;
                 }
                 setEstadoDetalle("error");
+                setMensajeErrorDetalle(errorMessage(error));
             });
     }
 
@@ -59,8 +73,9 @@ export default function EntregasPage() {
                 setEntregas(data);
                 setEstado(data.length === 0 ? "vacio" : "listo");
             })
-            .catch(() => {
+            .catch((error) => {
                 setEstado("error");
+                setMensajeError(errorMessage(error));
             });
     }, []);
 
@@ -72,12 +87,10 @@ export default function EntregasPage() {
             relaciones={["solicitud"]}
             campos={CAMPOS}
         >
-            {estado === "cargando" && (
-                <p className="mt-4 text-sm text-gray-500">Cargando...</p>
-            )}
+            {estado === "cargando" && <Spinner />}
             {estado === "error" && (
                 <p className="mt-4 text-sm text-red-500">
-                    Error al cargar las entregas.
+                    {mensajeError ?? "Error al cargar las entregas."}
                 </p>
             )}
             {estado === "vacio" && (
@@ -123,13 +136,12 @@ export default function EntregasPage() {
                     onCerrar={() => setSeleccionado(null)}
                 >
                     {estadoDetalle === "cargando" && (
-                        <p className="text-sm text-gray-500">
-                            Cargando detalle...
-                        </p>
+                        <Spinner texto="Cargando detalle..." />
                     )}
                     {estadoDetalle === "error" && (
                         <p className="text-sm text-red-500">
-                            Error al cargar el detalle.
+                            {mensajeErrorDetalle ??
+                                "Error al cargar el detalle."}
                         </p>
                     )}
                     {estadoDetalle === "listo" && detalle && (

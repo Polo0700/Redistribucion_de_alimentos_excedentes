@@ -4,6 +4,8 @@ import { getRecursos, getRecursosById } from "../services/solicitudes";
 import type { Solicitud } from "../types/solicitud";
 import { useState, useEffect, useRef } from "react";
 import { PanelLateral } from "../components/PanelLateral";
+import { errorMessage } from "../services/errores";
+import { Spinner } from "../components/Spinner";
 
 // Fuente: app/Http/Resources/SolicitudResource.php
 // Ojo: 'estado' NO viene casteado a booleano, llega crudo (texto/enum).
@@ -28,6 +30,10 @@ export default function SolicitudesPage() {
     const [estadoDetalle, setEstadoDetalle] = useState<
         "cargando" | "listo" | "error"
     >("cargando");
+    const [mensajeError, setMensajeError] = useState<string | null>(null);
+    const [mensajeErrorDetalle, setMensajeErrorDetalle] = useState<
+        string | null
+    >(null);
 
     // Cada clic invalida la respuesta anterior, aunque llegue mas tarde.
     const peticionActual = useRef(0);
@@ -43,13 +49,19 @@ export default function SolicitudesPage() {
                 if (numero !== peticionActual.current) {
                     return;
                 }
+                if (!data) {
+                    setMensajeErrorDetalle("Recurso no encontrado (404).");
+                    setEstadoDetalle("error");
+                    return;
+                }
                 setDetalle(data);
-                setEstadoDetalle(data ? "listo" : "error");
+                setEstadoDetalle("listo");
             })
-            .catch(() => {
+            .catch((error) => {
                 if (numero !== peticionActual.current) {
                     return;
                 }
+                setMensajeErrorDetalle(errorMessage(error));
                 setEstadoDetalle("error");
             });
     }
@@ -60,7 +72,8 @@ export default function SolicitudesPage() {
                 setSolicitudes(data);
                 setEstado(data.length === 0 ? "vacio" : "listo");
             })
-            .catch(() => {
+            .catch((error) => {
+                setMensajeError(errorMessage(error));
                 setEstado("error");
             });
     }, []);
@@ -73,12 +86,10 @@ export default function SolicitudesPage() {
             relaciones={["usuario", "detalles"]}
             campos={CAMPOS}
         >
-            {estado === "cargando" && (
-                <p className="mt-4 text-sm text-gray-500">Cargando...</p>
-            )}
+            {estado === "cargando" && <Spinner />}
             {estado === "error" && (
                 <p className="mt-4 text-sm text-red-500">
-                    Error al cargar las solicitudes.
+                    {mensajeError ?? "Error al cargar los datos."}
                 </p>
             )}
             {estado === "vacio" && (
@@ -124,13 +135,12 @@ export default function SolicitudesPage() {
                     onCerrar={() => setSeleccionado(null)}
                 >
                     {estadoDetalle === "cargando" && (
-                        <p className="text-sm text-gray-500">
-                            Cargando detalle...
-                        </p>
+                        <Spinner texto="Cargando detalle..." />
                     )}
                     {estadoDetalle === "error" && (
                         <p className="text-sm text-red-500">
-                            Error al cargar el detalle.
+                            {mensajeErrorDetalle ??
+                                "Error al cargar el detalle."}
                         </p>
                     )}
                     {estadoDetalle === "listo" && detalle && (
